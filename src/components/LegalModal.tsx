@@ -25,32 +25,43 @@ export default function LegalModal({
     }
   }, [isOpen, initialTab]);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
-      <div 
-        onClick={onClose}
-        className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-2xl bg-[#F7F4EC] md:bg-[#F7F4EC]/96 md:backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-black/10 relative my-auto max-h-[88vh] flex flex-col"
+      {isOpen && (
+        <div 
+          onClick={onClose}
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
         >
-          {/* Header */}
-          <div className="flex items-start justify-between border-b border-black/[0.08] pb-4 shrink-0">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#ad021a] uppercase tracking-wider mb-1">
-                <Radio className="w-3.5 h-3.5" />
-                <span>FRS UTH • Web Radio</span>
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="legal-modal-title"
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-2xl bg-[#F7F4EC] md:bg-[#F7F4EC]/96 md:backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-black/10 relative my-auto max-h-[88vh] flex flex-col"
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-black/[0.08] pb-4 shrink-0">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#ad021a] uppercase tracking-wider mb-1">
+                  <Radio className="w-3.5 h-3.5" />
+                  <span>FRS UTH • Web Radio</span>
+                </div>
+                <h2 id="legal-modal-title" className="font-display text-2xl font-black text-[#1C1917] tracking-tight">
+                  {isGreek ? "Νομική Ενημέρωση & Όροι" : "Legal & Privacy Terms"}
+                </h2>
               </div>
-              <h2 className="font-display text-2xl font-black text-[#1C1917] tracking-tight">
-                {isGreek ? "Νομική Ενημέρωση & Όροι" : "Legal & Privacy Terms"}
-              </h2>
-            </div>
             <button
               onClick={onClose}
               className="text-[#6B6560] hover:text-[#1C1917] p-2 rounded-full hover:bg-black/5 transition-colors cursor-pointer"
@@ -320,6 +331,7 @@ export default function LegalModal({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    )}
+  </AnimatePresence>
   );
 }

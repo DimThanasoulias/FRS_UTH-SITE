@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ExternalLink, Sparkles, Megaphone } from "lucide-react";
 import { AdSpaceConfig } from "../types";
 
@@ -7,8 +7,36 @@ interface AdBannerProps {
   isGreek: boolean;
 }
 
+/**
+ * Safely sanitizes and normalizes external URLs.
+ * Rejects javascript:, data:, and vbscript: URIs.
+ * Automatically prepends https:// if a plain domain is provided.
+ */
+export function getSafeUrl(url?: string): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  if (/^(javascript|data|vbscript):/i.test(trimmed)) {
+    return null;
+  }
+  if (/^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed)) {
+    return trimmed;
+  }
+  if (/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/i.test(trimmed)) {
+    return `https://${trimmed}`;
+  }
+  return null;
+}
+
 export default function AdBanner({ config, isGreek }: AdBannerProps) {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  useEffect(() => {
+    setImgFailed(false);
+  }, [config?.imageUrl]);
+
   if (!config || !config.enabled) return null;
+
+  const safeLink = getSafeUrl(config.link);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
@@ -20,16 +48,14 @@ export default function AdBanner({ config, isGreek }: AdBannerProps) {
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
           {/* Main Visual & Info Block */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center gap-4 sm:gap-5 min-w-0 w-full md:w-auto text-center sm:text-left">
-            {/* Prominent Sponsor Image / Visual */}
-            {config.imageUrl ? (
+            {/* Prominent Sponsor Image / Visual with robust error fallback */}
+            {config.imageUrl && !imgFailed ? (
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-28 rounded-2xl overflow-hidden shrink-0 shadow-md border border-black/10 group bg-stone-900">
                 <img
                   src={config.imageUrl}
                   alt={config.sponsorName || "Sponsor"}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLElement).style.display = "none";
-                  }}
+                  onError={() => setImgFailed(true)}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
               </div>
@@ -65,10 +91,10 @@ export default function AdBanner({ config, isGreek }: AdBannerProps) {
           </div>
 
           {/* Right / CTA Action Button */}
-          {config.link && (
+          {safeLink && (
             <div className="shrink-0 w-full sm:w-auto flex justify-center md:justify-end">
               <a
-                href={config.link}
+                href={safeLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-[#ad021a] hover:bg-[#8f0115] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all transform active:scale-95 group cursor-pointer"

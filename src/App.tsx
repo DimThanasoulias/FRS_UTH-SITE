@@ -440,7 +440,8 @@ export default function App() {
       mixcloudBtn: "Mixcloud Channel",
       copyright: "© 2026 FRS UTH • Ανεξάρτητη Φοιτητική Πρωτοβουλία (Μη επίσημος φορέας του Π.Θ.).",
       terms: "Όροι Χρήσης",
-      privacy: "Πολιτική Απορρήτου"
+      privacy: "Πολιτική Απορρήτου",
+      cookies: "Πολιτική Cookies"
     },
     en: {
       navHome: "Home",
@@ -486,7 +487,8 @@ export default function App() {
       mixcloudBtn: "Mixcloud Channel",
       copyright: "© 2026 FRS UTH • Independent Student Radio (Autonomous student initiative).",
       terms: "Terms of Use",
-      privacy: "Privacy Policy"
+      privacy: "Privacy Policy",
+      cookies: "Cookie Policy"
     }
   };
 
@@ -2161,7 +2163,7 @@ export default function App() {
                 }} 
                 className="hover:text-stone-300 transition-colors cursor-pointer"
               >
-                {isGreek ? "Πολιτική Cookies" : "Cookie Policy"}
+                {currentT.cookies}
               </button>
             </div>
           </div>

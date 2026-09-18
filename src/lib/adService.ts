@@ -84,7 +84,7 @@ export async function saveAdSpaceConfig(config: AdSpaceConfig): Promise<void> {
     sponsorName: config.sponsorName?.trim() || "",
     text: config.text?.trim() || "",
     link: config.link?.trim() || "",
-    badge: config.badge?.trim() || "Υποστηρικτής",
+    badge: config.badge?.trim() || "",
     imageUrl: config.imageUrl?.trim() || "",
     ctaText: config.ctaText?.trim() || "",
     updatedAt: Date.now()

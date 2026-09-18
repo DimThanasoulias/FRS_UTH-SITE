@@ -1691,7 +1691,13 @@ export default function AdminModal({
                             src={adDraft.imageUrl}
                             alt="Preview"
                             className="w-full h-full object-cover"
-                            onError={(e) => { (e.currentTarget as HTMLElement).style.display = "none"; }}
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = "none";
+                              if (target.parentElement) {
+                                target.parentElement.style.display = "none";
+                              }
+                            }}
                           />
                         </div>
                       ) : (
@@ -1710,7 +1716,7 @@ export default function AdminModal({
                           </span>
                         </div>
                         <h5 className="font-display font-black text-[#1C1917] text-base truncate">
-                          {adDraft.sponsorName || "Όνομα Χορηγού / Brand Name"}
+                          {adDraft.sponsorName || (isGreek ? "Χορηγός Σταθμού" : "Station Sponsor")}
                         </h5>
                         {adDraft.text && (
                           <p className="text-stone-600 text-xs line-clamp-2 max-w-xl">

@@ -31,17 +31,16 @@ export default function CookieBanner({ isGreek, onOpenCookies }: CookieBannerPro
     setIsVisible(false);
   };
 
-  if (!isVisible) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.25 }}
-        className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-[#141416]/92 backdrop-blur-md text-stone-300 px-4 py-2.5 rounded-2xl shadow-xl border border-white/10 flex items-center justify-between gap-3 text-xs"
-      >
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.25 }}
+          className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-[#141416]/92 backdrop-blur-md text-stone-300 px-4 py-2.5 rounded-2xl shadow-xl border border-white/10 flex items-center justify-between gap-3 text-xs"
+        >
         <div className="flex items-center gap-2.5 min-w-0">
           <Cookie className="w-4 h-4 text-[#ad021a] shrink-0" />
           <p className="text-[11px] sm:text-xs text-stone-300 leading-snug">
@@ -79,6 +78,7 @@ export default function CookieBanner({ isGreek, onOpenCookies }: CookieBannerPro
           {isGreek ? "Εντάξει" : "OK"}
         </button>
       </motion.div>
-    </AnimatePresence>
+    )}
+  </AnimatePresence>
   );
 }
