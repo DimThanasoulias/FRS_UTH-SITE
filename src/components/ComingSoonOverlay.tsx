@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, X, AlertCircle, Instagram } from "lucide-react";
+import { ShieldCheck, X, AlertCircle, Instagram, Radio, ExternalLink } from "lucide-react";
 import { verifyAdminPin, isAdminAuthenticated, logoutAdmin } from "../lib/adminService";
 import AdminModal from "./AdminModal";
 import UthLogo from "./UthLogo";
@@ -145,6 +145,39 @@ export default function ComingSoonOverlay({
               }}
             />
           ))}
+        </motion.div>
+
+        {/* Producer Recruitment Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.22 }}
+          className="w-full max-w-lg bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-black/[0.08] shadow-xs mb-8 text-center select-text hover:border-[#ad021a]/20 transition-all"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ad021a]/10 text-[#ad021a] text-[11px] font-bold tracking-wider uppercase mb-3">
+            <Radio className="w-3.5 h-3.5 text-[#ad021a]" />
+            <span>{isGreek ? "ΑΙΤΗΣΕΙΣ ΠΑΡΑΓΩΓΩΝ 2026-2027" : "HOST RECRUITMENT 2026-2027"}</span>
+          </div>
+
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1917] mb-2 font-['Unbounded',sans-serif] tracking-tight">
+            {isGreek ? "Θες να γίνεις παραγωγός;" : "Want to become a radio host?"}
+          </h2>
+
+          <p className="text-sm text-[#6B6560] leading-relaxed mb-5 max-w-md mx-auto font-normal">
+            {isGreek
+              ? "Οι αιτήσεις για τη νέα σεζόν ξεκίνησαν! Έλα στην ομάδα του FRS UTH και δημιούργησε τη δική σου εκπομπή."
+              : "Applications for the new season are now open! Join the FRS UTH crew and host your own radio show."}
+          </p>
+
+          <a
+            href="https://docs.google.com/forms/d/1DYnPcChVAvFFB2_1A45MXyKcldm3WMV9nrCczJ8t0ec/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#ad021a] hover:bg-[#8f0115] text-white text-sm font-bold shadow-md shadow-[#ad021a]/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+          >
+            <span>{isGreek ? "Κάνε αίτηση" : "Apply Now"}</span>
+            <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </a>
         </motion.div>
 
         {/* City Footprint */}
