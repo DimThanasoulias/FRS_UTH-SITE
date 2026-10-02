@@ -139,7 +139,15 @@ export default function App() {
 
   const activeEvents = useMemo(() => {
     if (customEvents !== null && Array.isArray(customEvents)) {
-      return customEvents;
+      const valid = customEvents.filter(ev => 
+        ev.id !== "ev1" && 
+        ev.id !== "ev2" && 
+        ev.id !== "ev3" &&
+        !ev.title.includes("Campus Spring") &&
+        !ev.title.includes("Podcast & Audio") &&
+        !ev.title.includes("Vinyl Night")
+      );
+      if (valid.length > 0) return valid;
     }
     return isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN;
   }, [customEvents, isGreek]);

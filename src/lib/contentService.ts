@@ -90,7 +90,16 @@ export function getCachedCustomSchedule(): DayProgram[] | null {
 
 function isLegacyMockEvents(events: any[]): boolean {
   if (!Array.isArray(events) || events.length === 0) return true;
-  return events.some(e => e.id === "ev1" || e.title?.includes("Campus Spring"));
+  // There is currently only 1 official event; any cached multi-event list is from old mock tests
+  if (events.length > 1) return true;
+  return events.some(e => 
+    e.id === "ev1" || 
+    e.id === "ev2" || 
+    e.id === "ev3" || 
+    e.title?.includes("Campus Spring") || 
+    e.title?.includes("Podcast & Audio") || 
+    e.title?.includes("Vinyl Night")
+  );
 }
 
 /**
