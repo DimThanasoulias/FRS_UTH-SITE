@@ -54,6 +54,20 @@ export function sortScheduleShows(schedule: DayProgram[]): DayProgram[] {
   }));
 }
 
+function isLegacyMockSchedule(schedule: DayProgram[]): boolean {
+  return schedule.some(day => 
+    (day.shows || []).some(s => 
+      s.id === "m1" || 
+      s.id === "tu1" || 
+      s.id === "f1" || 
+      s.id === "w1" || 
+      s.title === "Club Night" || 
+      s.title === "Morning Mix" || 
+      s.title === "Global Grooves"
+    )
+  );
+}
+
 /**
  * Synchronously retrieves cached custom schedule from localStorage to prevent flash on refresh
  */
@@ -63,6 +77,10 @@ export function getCachedCustomSchedule(): DayProgram[] | null {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) {
+        if (isLegacyMockSchedule(parsed)) {
+          localStorage.removeItem(SCHEDULE_CACHE_KEY);
+          return null;
+        }
         return sortScheduleShows(parsed);
       }
     }
@@ -99,6 +117,15 @@ export function subscribeToCustomSchedule(
         const val = snapshot.val();
         const sched = val?.schedule || null;
         if (sched && Array.isArray(sched) && sched.length > 0) {
+          if (isLegacyMockSchedule(sched)) {
+            try {
+              localStorage.removeItem(SCHEDULE_CACHE_KEY);
+            } catch (e) {}
+            // Clean up obsolete mock data in RTDB
+            set(scheduleRef, null).catch(() => {});
+            callback(null);
+            return;
+          }
           const sorted = sortScheduleShows(sched);
           try {
             localStorage.setItem(SCHEDULE_CACHE_KEY, JSON.stringify(sorted));
