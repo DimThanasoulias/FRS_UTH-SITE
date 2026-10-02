@@ -1795,51 +1795,83 @@ export default function App() {
               {/* Archive Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredArchive.map((item) => (
-                  <div key={item.id} className="warm-card rounded-3xl overflow-hidden flex flex-col justify-between group">
-                    <div className="relative aspect-video overflow-hidden bg-stone-900">
+                  <a
+                    key={item.id}
+                    href={item.mixcloudUrl || "https://www.mixcloud.com/frs-volou/"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="warm-card rounded-3xl overflow-hidden flex flex-col justify-between group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block cursor-pointer border border-black/5 hover:border-[#ad021a]/30"
+                  >
+                    {/* Artwork Container with Ambient Backdrop Blur */}
+                    <div className="relative aspect-video sm:aspect-[16/10] overflow-hidden bg-stone-950 flex items-center justify-center">
+                      {/* Ambient blurred backdrop so square and non-standard posters fill naturally without letterbox */}
+                      <img
+                        src={item.image}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-40 group-hover:scale-135 transition-transform duration-500 pointer-events-none select-none"
+                      />
+                      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+
+                      {/* Crisp uncropped show artwork */}
                       <img
                         src={item.image}
                         alt={item.title}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="relative z-10 w-full h-full object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 drop-shadow-md select-none"
                       />
-                      <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-mono px-2 py-0.5 rounded">
+
+                      {/* Floating hover badge */}
+                      <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ad021a] text-white text-xs font-bold shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform">
+                          <Radio className="w-3.5 h-3.5" />
+                          <span>{isGreek ? "Ακρόαση στο Mixcloud" : "Listen on Mixcloud"}</span>
+                          <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
+                        </span>
+                      </div>
+
+                      {/* Date / Archive badge */}
+                      <span className="absolute bottom-3 left-3 z-20 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-2 py-0.5 rounded shadow">
                         {item.date}
+                      </span>
+
+                      {/* Mixcloud pill indicator */}
+                      <span className="absolute top-3 right-3 z-20 bg-[#ad021a] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow flex items-center gap-1">
+                        Mixcloud
+                        <ExternalLink className="w-2.5 h-2.5" />
                       </span>
                     </div>
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        <h4 className="font-bold text-base text-[#1C1917] group-hover:text-[#ad021a] transition-colors leading-snug">
-                          {item.title}
-                        </h4>
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="font-bold text-base text-[#1C1917] group-hover:text-[#ad021a] transition-colors leading-snug">
+                            {item.title}
+                          </h4>
+                          <ExternalLink className="w-4 h-4 text-[#ad021a] opacity-60 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5" />
+                        </div>
                         <p className="text-xs text-[#6B6560] mt-2 line-clamp-2 leading-relaxed">
                           {item.description}
                         </p>
                       </div>
 
                       <div className="mt-4 pt-3 border-t border-black/[0.05] flex items-center justify-between">
-                        <div className="flex gap-1.5">
+                        <div className="flex flex-wrap gap-1.5">
                           {item.tags.slice(0, 2).map(tag => (
-                            <span key={tag} className="text-[10px] text-[#6B6560] font-semibold">
+                            <span key={tag} className="text-[10px] text-[#6B6560] font-semibold bg-black/[0.04] px-2 py-0.5 rounded-full">
                               {tag}
                             </span>
                           ))}
                         </div>
 
-                        <a
-                          href={item.mixcloudUrl || "https://www.mixcloud.com/frs-volou/"}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-bold text-[#ad021a] hover:text-[#8f0115] flex items-center gap-1"
-                        >
-                          <span>Mixcloud</span>
+                        <span className="text-xs font-bold text-[#ad021a] group-hover:underline flex items-center gap-1">
+                          <span>{isGreek ? "Αρχείο Εκπομπής" : "Show Archive"}</span>
                           <ExternalLink className="w-3 h-3" />
-                        </a>
+                        </span>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
 

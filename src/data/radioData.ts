@@ -311,111 +311,231 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
   }
 ];
 
-export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
-  {
-    id: "arc1",
-    title: "Midnight Circuits Vol. 4",
-    date: "Oct 24, 2024",
-    description: "Vertex tearing through heavy industrial techno cuts and unreleased student demos.",
-    tags: ["#Techno", "#Underground"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCew2lvki29-0UvxsVFeNF-kjaXUlqf4IiOhuJpu786GZDycUAr1AISsZ1gIFczB-NHo6SfTxnLmm-SYa5gKR_onEnRmKGAiSOqPg5v6QQpLOjQoJxfJ4kE8Ba6dq5iDlZgphOvT43vo2vmtAuLgdjPnLLZJ34RUSMBLWKpge9m3OGmDRxPFb4p1ikwLUO8EvOebTGJ6O_ersz16erBmBbE06P922krmrwO0Gu43L3M3V_7f1aoOrO26-I8sAIEUY0oU00vzYxNsYE"
-  },
-  {
-    id: "arc2",
-    title: "Study Session Frequencies",
-    date: "Oct 18, 2024",
-    description: "Two hours of uninterrupted chillhop and ambient beats to get you through finals week.",
-    tags: ["#LoFi", "#Beats"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBD1tCw1ZdYSPE8sqn3COrBeM2gINnSp61A8rRSscwLAhoPR_2wHHKVMjSNnTPj3rL6JQl554N5DF5f8oTZ9q4C1fZp85yCCp-rZz5aOmBejRD9vVVQdiFq2ykLwa2w7SJVuMOLkP3zZQlLV2I9oxoCujQaQShaPN-4fz_GNh_aYAinzII14DHSPIx3uNP_7nuw_xEhrfqF6MQ6Q2g6OBX7wQI3l_NPh7qW2UCGvFC5zeSjq5UvcNapjoujVE6so8gCtnPT7Ka_GY"
-  },
-  {
-    id: "arc3",
-    title: "The Morning Debrief",
-    date: "Oct 15, 2024",
-    description: "Discussing the latest campus events, upcoming elections, and an interview with the Dean.",
-    tags: ["#Talk", "#CampusNews"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA0F5VnEb95pMmoOd7t61PWGX_MujYYBI5bFGarpZ2WMPDlBo-t6c0zYMIyCO2RvOonMCdbTTvMQ-hnVA2N0UWGsCoESpPaTJZLlsksIk6s5VlJB6BO_GWk0mkmxRZTib1a9EQNM2gLigXl0GHtYmcdE-85jLZ4DUpNgcXDfB2IuZpzQDHmB7udf6U1tiwLIEu0ful89iS4_2eECkEr5vmIf38cRnT2j0BZJIIMUMHtfLoGscoW80or4BloZNwQR1RJScM-eN08Uog"
-  }
-];
-
 export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
   {
-    id: "arc1",
-    title: "Midnight Circuits Vol. 4",
-    date: "24 Οκτ 2024",
-    description: "Ο Vertex σαρώνει με heavy industrial techno κομμάτια και ακυκλοφόρητα demos φοιτητών.",
-    tags: ["#Techno", "#Underground"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCew2lvki29-0UvxsVFeNF-kjaXUlqf4IiOhuJpu786GZDycUAr1AISsZ1gIFczB-NHo6SfTxnLmm-SYa5gKR_onEnRmKGAiSOqPg5v6QQpLOjQoJxfJ4kE8Ba6dq5iDlZgphOvT43vo2vmtAuLgdjPnLLZJ34RUSMBLWKpge9m3OGmDRxPFb4p1ikwLUO8EvOebTGJ6O_ersz16erBmBbE06P922krmrwO0Gu43L3M3V_7f1aoOrO26-I8sAIEUY0oU00vzYxNsYE"
+    id: "show-girls-next-door",
+    title: "The Girls Next Door",
+    date: "Mixcloud Archive",
+    description: "Το girl talk γίνεται on air! Hot topics, random σκέψεις, φοιτητικά feelings, νέα ταινιών, βιβλία, gossip και διαδραστικά παιχνίδια με τους ακροατές.",
+    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    image: "/shows/girls-next-door.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/the-girls-next-door2024-25/"
   },
   {
-    id: "arc2",
-    title: "Study Session Frequencies",
-    date: "18 Οκτ 2024",
-    description: "Δύο ώρες αδιάκοπου chillhop και ambient beats για να σας κρατήσουν συντροφιά στην εξεταστική.",
-    tags: ["#LoFi", "#Beats"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBD1tCw1ZdYSPE8sqn3COrBeM2gINnSp61A8rRSscwLAhoPR_2wHHKVMjSNnTPj3rL6JQl554N5DF5f8oTZ9q4C1fZp85yCCp-rZz5aOmBejRD9vVVQdiFq2ykLwa2w7SJVuMOLkP3zZQlLV2I9oxoCujQaQShaPN-4fz_GNh_aYAinzII14DHSPIx3uNP_7nuw_xEhrfqF6MQ6Q2g6OBX7wQI3l_NPh7qW2UCGvFC5zeSjq5UvcNapjoujVE6so8gCtnPT7Ka_GY"
+    id: "show-drink-n-roll",
+    title: "Drink N Roll",
+    date: "Mixcloud Archive",
+    description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν.",
+    tags: ["#Rock", "#NightSession", "#Talk"],
+    image: "/shows/drink-and-roll.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
   {
-    id: "arc3",
-    title: "The Morning Debrief",
-    date: "15 Οκτ 2024",
-    description: "Συζήτηση για τα τελευταία πανεπιστημιακά γεγονότα, επικείμενες εκλογές και συνέντευξη με τον Κοσμήτορα.",
-    tags: ["#Talk", "#CampusNews"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA0F5VnEb95pMmoOd7t61PWGX_MujYYBI5bFGarpZ2WMPDlBo-t6c0zYMIyCO2RvOonMCdbTTvMQ-hnVA2N0UWGsCoESpPaTJZLlsksIk6s5VlJB6BO_GWk0mkmxRZTib1a9EQNM2gLigXl0GHtYmcdE-85jLZ4DUpNgcXDfB2IuZpzQDHmB7udf6U1tiwLIEu0ful89iS4_2eECkEr5vmIf38cRnT2j0BZJIIMUMHtfLoGscoW80or4BloZNwQR1RJScM-eN08Uog"
-  }
-];
-
-export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
-  {
-    id: "arc4",
-    title: "Experimental Night",
-    date: "Oct 12, 2024",
-    description: "Glitch hop, IDM, and audio experiments from the media arts department.",
-    tags: ["#Experimental", "#IDM"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHXG2Y29-0UvxsVFeNF-kjaXUlqf4IiOhuJpu786GZDycUAr1AISsZ1gIFczB-NHo6SfTxnLmm-SYa5gKR_onEnRmKGAiSOqPg5v6QQpLOjQoJxfJ4kE8Ba6dq5iDlZgphOvT43vo2vmtAuLgdjPnLLZJ34RUSMBLWKpge9m3OGmDRxPFb4p1ikwLUO8EvOebTGJ6O_ersz16erBmBbE06P922krmrwO0Gu43L3M3V_7f1aoOrO26-I8sAIEUY0oU00vzYxNsYE"
+    id: "show-arlekin",
+    title: "Αρλεκίν",
+    date: "Mixcloud Archive",
+    description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με επιλεγμένο ξενόγλωσσο στίχο.",
+    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    image: "/shows/arlekin.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
   {
-    id: "arc5",
-    title: "Rhythm & Soul",
-    date: "Oct 08, 2024",
-    description: "Warm vinyl grooves from the jazz archive mixed with modern neo-soul vibes.",
-    tags: ["#Jazz", "#Soul"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBD1tCw1ZdYSPE8sqn3COrBeM2gINnSp61A8rRSscwLAhoPR_2wHHKVMjSNnTPj3rL6JQl554N5DF5f8oTZ9q4C1fZp85yCCp-rZz5aOmBejRD9vVVQdiFq2ykLwa2w7SJVuMOLkP3zZQlLV2I9oxoCujQaQShaPN-4fz_GNh_aYAinzII14DHSPIx3uNP_7nuw_xEhrfqF6MQ6Q2g6OBX7wQI3l_NPh7qW2UCGvFC5zeSjq5UvcNapjoujVE6so8gCtnPT7Ka_GY"
+    id: "show-masa-kai-arkoudios",
+    title: "Η Μάσα και ο Αρκούδιος",
+    date: "Mixcloud Archive",
+    description: "Καθημερινές ιστορίες, αυθόρμητες κουβέντες και εκλεκτικές μουσικές. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
+    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    image: "/shows/masa-kai-arkoudios.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
   {
-    id: "arc6",
-    title: "The Indie Hour",
-    date: "Oct 05, 2024",
-    description: "Highlighting local band demos and the freshest alternative student picks.",
-    tags: ["#Indie", "#Local"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA0F5VnEb95pMmoOd7t61PWGX_MujYYBI5bFGarpZ2WMPDlBo-t6c0zYMIyCO2RvOonMCdbTTvMQ-hnVA2N0UWGsCoESpPaTJZLlsksIk6s5VlJB6BO_GWk0mkmxRZTib1a9EQNM2gLigXl0GHtYmcdE-85jLZ4DUpNgcXDfB2IuZpzQDHmB7udf6U1tiwLIEu0ful89iS4_2eECkEr5vmIf38cRnT2j0BZJIIMUMHtfLoGscoW80or4BloZNwQR1RJScM-eN08Uog"
+    id: "show-oso-boreis-entechna",
+    title: "Όσο Μπορείς Έντεχνα",
+    date: "Mixcloud Archive",
+    description: "Βασισμένη στο έντεχνο με ρομαντισμό και νοσταλγία, εμπλουτισμένη με ροκ, ραπ και ρεμπέτικα ακούσματα και αλληλεπίδραση με το chat.",
+    tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
+    image: "/shows/oso-boreis-entechna.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-metal-zone",
+    title: "Metal Zone",
+    date: "2024 - 2025",
+    description: "Heavy metal, hard rock και underground κιθαριστικά riff από το ιστορικό αρχείο του FRS UTH.",
+    tags: ["#Metal", "#HardRock", "#Archive"],
+    image: "/shows/rock.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
   }
 ];
 
 export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
   {
-    id: "arc4",
-    title: "Experimental Night",
-    date: "12 Οκτ 2024",
-    description: "Glitch hop, IDM, και ηχητικοί πειραματισμοί από το τμήμα ψηφιακών τεχνών.",
-    tags: ["#Experimental", "#IDM"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHXG2Y29-0UvxsVFeNF-kjaXUlqf4IiOhuJpu786GZDycUAr1AISsZ1gIFczB-NHo6SfTxnLmm-SYa5gKR_onEnRmKGAiSOqPg5v6QQpLOjQoJxfJ4kE8Ba6dq5iDlZgphOvT43vo2vmtAuLgdjPnLLZJ34RUSMBLWKpge9m3OGmDRxPFb4p1ikwLUO8EvOebTGJ6O_ersz16erBmBbE06P922krmrwO0Gu43L3M3V_7f1aoOrO26-I8sAIEUY0oU00vzYxNsYE"
+    id: "show-hangover",
+    title: "Hangover",
+    date: "2024 - 2025",
+    description: "Αυθόρμητες συζητήσεις, φοιτητική καθημερινότητα και ποικίλα μουσικά ακούσματα από τους παραγωγούς του σταθμού.",
+    tags: ["#Hangover", "#StudentTalk", "#Archive"],
+    image: "/shows/studio.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/hangover2024-25/"
   },
   {
-    id: "arc5",
-    title: "Rhythm & Soul",
-    date: "08 Οκτ 2024",
-    description: "Ζεστές αυλακώσεις βινυλίου από το αρχείο της jazz αναμεμειγμένες με neo-soul.",
-    tags: ["#Jazz", "#Soul"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBD1tCw1ZdYSPE8sqn3COrBeM2gINnSp61A8rRSscwLAhoPR_2wHHKVMjSNnTPj3rL6JQl554N5DF5f8oTZ9q4C1fZp85yCCp-rZz5aOmBejRD9vVVQdiFq2ykLwa2w7SJVuMOLkP3zZQlLV2I9oxoCujQaQShaPN-4fz_GNh_aYAinzII14DHSPIx3uNP_7nuw_xEhrfqF6MQ6Q2g6OBX7wQI3l_NPh7qW2UCGvFC5zeSjq5UvcNapjoujVE6so8gCtnPT7Ka_GY"
+    id: "show-arxizei-to-mats",
+    title: "Αρχίζει το Ματς",
+    date: "2024 - 2025",
+    description: "Αθλητική ενημέρωση, σχολιασμός της αγωνιστικής επικαιρότητας και φοιτητικός παλμός.",
+    tags: ["#Sports", "#CampusTalk", "#Archive"],
+    image: "/shows/concert.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CE%B1%CF%81%CF%87%CE%AF%CE%B6%CE%B5%CE%B9-%CF%84%CE%BF-%CE%BC%CE%B1%CF%84%CF%822024-25/"
   },
   {
-    id: "arc6",
-    title: "The Indie Hour",
-    date: "05 Οκτ 2024",
-    description: "Προβολή τοπικών συγκροτημάτων και εναλλακτικών φοιτητικών επιλογών.",
-    tags: ["#Indie", "#Local"],
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA0F5VnEb95pMmoOd7t61PWGX_MujYYBI5bFGarpZ2WMPDlBo-t6c0zYMIyCO2RvOonMCdbTTvMQ-hnVA2N0UWGsCoESpPaTJZLlsksIk6s5VlJB6BO_GWk0mkmxRZTib1a9EQNM2gLigXl0GHtYmcdE-85jLZ4DUpNgcXDfB2IuZpzQDHmB7udf6U1tiwLIEu0ful89iS4_2eECkEr5vmIf38cRnT2j0BZJIIMUMHtfLoGscoW80or4BloZNwQR1RJScM-eN08Uog"
+    id: "show-foititikes-anisixies",
+    title: "Φοιτητικές Ανησυχίες",
+    date: "2024 - 2025",
+    description: "Συζητήσεις για την πανεπιστημιακή ζωή, κοινωνικούς προβληματισμούς και φοιτητικά νέα.",
+    tags: ["#StudentLife", "#Discussions", "#Archive"],
+    image: "/shows/vinyl.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%B9%CE%BA%CE%AD%CF%82-%CE%B1%CE%BD%CE%B7%CF%83%CF%85%CF%87%CE%AF%CE%B5%CF%822024-25/"
+  },
+  {
+    id: "show-radio-scenario",
+    title: "Ράδιο Σενάριο",
+    date: "2024 - 2025",
+    description: "Κινηματογράφος, σειρές, τηλεοπτικά νέα και αγαπημένα κινηματογραφικά soundtrack.",
+    tags: ["#Cinema", "#Soundtracks", "#Archive"],
+    image: "/shows/on-air.png",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%81%CE%AC%CE%B4%CE%B9%CE%BF-%CF%83%CE%B5%CE%BD%CE%AC%CF%81%CE%B9%CE%BF2024-25/"
+  },
+  {
+    id: "show-cancelled",
+    title: "Cancelled",
+    date: "2024 - 2025",
+    description: "Εκπομπή σχολιασμού και μουσικών περιπλανήσεων από την ομάδα του σταθμού.",
+    tags: ["#Talk", "#Alternative", "#Archive"],
+    image: "/shows/rock.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/cancelled2024-25/"
+  },
+  {
+    id: "show-pali-deytera",
+    title: "Πάλι Δευτέρα",
+    date: "2024 - 2025",
+    description: "Το ξεκίνημα της εβδομάδας με καλή μουσική, χιούμορ και ενέργεια.",
+    tags: ["#MondayVibes", "#Eclectic", "#Archive"],
+    image: "/shows/studio.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%80%CE%AC%CE%BB%CE%B9-%CE%B4%CE%B5%CF%85%CF%84%CE%AD%CF%81%CE%B12024-25/"
+  }
+];
+
+export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
+  {
+    id: "show-girls-next-door",
+    title: "The Girls Next Door",
+    date: "Mixcloud Archive",
+    description: "Girl talk goes on air! Hot topics, random thoughts, student feelings, movies, books, gossip, and games with listeners.",
+    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    image: "/shows/girls-next-door.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/the-girls-next-door2024-25/"
+  },
+  {
+    id: "show-drink-n-roll",
+    title: "Drink N Roll",
+    date: "Mixcloud Archive",
+    description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations.",
+    tags: ["#Rock", "#NightSession", "#Talk"],
+    image: "/shows/drink-and-roll.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-arlekin",
+    title: "Arlekin",
+    date: "Mixcloud Archive",
+    description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
+    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    image: "/shows/arlekin.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-masa-kai-arkoudios",
+    title: "Masa & Arkoudios",
+    date: "Mixcloud Archive",
+    description: "Everyday stories, spontaneous conversations, and eclectic music selections from a crew that never gets boring.",
+    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    image: "/shows/masa-kai-arkoudios.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-oso-boreis-entechna",
+    title: "Oso Boreis Entechna",
+    date: "Mixcloud Archive",
+    description: "Rooted in Greek entechno music with romance and nostalgia, seasoned with student energy, rock, rap, and live chat interaction.",
+    tags: ["#Entechno", "#StudentLife", "#LiveChat"],
+    image: "/shows/oso-boreis-entechna.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-metal-zone",
+    title: "Metal Zone",
+    date: "2024 - 2025",
+    description: "Heavy metal, hard rock, and underground guitar riffs from the station archives.",
+    tags: ["#Metal", "#HardRock", "#Archive"],
+    image: "/shows/rock.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
+  }
+];
+
+export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
+  {
+    id: "show-hangover",
+    title: "Hangover",
+    date: "2024 - 2025",
+    description: "Spontaneous discussions, student life, and varied music selections by station hosts.",
+    tags: ["#Hangover", "#StudentTalk", "#Archive"],
+    image: "/shows/studio.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/hangover2024-25/"
+  },
+  {
+    id: "show-arxizei-to-mats",
+    title: "Arxizei To Mats",
+    date: "2024 - 2025",
+    description: "Sports updates, match reviews, and university campus sports energy.",
+    tags: ["#Sports", "#CampusTalk", "#Archive"],
+    image: "/shows/concert.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CE%B1%CF%81%CF%87%CE%AF%CE%B6%CE%B5%CE%B9-%CF%84%CE%BF-%CE%BC%CE%B1%CF%84%CF%822024-25/"
+  },
+  {
+    id: "show-foititikes-anisixies",
+    title: "Foititikes Anisixies",
+    date: "2024 - 2025",
+    description: "Discussions on campus student life, social topics, and student community news.",
+    tags: ["#StudentLife", "#Discussions", "#Archive"],
+    image: "/shows/vinyl.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%B9%CE%BA%CE%AD%CF%82-%CE%B1%CE%BD%CE%B7%CF%83%CF%85%CF%87%CE%AF%CE%B5%CF%822024-25/"
+  },
+  {
+    id: "show-radio-scenario",
+    title: "Radio Scenario",
+    date: "2024 - 2025",
+    description: "Cinema, TV series, screenwriting, and iconic movie soundtracks.",
+    tags: ["#Cinema", "#Soundtracks", "#Archive"],
+    image: "/shows/on-air.png",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%81%CE%AC%CE%B4%CE%B9%CE%BF-%CF%83%CE%B5%CE%BD%CE%AC%CF%81%CE%B9%CE%BF2024-25/"
+  },
+  {
+    id: "show-cancelled",
+    title: "Cancelled",
+    date: "2024 - 2025",
+    description: "Commentary show with alternative and indie musical discoveries.",
+    tags: ["#Talk", "#Alternative", "#Archive"],
+    image: "/shows/rock.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/cancelled2024-25/"
+  },
+  {
+    id: "show-pali-deytera",
+    title: "Pali Deytera",
+    date: "2024 - 2025",
+    description: "Starting the week off right with great tunes, humor, and fresh energy.",
+    tags: ["#MondayVibes", "#Eclectic", "#Archive"],
+    image: "/shows/studio.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%80%CE%AC%CE%BB%CE%B9-%CE%B4%CE%B5%CF%85%CF%84%CE%AD%CF%81%CE%B12024-25/"
   }
 ];
 
