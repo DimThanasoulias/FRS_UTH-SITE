@@ -106,6 +106,7 @@ export interface StationEvent {
   title: string;
   description: string;
   tags: string[];
+  link?: string; // Optional external link (e.g. Facebook Event)
 }
 
 export interface OpenCallApplication {

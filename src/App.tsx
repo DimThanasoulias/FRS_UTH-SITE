@@ -412,7 +412,7 @@ export default function App() {
       liveChat: "Live Chat",
       stat1: "24/7",
       stat1Sub: "Online Ροή",
-      stat2: "40+",
+      stat2: "Δεκάδες",
       stat2Sub: "Παραγωγοί",
       stat3: "100%",
       stat3Sub: "Ανεξάρτητο",
@@ -459,7 +459,7 @@ export default function App() {
       liveChat: "Live Chat",
       stat1: "24/7",
       stat1Sub: "Online Stream",
-      stat2: "40+",
+      stat2: "Dozens",
       stat2Sub: "Producers",
       stat3: "100%",
       stat3Sub: "Independent",
@@ -1380,8 +1380,8 @@ export default function App() {
                 </h1>
                 <p className="text-sm sm:text-base text-[#6B6560] leading-relaxed font-normal">
                   {isGreek 
-                    ? "40+ παραγωγοί. Μουσική από παντού. Όλη την εβδομάδα."
-                    : "40+ producers. Music from everywhere. All week long."}
+                    ? "Δεκάδες παραγωγοί. Μουσική από παντού. Όλη την εβδομάδα."
+                    : "Dozens of producers. Music from everywhere. All week long."}
                 </p>
               </div>
 
@@ -1704,6 +1704,20 @@ export default function App() {
                           <p className="text-sm sm:text-base text-[#6B6560] mt-2.5 leading-relaxed">
                             {ev.description}
                           </p>
+
+                          {ev.link && (
+                            <div className="pt-3">
+                              <a
+                                href={ev.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-xs font-bold text-white bg-[#1877F2] hover:bg-[#166fe5] px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer group"
+                              >
+                                <span>{isGreek ? "Σελίδα Εκδήλωσης στο Facebook" : "Facebook Event Page"}</span>
+                                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </a>
+                            </div>
+                          )}
                         </div>
 
                         {ev.tags && ev.tags.length > 0 && (
@@ -2236,20 +2250,30 @@ export default function App() {
               >
                 <button
                   onClick={() => setSelectedShowId(null)}
-                  className="absolute top-4 right-4 text-[#6B6560] hover:text-[#1C1917] p-1.5 rounded-full hover:bg-[#FAF8F4] cursor-pointer"
+                  className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 bg-black/60 hover:bg-black/85 text-white backdrop-blur-md p-2 rounded-full cursor-pointer transition-colors shadow-md border border-white/20"
                   title="Close"
                 >
                   <X className="w-5 h-5" />
                 </button>
 
                 <div className="flex flex-col gap-4">
-                  <div className="aspect-video w-full rounded-2xl overflow-hidden bg-stone-900 border border-black/10">
+                  <div className="relative aspect-video sm:aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[#1C1917] border border-black/10 flex items-center justify-center shadow-inner">
+                    {/* Ambient blurred backdrop so any aspect ratio fills gracefully */}
+                    <img
+                      src={selectedShow.image || "/music-stream.jpg"}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-50 pointer-events-none select-none"
+                    />
+                    <div className="absolute inset-0 bg-black/20 backdrop-blur-xs pointer-events-none" />
+
+                    {/* Uncropped crisp foreground artwork */}
                     <img
                       src={selectedShow.image || "/music-stream.jpg"}
                       alt={selectedShow.title}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover"
+                      className="relative z-10 w-full h-full object-contain p-2 drop-shadow-md select-none"
                     />
                   </div>
 

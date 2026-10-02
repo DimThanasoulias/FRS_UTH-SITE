@@ -1351,6 +1351,22 @@ export default function AdminModal({
                         className="field py-1 px-2.5 text-xs w-full"
                       />
                     </div>
+
+                    <div className="sm:col-span-3">
+                      <label className="block text-[10px] font-bold text-stone-500 uppercase mb-0.5">
+                        {isGreek ? "Σύνδεσμος Εκδήλωσης (π.χ. Facebook Event URL)" : "Event Link (e.g. Facebook Event URL)"}
+                      </label>
+                      <input
+                        type="url"
+                        value={editingEvent.event.link || ""}
+                        onChange={(e) => setEditingEvent({
+                          ...editingEvent,
+                          event: { ...editingEvent.event, link: e.target.value }
+                        })}
+                        placeholder="https://www.facebook.com/events/..."
+                        className="field py-1 px-2.5 text-xs w-full"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex items-center justify-end gap-2 pt-1">

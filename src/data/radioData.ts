@@ -421,67 +421,30 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
 
 export const DEFAULT_EVENTS_GR: StationEvent[] = [
   {
-    id: "ev1",
-    dayNum: "18",
-    monthStr: "ΜΑΙ",
-    categoryBadge: "Festival & Outdoor Stage",
-    timeLocation: "🕒 19:30 • 📍 Πεδίον του Άρεως, Βόλος",
-    title: "Campus Spring Festival 2026",
-    description: "Το μεγαλύτερο φοιτητικό φεστιβάλ του Βόλου επιστρέφει με live bands, indie alternative acts και live stages στο Πεδίον του Άρεως. Μια ολόκληρη ημέρα γεμάτη μουσική, live ραδιοφωνικές συνεντεύξεις στον αέρα και ελεύθερη είσοδο για όλη την πανεπιστημιακή κοινότητα.",
-    tags: ["#LiveBands", "#FreeEntry", "#OutdoorStage", "#VolosCampus"]
-  },
-  {
-    id: "ev2",
-    dayNum: "24",
-    monthStr: "ΜΑΙ",
-    categoryBadge: "Workshop & Studio Training",
-    timeLocation: "🕒 17:00 • 📍 FRS Broadcast Studio A",
-    title: "Workshop: Podcast & Audio Production",
-    description: "Εξειδικευμένο εργαστήριο ήχου και παραγωγής εκπομπών από τους τεχνικούς και παραγωγούς του σταθμού. Πρακτική εκπαίδευση σε κονσόλες μίξης, μικροφωνικές τεχνικές, ηχογράφηση φωνής, mastering podcast επεισοδίων και live streaming workflows.",
-    tags: ["#Podcast", "#SoundMixing", "#StudioA", "#RadioSkills"]
-  },
-  {
-    id: "ev3",
-    dayNum: "06",
-    monthStr: "ΙΟΥΝ",
-    categoryBadge: "Vinyl Session",
-    timeLocation: "🕒 21:00 • 📍 Πολυτεχνείο Βόλου",
-    title: "Vinyl Night: Lo-Fi Beats & Analog Sound",
-    description: "Βραδιά αφιερωμένη στον αναλογικό ήχο και τη μαγεία του βινυλίου. Οι παραγωγοί του σταθμού επιλέγουν rare grooves, soul, funk και lo-fi hip hop αποκλειστικά από δίσκους βινυλίου με ζωντανή αναμετάδοση στο web stream.",
-    tags: ["#VinylOnly", "#Analog", "#ChillVibes"]
+    id: "cafe-santan-welcome-party-2026",
+    dayNum: "07",
+    monthStr: "ΟΚΤ",
+    categoryBadge: "Welcome Party",
+    timeLocation: "🕒 21:00 • 📍 Cafe Santan (Εργατικού Κέντρου 12, Βόλος)",
+    title: "Cafe Santan x FRS-UTH • Welcome Party",
+    description: "Το πρώτο επίσημο Welcome Party της χρονιάς από το FRS UTH στο θρυλικό Cafe Santan! Μουσική επιμέλεια και DJ set από τον Apostolis G. Σας περιμένουμε όλους να ξεκινήσουμε τη νέα ραδιοφωνική σεζόν δυνατά!",
+    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH", "#VolosNightlife"],
+    link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];
 
 export const DEFAULT_EVENTS_EN: StationEvent[] = [
   {
-    id: "ev1",
-    dayNum: "18",
-    monthStr: "MAY",
-    categoryBadge: "Festival & Outdoor Stage",
-    timeLocation: "🕒 19:30 • 📍 Pedion tou Areos, Volos",
-    title: "Campus Spring Festival 2026",
-    description: "The biggest student festival in Volos returns with live bands, indie alternative acts, and live stages at Pedion tou Areos. A full day of live music, on-air radio interviews, and free entry for the entire university community.",
-    tags: ["#LiveBands", "#FreeEntry", "#OutdoorStage", "#VolosCampus"]
-  },
-  {
-    id: "ev2",
-    dayNum: "24",
-    monthStr: "MAY",
-    categoryBadge: "Workshop & Studio Training",
-    timeLocation: "🕒 17:00 • 📍 FRS Broadcast Studio A",
-    title: "Workshop: Podcast & Audio Production",
-    description: "Hands-on audio and broadcasting workshop led by station sound engineers and hosts. Practical training in mixing desks, microphone techniques, voice recording, podcast mastering, and live streaming workflows.",
-    tags: ["#Podcast", "#SoundMixing", "#StudioA", "#RadioSkills"]
-  },
-  {
-    id: "ev3",
-    dayNum: "06",
-    monthStr: "JUN",
-    categoryBadge: "Vinyl Session",
-    timeLocation: "🕒 21:00 • 📍 Volos Polytechnic",
-    title: "Vinyl Night: Lo-Fi Beats & Analog Sound",
-    description: "An evening dedicated to analog sound and vinyl groove. Station producers spin rare grooves, soul, funk, and lo-fi hip hop strictly from vinyl records with live broadcast on the web radio stream.",
-    tags: ["#VinylOnly", "#Analog", "#ChillVibes"]
+    id: "cafe-santan-welcome-party-2026",
+    dayNum: "07",
+    monthStr: "OCT",
+    categoryBadge: "Welcome Party",
+    timeLocation: "🕒 21:00 • 📍 Cafe Santan (12 Ergatikou Kentrou, Volos)",
+    title: "Cafe Santan x FRS-UTH • Welcome Party",
+    description: "The first official Welcome Party of the academic year by FRS UTH at the legendary Cafe Santan! DJ set and musical curation by Apostolis G. Join us to kick off the new season!",
+    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH", "#VolosNightlife"],
+    link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];
+
 

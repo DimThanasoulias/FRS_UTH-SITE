@@ -88,6 +88,11 @@ export function getCachedCustomSchedule(): DayProgram[] | null {
   return null;
 }
 
+function isLegacyMockEvents(events: any[]): boolean {
+  if (!Array.isArray(events) || events.length === 0) return true;
+  return events.some(e => e.id === "ev1" || e.title?.includes("Campus Spring"));
+}
+
 /**
  * Synchronously retrieves cached custom events from localStorage to prevent flash on refresh
  */
@@ -96,7 +101,13 @@ export function getCachedCustomEvents(): StationEvent[] | null {
     const raw = localStorage.getItem(EVENTS_CACHE_KEY);
     if (raw !== null) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) return parsed;
+      if (Array.isArray(parsed)) {
+        if (isLegacyMockEvents(parsed)) {
+          localStorage.removeItem(EVENTS_CACHE_KEY);
+          return null;
+        }
+        return parsed;
+      }
     }
   } catch (e) {}
   return null;
@@ -195,14 +206,25 @@ export function subscribeToCustomEvents(
     (snapshot) => {
       if (snapshot.exists()) {
         const val = snapshot.val();
-        // If snapshot exists, val.events is custom events from admin (even if empty [])
-        const evts: StationEvent[] = val && "events" in val && Array.isArray(val.events) 
-          ? val.events 
-          : (Array.isArray(val?.events) ? val.events : []);
-        try {
-          localStorage.setItem(EVENTS_CACHE_KEY, JSON.stringify(evts));
-        } catch (e) {}
-        callback(evts);
+        if (val && Array.isArray(val.events)) {
+          if (isLegacyMockEvents(val.events)) {
+            try {
+              localStorage.removeItem(EVENTS_CACHE_KEY);
+            } catch (e) {}
+            callback(null);
+            return;
+          }
+          const evts: StationEvent[] = val.events;
+          try {
+            localStorage.setItem(EVENTS_CACHE_KEY, JSON.stringify(evts));
+          } catch (e) {}
+          callback(evts);
+        } else {
+          try {
+            localStorage.removeItem(EVENTS_CACHE_KEY);
+          } catch (e) {}
+          callback(null);
+        }
       } else {
         // Snapshot does not exist -> explicitly reset to code defaults
         try {
