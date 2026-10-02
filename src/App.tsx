@@ -138,18 +138,26 @@ export default function App() {
   }, [customSchedule, isGreek]);
 
   const activeEvents = useMemo(() => {
-    if (customEvents !== null && Array.isArray(customEvents)) {
-      const valid = customEvents.filter(ev => 
-        ev.id !== "ev1" && 
-        ev.id !== "ev2" && 
-        ev.id !== "ev3" &&
-        !ev.title.includes("Campus Spring") &&
-        !ev.title.includes("Podcast & Audio") &&
-        !ev.title.includes("Vinyl Night")
-      );
-      if (valid.length > 0) return valid;
+    let list = (customEvents !== null && Array.isArray(customEvents))
+      ? customEvents.filter(ev => 
+          ev.id !== "ev1" && 
+          ev.id !== "ev2" && 
+          ev.id !== "ev3" &&
+          !ev.title.includes("Campus Spring") &&
+          !ev.title.includes("Podcast & Audio") &&
+          !ev.title.includes("Vinyl Night")
+        )
+      : (isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN);
+
+    if (list.length === 0) {
+      list = isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN;
     }
-    return isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN;
+
+    // Never show #VolosNightlife tag
+    return list.map(ev => ({
+      ...ev,
+      tags: ev.tags ? ev.tags.filter(t => !t.toLowerCase().includes("nightlife")) : []
+    }));
   }, [customEvents, isGreek]);
 
   // Site-Wide Config (Coming Soon) & Admin state (synchronous local cache eliminates any initial flash)
@@ -446,7 +454,7 @@ export default function App() {
       connectTitle: "ΣΥΝΔΕΘΕΙΤΕ",
       connectText: "Ακούστε τα archived sets και podcast επεισόδια στο επίσημο κανάλι μας.",
       mixcloudBtn: "Mixcloud Channel",
-      copyright: "© 2026 FRS UTH • Ανεξάρτητη Φοιτητική Πρωτοβουλία (Μη επίσημος φορέας του Π.Θ.).",
+      copyright: "© 2026 FRS UTH",
       terms: "Όροι Χρήσης",
       privacy: "Πολιτική Απορρήτου",
       cookies: "Πολιτική Cookies"
@@ -493,7 +501,7 @@ export default function App() {
       connectTitle: "CONNECT",
       connectText: "Listen to archived sets and podcast episodes on our official channel.",
       mixcloudBtn: "Mixcloud Channel",
-      copyright: "© 2026 FRS UTH • Independent Student Radio (Autonomous student initiative).",
+      copyright: "© 2026 FRS UTH",
       terms: "Terms of Use",
       privacy: "Privacy Policy",
       cookies: "Cookie Policy"
@@ -2152,8 +2160,8 @@ export default function App() {
               <span className="hidden sm:inline text-stone-700">•</span>
               <span className="text-stone-400">
                 {isGreek 
-                  ? "Ανεξάρτητη φοιτητική πρωτοβουλία • Χωρίς θεσμική σύνδεση με τη διοίκηση του Π.Θ." 
-                  : "Independent student initiative • Not affiliated with university administration"}
+                  ? "Ανεξάρτητη φοιτητική πρωτοβουλία (Μη επίσημος φορέας του Π.Θ.)" 
+                  : "Independent student initiative (Non-official university entity)"}
               </span>
             </div>
             <div className="flex items-center gap-4 flex-wrap">

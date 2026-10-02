@@ -25,14 +25,26 @@ interface MainPlayerProps {
   className?: string;
 }
 
-// Single 24/7 universal live MP3 radio stream for FRS UTH
+// Single 24/7 universal live MP3 radio stream for FRS UTH (RelaxingJazz 320kbps MP3 Stream)
+// Uses HTTPS SSL proxy stream on HTTPS sites to prevent browser Mixed Content blocking,
+// and direct HTTP stream (http://stream-02-eu.relaxingjazz.com/stream/3/) on HTTP environments.
+const STREAM_HTTPS_URL = "https://443-1.autopo.st/171/stream/3/";
+const STREAM_HTTP_URL = "http://stream-02-eu.relaxingjazz.com/stream/3/";
+
+const getEffectiveStreamUrl = (): string => {
+  if (typeof window !== "undefined" && window.location.protocol === "http:") {
+    return STREAM_HTTP_URL;
+  }
+  return STREAM_HTTPS_URL;
+};
+
 const UNIVERSAL_CHANNEL: RadioChannel = {
-  id: "coderadio",
+  id: "relaxingjazz",
   name: "Μουσική Ροή FRS UTH",
   greekName: "Μουσική Ροή FRS UTH",
   dj: "Non-Stop Μουσική 24/7",
-  genre: "High Quality 320kbps Stream",
-  url: "https://peridot.streamguys1.com:7830/WUCF"
+  genre: "High Quality 320kbps MP3 Stream",
+  url: STREAM_HTTPS_URL
 };
 
 // Rhythmic Chill Beats Web Audio API Synthesizer fallback
@@ -327,9 +339,10 @@ export default function MainPlayer({
       const eff = isMutedRef.current ? 0 : volumeRef.current;
       audio.volume = eff;
 
-      if (audio.src !== UNIVERSAL_CHANNEL.url) {
+      const targetUrl = getEffectiveStreamUrl();
+      if (!audio.src || (audio.src !== STREAM_HTTPS_URL && audio.src !== STREAM_HTTP_URL)) {
         setIsLoadingAudio?.(true);
-        audio.src = UNIVERSAL_CHANNEL.url;
+        audio.src = targetUrl;
         audio.load();
       }
 

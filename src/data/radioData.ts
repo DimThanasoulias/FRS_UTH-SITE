@@ -428,7 +428,7 @@ export const DEFAULT_EVENTS_GR: StationEvent[] = [
     timeLocation: "🕒 21:00 • 📍 Cafe Santan (Εργατικού Κέντρου 12, Βόλος)",
     title: "Cafe Santan x FRS-UTH • Welcome Party",
     description: "Το πρώτο επίσημο Welcome Party της χρονιάς από το FRS UTH στο θρυλικό Cafe Santan! Μουσική επιμέλεια και DJ set από τον Apostolis G. Σας περιμένουμε όλους να ξεκινήσουμε τη νέα ραδιοφωνική σεζόν δυνατά!",
-    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH", "#VolosNightlife"],
+    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH"],
     link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];
@@ -442,7 +442,7 @@ export const DEFAULT_EVENTS_EN: StationEvent[] = [
     timeLocation: "🕒 21:00 • 📍 Cafe Santan (12 Ergatikou Kentrou, Volos)",
     title: "Cafe Santan x FRS-UTH • Welcome Party",
     description: "The first official Welcome Party of the academic year by FRS UTH at the legendary Cafe Santan! DJ set and musical curation by Apostolis G. Join us to kick off the new season!",
-    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH", "#VolosNightlife"],
+    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH"],
     link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];
