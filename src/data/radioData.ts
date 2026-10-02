@@ -18,7 +18,11 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "vinyl.jpg": { name: "Vinyl Player & LP", category: "Μουσική Ροή" },
   "studio.jpg": { name: "Radio Studio & Mic", category: "Broadcast" },
   "on-air.png": { name: "On Air Neon & Mixer", category: "Live Studio" },
-  "concert.jpg": { name: "Concert & Party", category: "Live Stage" }
+  "concert.jpg": { name: "Concert & Party", category: "Live Stage" },
+  "drink-and-roll.jpg": { name: "Drink N Roll", category: "Rock Show" },
+  "girls-next-door.jpg": { name: "The Girls Next Door", category: "Talk & Pop" },
+  "arlekin.jpg": { name: "Αρλεκίν", category: "Έντεχνο & Λαϊκό" },
+  "masa-kai-arkoudios.jpg": { name: "Η Μάσα και ο Αρκούδιος", category: "Stories & Eclectic" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -50,36 +54,13 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Monday",
     shows: [
       {
-        id: "m1",
-        title: "Morning Mix",
-        time: "10:00 - 12:00",
-        host: "Apollo",
-        tags: ["#LoFi", "#Chill"],
-        description: "Start your week right with Apollo's hand-picked lo-fi beats, mellow grooves, and smooth transitions. From chilled-out instrumentals to downtempo hip-hop — the perfect companion for Monday morning coffee and campus commutes."
-      },
-      {
-        id: "m2",
-        title: "Campus Voices",
-        time: "14:00 - 16:00",
-        host: "Student Union",
-        tags: ["#Talk", "#Campus"],
-        description: "The official voice of the student body. Campus Voices brings you in-depth discussions, interviews with faculty and fellow students, university news updates, and debates on the issues that matter most to campus life."
-      },
-      {
-        id: "m3",
-        title: "Electric Avenue",
-        time: "18:00 - 20:00",
-        host: "Nova",
-        tags: ["#Techno", "#Electro"],
-        description: "Nova takes you on an electrifying ride through the best of techno, electro, and synth-driven soundscapes. From pulsing basslines to shimmering arpeggios, Electric Avenue is where the voltage never drops."
-      },
-      {
-        id: "m4",
-        title: "Deep Space",
-        time: "21:00 - 23:00",
-        host: "The Cosmonaut",
-        tags: ["#Ambient", "#Space"],
-        description: "Drift into the cosmos with The Cosmonaut's curated selection of ambient textures, space-age synthesizers, and hypnotic drones. Ideal for late-night studying, meditation, or simply floating through the void."
+        id: "show-arlekin",
+        title: "Arlekin",
+        time: "20:00 - 22:00",
+        host: "Arlekin",
+        tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+        description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
+        image: "/shows/arlekin.jpg"
       }
     ]
   },
@@ -88,20 +69,13 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Tuesday",
     shows: [
       {
-        id: "tu1",
-        title: "Indie Hour",
-        time: "11:00 - 13:00",
-        host: "Sarah V.",
-        tags: ["#Indie", "#DreamPop"],
-        description: "Sarah V. digs through the underground to bring you the freshest indie rock, dream pop, and lo-fi bedroom recordings. Featuring exclusive premieres, vinyl picks, and the occasional live in-studio session from local artists."
-      },
-      {
-        id: "tu2",
-        title: "Rock Anthems",
-        time: "16:00 - 18:00",
-        host: "George",
-        tags: ["#Rock", "#Alternative"],
-        description: "George turns the amplifier to 11 with a powerhouse lineup of classic rock, grunge, and modern alternative anthems. From stadium sing-alongs to raw garage riffs — this is the show that shakes your Tuesday."
+        id: "show-girls-next-door",
+        title: "The Girls Next Door",
+        time: "18:00 - 20:00",
+        host: "The Girls Next Door",
+        tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+        description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
+        image: "/shows/girls-next-door.jpg"
       }
     ]
   },
@@ -110,20 +84,13 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Wednesday",
     shows: [
       {
-        id: "w1",
-        title: "Beats & Rhymes",
-        time: "15:00 - 17:00",
-        host: "MC Flow",
-        tags: ["#HipHop", "#Rap"],
-        description: "MC Flow delivers a hard-hitting journey through golden-age hip-hop, contemporary rap, and underground boom-bap. Expect deep crate-digging, exclusive freestyles from local artists, and breakdowns of the culture that moves us."
-      },
-      {
-        id: "w2",
-        title: "Bass Drop",
-        time: "20:00 - 22:00",
-        host: "Chloe",
-        tags: ["#Dubstep", "#Bass"],
-        description: "Chloe unleashes bone-rattling dubstep, bass house, and heavy electronic bangers guaranteed to test your speakers. Expect filthy drops, wobbling sub-bass, and festival-grade energy every Wednesday night."
+        id: "show-oso-boreis-entechna",
+        title: "Oso Boreis Entechna",
+        time: "19:00 - 21:00",
+        host: "Entechno Crew",
+        tags: ["#Entechno", "#StudentLife", "#LiveChat"],
+        description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
+        image: "/shows/vinyl.jpg"
       }
     ]
   },
@@ -132,12 +99,13 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Thursday",
     shows: [
       {
-        id: "th1",
-        title: "Jazz Fusion",
-        time: "20:00 - 22:00",
-        host: "The Quartet",
-        tags: ["#Jazz", "#Fusion"],
-        description: "The Quartet blends timeless jazz standards with modern fusion, funk grooves, and improvisational experimentation. From smoky lounge moods to high-energy brass solos — your Thursday night ticket to sophisticated sound."
+        id: "show-masa-kai-arkoudios",
+        title: "Masa & Arkoudios",
+        time: "18:00 - 20:00",
+        host: "Masa & Arkoudios",
+        tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+        description: "Do you love everyday stories, spontaneous banter, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
+        image: "/shows/masa-kai-arkoudios.jpg"
       }
     ]
   },
@@ -146,42 +114,25 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Friday",
     shows: [
       {
-        id: "f1",
-        title: "Club Night",
+        id: "show-drink-n-roll",
+        title: "Drink N Roll",
         time: "22:00 - 00:00",
-        host: "Alex",
-        tags: ["#House", "#Dance"],
-        description: "The weekend starts here. Alex spins peak-time house, tech-house bangers, and pulsating dancefloor anthems to kick off your Friday night right. High energy, seamless mixing, and tracks that keep you moving."
+        host: "Drink N Roll Crew",
+        tags: ["#Rock", "#NightSession", "#Talk"],
+        description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations. Grab a beer, chill out, and tune in late at night.",
+        image: "/shows/drink-and-roll.jpg"
       }
     ]
   },
   {
     day: "Sat",
     fullName: "Saturday",
-    shows: [
-      {
-        id: "sa1",
-        title: "Global Grooves",
-        time: "18:00 - 20:00",
-        host: "World Tour",
-        tags: ["#World", "#Global"],
-        description: "World Tour takes you on a sonic journey across continents — from Afrobeat rhythms and Latin percussion to Middle Eastern melodies and Asian-inspired electronic fusions. Every Saturday is a passport to new sounds."
-      }
-    ]
+    shows: []
   },
   {
     day: "Sun",
     fullName: "Sunday",
-    shows: [
-      {
-        id: "su1",
-        title: "Lazy Sunday",
-        time: "12:00 - 15:00",
-        host: "Chill Crew",
-        tags: ["#Acoustic", "#Folk"],
-        description: "Wind down with the Chill Crew's laid-back selection of acoustic covers, gentle folk melodies, and sun-drenched singer-songwriter tracks. The perfect backdrop for late mornings, studying, and Sunday relaxation."
-      }
-    ]
+    shows: []
   }
 ];
 
@@ -191,36 +142,13 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Δευτέρα",
     shows: [
       {
-        id: "m1",
-        title: "Morning Mix",
-        time: "10:00 - 12:00",
-        host: "Apollo",
-        tags: ["#LoFi", "#Chill"],
-        description: "Ξεκίνα τη βδομάδα σου σωστά με τις χειροδιάλεκτες lo-fi επιλογές του Apollo, απαλά grooves και ομαλές μεταβάσεις. Από χαλαρά instrumentals μέχρι downtempo hip-hop — ο τέλειος σύντροφος για τον πρωινό καφέ και τη μετακίνηση στο campus."
-      },
-      {
-        id: "m2",
-        title: "Campus Voices",
-        time: "14:00 - 16:00",
-        host: "Εκπρόσωπος Φοιτητών",
-        tags: ["#Talk", "#Campus"],
-        description: "Η επίσημη φωνή του φοιτητικού σώματος. Το Campus Voices φέρνει σε βάθος συζητήσεις, συνεντεύξεις με καθηγητές και συμφοιτητές, νέα του πανεπιστημίου και debates για τα θέματα που αφορούν τη φοιτητική ζωή."
-      },
-      {
-        id: "m3",
-        title: "Electric Avenue",
-        time: "18:00 - 20:00",
-        host: "Nova",
-        tags: ["#Techno", "#Electro"],
-        description: "Η Nova σε παίρνει σε μια ηλεκτρισμένη βόλτα μέσα από τα καλύτερα techno, electro και synth-driven ηχοτοπία. Από pulsating basslines μέχρι arpeggios που λάμπουν, το Electric Avenue δεν ρίχνει ποτέ την τάση."
-      },
-      {
-        id: "m4",
-        title: "Deep Space",
-        time: "21:00 - 23:00",
-        host: "The Cosmonaut",
-        tags: ["#Ambient", "#Space"],
-        description: "Παρασύρσου στον κόσμο με τις επιλεγμένες ambient υφές, space-age synthesizers και υπνωτικά drones του Cosmonaut. Ιδανικό για νυχτερινό διάβασμα, διαλογισμό ή απλά για να πλανιέσαι στο κενό."
+        id: "show-arlekin",
+        title: "Αρλεκίν",
+        time: "20:00 - 22:00",
+        host: "Αρλεκίν",
+        tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+        description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
+        image: "/shows/arlekin.jpg"
       }
     ]
   },
@@ -229,20 +157,13 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Τρίτη",
     shows: [
       {
-        id: "tu1",
-        title: "Indie Hour",
-        time: "11:00 - 13:00",
-        host: "Sarah V.",
-        tags: ["#Indie", "#DreamPop"],
-        description: "Η Sarah V. σκάβει στο underground για να σου φέρει το πιο φρέσκο indie rock, dream pop και lo-fi bedroom ηχογραφήσεις. Με αποκλειστικές πρεμιέρες, επιλογές βινυλίου και περιστασιακές ζωντανές sessions τοπικών καλλιτεχνών."
-      },
-      {
-        id: "tu2",
-        title: "Rock Anthems",
-        time: "16:00 - 18:00",
-        host: "George",
-        tags: ["#Rock", "#Alternative"],
-        description: "Ο George γυρνάει τον ενισχυτή στο 11 με μια δυνατή επιλογή κλασικού rock, grunge και σύγχρονων alternative ύμνων. Από stadium sing-alongs μέχρι ωμά garage riffs — αυτή είναι η εκπομπή που ταρακουνάει κάθε Τρίτη."
+        id: "show-girls-next-door",
+        title: "The Girls Next Door",
+        time: "18:00 - 20:00",
+        host: "The Girls Next Door",
+        tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+        description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
+        image: "/shows/girls-next-door.jpg"
       }
     ]
   },
@@ -251,20 +172,13 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Τετάρτη",
     shows: [
       {
-        id: "w1",
-        title: "Beats & Rhymes",
-        time: "15:00 - 17:00",
-        host: "MC Flow",
-        tags: ["#HipHop", "#Rap"],
-        description: "Ο MC Flow παραδίδει ένα δυναμικό μείγμα golden-age hip-hop, σύγχρονου rap και freestyle sessions. Περίμενε deep crate-digging, αποκλειστικά freestyles τοπικών MCs και αναλύσεις της κουλτούρας που μας κινεί."
-      },
-      {
-        id: "w2",
-        title: "Bass Drop",
-        time: "20:00 - 22:00",
-        host: "Chloe",
-        tags: ["#Dubstep", "#Bass"],
-        description: "Η Chloe ξαπολύει dubstep που σπάει κόκαλα, bass house και βαριά ηλεκτρονικά κομμάτια που θα ταρακουνήσουν τα ηχεία σου. Περίμενε filthy drops, wobbling sub-bass και ενέργεια που μετατρέπει κάθε βράδυ Τετάρτης σε festival."
+        id: "show-oso-boreis-entechna",
+        title: "Όσο Μπορείς Έντεχνα",
+        time: "19:00 - 21:00",
+        host: "Έντεχνη Παρέα",
+        tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
+        description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
+        image: "/shows/vinyl.jpg"
       }
     ]
   },
@@ -273,12 +187,13 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Πέμπτη",
     shows: [
       {
-        id: "th1",
-        title: "Jazz Fusion",
-        time: "20:00 - 22:00",
-        host: "The Quartet",
-        tags: ["#Jazz", "#Fusion"],
-        description: "Το Quartet συνδυάζει κλασικά jazz standards με μοντέρνα fusion, funk και αυτοσχεδιαστικό πειραματισμό. Από smoky lounge vibes μέχρι high-energy solos — ένα βράδυ εκλεπτυσμένης μουσικής κάθε Πέμπτη."
+        id: "show-masa-kai-arkoudios",
+        title: "Η Μάσα και ο Αρκούδιος",
+        time: "18:00 - 20:00",
+        host: "Μάσα & Αρκούδιος",
+        tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+        description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
+        image: "/shows/masa-kai-arkoudios.jpg"
       }
     ]
   },
@@ -287,339 +202,110 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Παρασκευή",
     shows: [
       {
-        id: "f1",
-        title: "Club Night",
+        id: "show-drink-n-roll",
+        title: "Drink N Roll",
         time: "22:00 - 00:00",
-        host: "Alex",
-        tags: ["#House", "#Dance"],
-        description: "Το Σαββατοκύριακο ξεκινάει εδώ. Ο Alex ρίχνει τα πιο καυτά house κομμάτια, tech-house bangers και dancefloor anthems για να ξεκινήσεις τη Παρασκευή σου. Ενέργεια κορυφής, seamless mixing και sets που σε κρατάνε σε κίνηση."
+        host: "Drink N Roll Crew",
+        tags: ["#Rock", "#NightSession", "#Talk"],
+        description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν. Have a drink on me, όπως λένε και οι AC/DC πιάσε μια μπύρα, άραξε και έλα να τα πούμε αργά το βράδυ.",
+        image: "/shows/drink-and-roll.jpg"
       }
     ]
   },
   {
     day: "Σαβ",
     fullName: "Σάββατο",
-    shows: [
-      {
-        id: "sa1",
-        title: "Global Grooves",
-        time: "18:00 - 20:00",
-        host: "World Tour",
-        tags: ["#World", "#Global"],
-        description: "Το World Tour σε πηγαίνει σε ένα ηχητικό ταξίδι σε ηπείρους — από ρυθμούς Afrobeat και Latin κρουστά μέχρι μελωδίες Μέσης Ανατολής και ηλεκτρονικά fusions ασιατικής έμπνευσης. Κάθε Σάββατο είναι ένα διαβατήριο σε νέο μουσικό προορισμό."
-      }
-    ]
+    shows: []
   },
   {
     day: "Κυρ",
     fullName: "Κυριακή",
-    shows: [
-      {
-        id: "su1",
-        title: "Lazy Sunday",
-        time: "12:00 - 15:00",
-        host: "Chill Crew",
-        tags: ["#Acoustic", "#Folk"],
-        description: "Χαλάρωσε με τις laid-back επιλογές του Chill Crew — ακουστικά covers, folk μελωδίες και ηλιόλουστα singer-songwriter κομμάτια. Το τέλειο soundtrack για αργά πρωινά, brunch και ξεκούραση πριν αρχίσει η νέα εβδομάδα."
-      }
-    ]
+    shows: []
   }
 ];
 
 export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
-  // ── Weekly Schedule Shows (unique per schedule slot) ──────────────
   {
-    id: "m1",
-    title: "Morning Mix",
-    host: "Apollo",
-    description: "Start your week right with Apollo's hand-picked lo-fi beats, mellow grooves, and smooth transitions. From chilled-out instrumentals to downtempo hip-hop — the perfect companion for Monday morning coffee and campus commutes.",
-    tags: ["#LoFi", "#Chill"],
-    image: "/shows/vinyl.jpg"
+    id: "show-drink-n-roll",
+    title: "Drink N Roll",
+    host: "Drink N Roll Crew",
+    description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations. Grab a beer, chill out, and tune in late at night.",
+    tags: ["#Rock", "#NightSession", "#Talk"],
+    image: "/shows/drink-and-roll.jpg"
   },
   {
-    id: "m2",
-    title: "Campus Voices",
-    host: "Student Union",
-    description: "The official voice of the student body. Campus Voices brings you in-depth discussions, interviews with faculty and fellow students, university news updates, and debates on the issues that matter most to campus life.",
-    tags: ["#Talk", "#Campus"],
-    image: "/shows/studio.jpg"
+    id: "show-girls-next-door",
+    title: "The Girls Next Door",
+    host: "The Girls Next Door",
+    description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
+    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    image: "/shows/girls-next-door.jpg"
   },
   {
-    id: "m3",
-    title: "Electric Avenue",
-    host: "Nova",
-    description: "Nova takes you on an electrifying ride through the best of techno, electro, and synth-driven soundscapes. From pulsing basslines to shimmering arpeggios, Electric Avenue is where the voltage never drops.",
-    tags: ["#Techno", "#Electro"],
-    image: "/shows/on-air.png"
+    id: "show-arlekin",
+    title: "Arlekin",
+    host: "Arlekin",
+    description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
+    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    image: "/shows/arlekin.jpg"
   },
   {
-    id: "m4",
-    title: "Deep Space",
-    host: "The Cosmonaut",
-    description: "Drift into the cosmos with The Cosmonaut's curated selection of ambient textures, space-age synthesizers, and hypnotic drones. Ideal for late-night studying, meditation, or simply floating through the void.",
-    tags: ["#Ambient", "#Space"],
-    image: "/shows/vinyl.jpg"
+    id: "show-masa-kai-arkoudios",
+    title: "Masa & Arkoudios",
+    host: "Masa & Arkoudios",
+    description: "Do you love everyday stories, spontaneous conversations, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
+    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    image: "/shows/masa-kai-arkoudios.jpg"
   },
   {
-    id: "tu1",
-    title: "Indie Hour",
-    host: "Sarah V.",
-    description: "Sarah V. digs through the underground to bring you the freshest indie rock, dream pop, and lo-fi bedroom recordings. Featuring exclusive premieres, vinyl picks, and the occasional live in-studio session from local artists.",
-    tags: ["#Indie", "#DreamPop"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "tu2",
-    title: "Rock Anthems",
-    host: "George",
-    description: "George cranks the amp to eleven with a hard-hitting selection of classic rock, grunge, and modern alternative anthems. From stadium sing-alongs to raw garage riffs — this is the show that rocks the airwaves every Tuesday.",
-    tags: ["#Rock", "#Alternative"],
-    image: "/shows/concert.jpg"
-  },
-  {
-    id: "w1",
-    title: "Beats & Rhymes",
-    host: "MC Flow",
-    description: "MC Flow delivers a powerhouse blend of golden-age hip-hop, contemporary rap, and freestyle sessions. Expect deep crate-digging, exclusive freestyles from local MCs, and breakdowns of the culture that moves us.",
-    tags: ["#HipHop", "#Rap"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "w2",
-    title: "Bass Drop",
-    host: "Chloe",
-    description: "Chloe unleashes bone-rattling dubstep, bass house, and heavy electronic cuts that will shake your speakers. Expect filthy drops, wobbling sub-bass, and the kind of energy that turns any Wednesday night into a festival.",
-    tags: ["#Dubstep", "#Bass"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "th1",
-    title: "Jazz Fusion",
-    host: "The Quartet",
-    description: "The Quartet blends classic jazz standards with modern fusion, funk, and improvisational experimentation. From smoky lounge vibes to high-energy solos — an evening of sophisticated musicianship every Thursday.",
-    tags: ["#Jazz", "#Fusion"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "f1",
-    title: "Club Night",
-    host: "Alex",
-    description: "The weekend starts here. Alex drops the hottest house music, tech-house bangers, and dancefloor anthems to kick off your Friday night. Peak-time energy, seamless mixing, and the kind of sets that keep you moving until the lights come on.",
-    tags: ["#House", "#Dance"],
-    image: "/shows/concert.jpg"
-  },
-  {
-    id: "sa1",
-    title: "Global Grooves",
-    host: "World Tour",
-    description: "World Tour takes you on a sonic journey across continents — from Afrobeat rhythms and Latin percussion to Middle Eastern melodies and Asian-inspired electronic fusions. Every Saturday is a passport to a new musical destination.",
-    tags: ["#World", "#Global"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "su1",
-    title: "Lazy Sunday",
-    host: "Chill Crew",
-    description: "Unwind with Chill Crew's laid-back selection of acoustic covers, folk melodies, and sun-drenched singer-songwriter tracks. The perfect soundtrack for slow mornings, brunch, and recharging before the new week begins.",
-    tags: ["#Acoustic", "#Folk"],
-    image: "/shows/vinyl.jpg"
-  },
-  // ── Legacy Show Descriptions (kept for backward compatibility) ────
-  {
-    id: "desc1",
-    title: "Midnight Sessions",
-    host: "Alex Thorne",
-    description: "An exploratory journey into deep house, minimal techno, and ambient soundscapes. Perfect for late-night studying or existential contemplation in the dark.",
-    tags: ["#Electronic", "#Ambient"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "desc2",
-    title: "Vinyl Grooves",
-    host: "Sarah Jenkins",
-    description: "Dusting off the archives to bring you strictly wax selections. From rare 70s funk and soul to early hip-hop breaks, experiencing music the way it was meant to be heard.",
-    tags: ["#Funk", "#Soul"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "desc3",
-    title: "Campus Indie Radar",
-    host: "The FRS UTH Team",
-    description: "Your weekly digest of the local scene. We're spotlighting the best up-and-coming bands on campus, featuring live studio sessions, interviews, and raw talent.",
-    tags: ["#Indie", "#Local"],
-    image: "/shows/studio.jpg"
-  },
-  {
-    id: "desc4",
-    title: "Electronic Avenue",
-    host: "Vector",
-    description: "High-bpm, unapologetic electronic music. From drum and bass to hardcore techno, this is where the campus turns up the tempo and lets loose.",
-    tags: ["#Techno", "#DnB"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "desc5",
-    title: "Morning Mix",
-    host: "Ben & Chloe",
-    description: "Wake up right with a curated blend of upbeat indie pop, campus news, and caffeine-fueled banter. The essential soundtrack for your 8 AM commute.",
-    tags: ["#Pop", "#Talk"],
-    image: "/shows/studio.jpg"
-  },
-  {
-    id: "desc6",
-    title: "Global Grooves",
-    host: "Maya Patel",
-    description: "Transcending borders with an eclectic mix of Afrobeat, Bossa Nova, and contemporary world music fusion. Expand your sonic horizons every Sunday.",
-    tags: ["#World", "#Jazz"],
+    id: "show-oso-boreis-entechna",
+    title: "Oso Boreis Entechna",
+    host: "Entechno Crew",
+    description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
+    tags: ["#Entechno", "#StudentLife", "#LiveChat"],
     image: "/shows/vinyl.jpg"
   }
 ];
 
 export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
-  // ── Εκπομπές Εβδομαδιαίου Προγράμματος ──────────────
   {
-    id: "m1",
-    title: "Morning Mix",
-    host: "Apollo",
-    description: "Ξεκίνα τη βδομάδα σου σωστά με τις χειροδιάλεκτες lo-fi επιλογές του Apollo, απαλά grooves και ομαλές μεταβάσεις. Από χαλαρά instrumentals μέχρι downtempo hip-hop — ο τέλειος σύντροφος για τον πρωινό καφέ και τη μετακίνηση στο campus.",
-    tags: ["#LoFi", "#Chill"],
-    image: "/shows/vinyl.jpg"
+    id: "show-drink-n-roll",
+    title: "Drink N Roll",
+    host: "Drink N Roll Crew",
+    description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν. Have a drink on me, όπως λένε και οι AC/DC πιάσε μια μπύρα, άραξε και έλα να τα πούμε αργά το βράδυ.",
+    tags: ["#Rock", "#NightSession", "#Talk"],
+    image: "/shows/drink-and-roll.jpg"
   },
   {
-    id: "m2",
-    title: "Campus Voices",
-    host: "Εκπρόσωπος Φοιτητών",
-    description: "Η επίσημη φωνή του φοιτητικού σώματος. Το Campus Voices φέρνει σε βάθος συζητήσεις, συνεντεύξεις με καθηγητές και συμφοιτητές, νέα του πανεπιστημίου και debates για τα θέματα που αφορούν τη φοιτητική ζωή.",
-    tags: ["#Talk", "#Campus"],
-    image: "/shows/studio.jpg"
+    id: "show-girls-next-door",
+    title: "The Girls Next Door",
+    host: "The Girls Next Door",
+    description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
+    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    image: "/shows/girls-next-door.jpg"
   },
   {
-    id: "m3",
-    title: "Electric Avenue",
-    host: "Nova",
-    description: "Η Nova σε παίρνει σε μια ηλεκτρισμένη βόλτα μέσα από τα καλύτερα techno, electro και synth-driven ηχοτοπία. Από pulsating basslines μέχρι arpeggios που λάμπουν, το Electric Avenue δεν ρίχνει ποτέ την τάση.",
-    tags: ["#Techno", "#Electro"],
-    image: "/shows/on-air.png"
+    id: "show-arlekin",
+    title: "Αρλεκίν",
+    host: "Αρλεκίν",
+    description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
+    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    image: "/shows/arlekin.jpg"
   },
   {
-    id: "m4",
-    title: "Deep Space",
-    host: "The Cosmonaut",
-    description: "Παρασύρσου στον κόσμο με τις επιλεγμένες ambient υφές, space-age synthesizers και υπνωτικά drones του Cosmonaut. Ιδανικό για νυχτερινό διάβασμα, διαλογισμό ή απλά για να πλανιέσαι στο κενό.",
-    tags: ["#Ambient", "#Space"],
-    image: "/shows/vinyl.jpg"
+    id: "show-masa-kai-arkoudios",
+    title: "Η Μάσα και ο Αρκούδιος",
+    host: "Μάσα & Αρκούδιος",
+    description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
+    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    image: "/shows/masa-kai-arkoudios.jpg"
   },
   {
-    id: "tu1",
-    title: "Indie Hour",
-    host: "Sarah V.",
-    description: "Η Sarah V. σκάβει στο underground για να σου φέρει το πιο φρέσκο indie rock, dream pop και lo-fi bedroom ηχογραφήσεις. Με αποκλειστικές πρεμιέρες, επιλογές βινυλίου και περιστασιακές ζωντανές sessions τοπικών καλλιτεχνών.",
-    tags: ["#Indie", "#DreamPop"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "tu2",
-    title: "Rock Anthems",
-    host: "George",
-    description: "Ο George γυρνάει τον ενισχυτή στο 11 με μια δυνατή επιλογή κλασικού rock, grunge και σύγχρονων alternative ύμνων. Από stadium sing-alongs μέχρι ωμά garage riffs — αυτή είναι η εκπομπή που ταρακουνάει κάθε Τρίτη.",
-    tags: ["#Rock", "#Alternative"],
-    image: "/shows/concert.jpg"
-  },
-  {
-    id: "w1",
-    title: "Beats & Rhymes",
-    host: "MC Flow",
-    description: "Ο MC Flow παραδίδει ένα δυναμικό μείγμα golden-age hip-hop, σύγχρονου rap και freestyle sessions. Περίμενε deep crate-digging, αποκλειστικά freestyles τοπικών MCs και αναλύσεις της κουλτούρας που μας κινεί.",
-    tags: ["#HipHop", "#Rap"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "w2",
-    title: "Bass Drop",
-    host: "Chloe",
-    description: "Η Chloe ξαπολύει dubstep που σπάει κόκαλα, bass house και βαριά ηλεκτρονικά κομμάτια που θα ταρακουνήσουν τα ηχεία σου. Περίμενε filthy drops, wobbling sub-bass και ενέργεια που μετατρέπει κάθε βράδυ Τετάρτης σε festival.",
-    tags: ["#Dubstep", "#Bass"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "th1",
-    title: "Jazz Fusion",
-    host: "The Quartet",
-    description: "Το Quartet συνδυάζει κλασικά jazz standards με μοντέρνα fusion, funk και αυτοσχεδιαστικό πειραματισμό. Από smoky lounge vibes μέχρι high-energy solos — ένα βράδυ εκλεπτυσμένης μουσικής κάθε Πέμπτη.",
-    tags: ["#Jazz", "#Fusion"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "f1",
-    title: "Club Night",
-    host: "Alex",
-    description: "Το Σαββατοκύριακο ξεκινάει εδώ. Ο Alex ρίχνει τα πιο καυτά house κομμάτια, tech-house bangers και dancefloor anthems για να ξεκινήσεις τη Παρασκευή σου. Ενέργεια κορυφής, seamless mixing και sets που σε κρατάνε σε κίνηση.",
-    tags: ["#House", "#Dance"],
-    image: "/shows/concert.jpg"
-  },
-  {
-    id: "sa1",
-    title: "Global Grooves",
-    host: "World Tour",
-    description: "Το World Tour σε πηγαίνει σε ένα ηχητικό ταξίδι σε ηπείρους — από ρυθμούς Afrobeat και Latin κρουστά μέχρι μελωδίες Μέσης Ανατολής και ηλεκτρονικά fusions ασιατικής έμπνευσης. Κάθε Σάββατο είναι ένα διαβατήριο σε νέο μουσικό προορισμό.",
-    tags: ["#World", "#Global"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "su1",
-    title: "Lazy Sunday",
-    host: "Chill Crew",
-    description: "Χαλάρωσε με τις laid-back επιλογές του Chill Crew — ακουστικά covers, folk μελωδίες και ηλιόλουστα singer-songwriter κομμάτια. Το τέλειο soundtrack για αργά πρωινά, brunch και ξεκούραση πριν αρχίσει η νέα εβδομάδα.",
-    tags: ["#Acoustic", "#Folk"],
-    image: "/shows/vinyl.jpg"
-  },
-  // ── Παλαιότερες Περιγραφές (για συμβατότητα) ────
-  {
-    id: "desc1",
-    title: "Midnight Sessions",
-    host: "Alex Thorne",
-    description: "Ένα εξερευνητικό ταξίδι στη deep house, minimal techno και ambient τοπία. Ιδανικό για διάβασμα αργά το βράδυ ή υπαρξιακή αναζήτηση στο σκοτάδι.",
-    tags: ["#Electronic", "#Ambient"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "desc2",
-    title: "Vinyl Grooves",
-    host: "Sarah Jenkins",
-    description: "Ξεσκονίζουμε το αρχείο για να σας φέρουμε αποκλειστικά επιλογές από βινύλιο. Από σπάνια funk και soul των 70s έως early hip-hop breaks, απολαύστε τη μουσική όπως της αξίζει.",
-    tags: ["#Funk", "#Soul"],
-    image: "/shows/vinyl.jpg"
-  },
-  {
-    id: "desc3",
-    title: "Campus Indie Radar",
-    host: "Η Ομάδα του FRS UTH",
-    description: "Η εβδομαδιαία ανασκόπηση της τοπικής σκηνής. Προβάλλουμε τις καλύτερες ανερχόμενες μπάντες στο πανεπιστήμιο με ζωντανές ηχογραφήσεις και συνεντεύξεις.",
-    tags: ["#Indie", "#Local"],
-    image: "/shows/studio.jpg"
-  },
-  {
-    id: "desc4",
-    title: "Electronic Avenue",
-    host: "Vector",
-    description: "Υψηλό BPM, ασυμβίβαστη ηλεκτρονική μουσική. Από drum and bass μέχρι hardcore techno, εδώ είναι που το campus ανεβάζει την ταχύτητα και ξεσαλώνει.",
-    tags: ["#Techno", "#DnB"],
-    image: "/shows/on-air.png"
-  },
-  {
-    id: "desc5",
-    title: "Morning Mix",
-    host: "Ben & Chloe",
-    description: "Ξυπνήστε σωστά με ένα επιλεγμένο μείγμα indie pop, νέα του πανεπιστημίου και κουβέντα με καφέ. Το απαραίτητο soundtrack για τη διαδρομή σας στις 8 π.μ.",
-    tags: ["#Pop", "#Talk"],
-    image: "/shows/studio.jpg"
-  },
-  {
-    id: "desc6",
-    title: "Global Grooves",
-    host: "Maya Patel",
-    description: "Ξεπερνώντας τα σύνορα με μια εκλεκτική μίξη Afrobeat, Bossa Nova και σύγχρονης world fusion. Διευρύνετε τους μουσικούς σας ορίζοντες κάθε Κυριακή.",
-    tags: ["#World", "#Jazz"],
+    id: "show-oso-boreis-entechna",
+    title: "Όσο Μπορείς Έντεχνα",
+    host: "Έντεχνη Παρέα",
+    description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
+    tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
     image: "/shows/vinyl.jpg"
   }
 ];
