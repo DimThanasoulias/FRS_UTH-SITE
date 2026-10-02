@@ -22,7 +22,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "drink-and-roll.jpg": { name: "Drink N Roll", category: "Rock Show" },
   "girls-next-door.jpg": { name: "The Girls Next Door", category: "Talk & Pop" },
   "arlekin.jpg": { name: "Αρλεκίν", category: "Έντεχνο & Λαϊκό" },
-  "masa-kai-arkoudios.jpg": { name: "Η Μάσα και ο Αρκούδιος", category: "Stories & Eclectic" }
+  "masa-kai-arkoudios.jpg": { name: "Η Μάσα και ο Αρκούδιος", category: "Stories & Eclectic" },
+  "oso-boreis-entechna.jpg": { name: "Όσο Μπορείς Έντεχνα", category: "Έντεχνο" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -90,7 +91,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         host: "Entechno Crew",
         tags: ["#Entechno", "#StudentLife", "#LiveChat"],
         description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
-        image: "/shows/vinyl.jpg"
+        image: "/shows/oso-boreis-entechna.jpg"
       }
     ]
   },
@@ -178,7 +179,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         host: "Έντεχνη Παρέα",
         tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
         description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
-        image: "/shows/vinyl.jpg"
+        image: "/shows/oso-boreis-entechna.jpg"
       }
     ]
   },
@@ -263,7 +264,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     host: "Entechno Crew",
     description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
     tags: ["#Entechno", "#StudentLife", "#LiveChat"],
-    image: "/shows/vinyl.jpg"
+    image: "/shows/oso-boreis-entechna.jpg"
   }
 ];
 
@@ -306,7 +307,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     host: "Έντεχνη Παρέα",
     description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
     tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
-    image: "/shows/vinyl.jpg"
+    image: "/shows/oso-boreis-entechna.jpg"
   }
 ];
 
