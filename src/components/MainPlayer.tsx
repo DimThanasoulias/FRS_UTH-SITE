@@ -25,11 +25,9 @@ interface MainPlayerProps {
   className?: string;
 }
 
-// Single 24/7 universal live MP3 radio stream for FRS UTH (RelaxingJazz 320kbps MP3 Stream)
-// Uses HTTPS SSL proxy stream on HTTPS sites to prevent browser Mixed Content blocking,
-// and direct HTTP stream (http://stream-02-eu.relaxingjazz.com/stream/3/) on HTTP environments.
-const STREAM_HTTPS_URL = "https://443-1.autopo.st/171/stream/3/";
-const STREAM_HTTP_URL = "http://stream-02-eu.relaxingjazz.com/stream/3/";
+// Single 24/7 universal live MP3 radio stream for FRS UTH (Official Asura Hosting Stream)
+const STREAM_HTTPS_URL = "https://a9.asurahosting.com/listen/frs_uth/radio.mp3";
+const STREAM_HTTP_URL = "http://a9.asurahosting.com/listen/frs_uth/radio.mp3";
 
 const getEffectiveStreamUrl = (): string => {
   if (typeof window !== "undefined" && window.location.protocol === "http:") {
@@ -39,11 +37,11 @@ const getEffectiveStreamUrl = (): string => {
 };
 
 const UNIVERSAL_CHANNEL: RadioChannel = {
-  id: "relaxingjazz",
+  id: "frs_uth",
   name: "Μουσική Ροή FRS UTH",
   greekName: "Μουσική Ροή FRS UTH",
   dj: "Non-Stop Μουσική 24/7",
-  genre: "High Quality 320kbps MP3 Stream",
+  genre: "Official Live 192kbps MP3 Stream",
   url: STREAM_HTTPS_URL
 };
 
