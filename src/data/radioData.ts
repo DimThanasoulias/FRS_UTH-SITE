@@ -23,7 +23,9 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "girls-next-door.jpg": { name: "The Girls Next Door", category: "Talk & Pop" },
   "arlekin.jpg": { name: "Αρλεκίν", category: "Έντεχνο & Λαϊκό" },
   "masa-kai-arkoudios.jpg": { name: "Η Μάσα και ο Αρκούδιος", category: "Stories & Eclectic" },
-  "oso-boreis-entechna.jpg": { name: "Όσο Μπορείς Έντεχνα", category: "Έντεχνο" }
+  "oso-boreis-entechna.jpg": { name: "Όσο Μπορείς Έντεχνα", category: "Έντεχνο" },
+  "laz-and-stol-show.png": { name: "Laz & Stol Show", category: "Sports & Social" },
+  "akoume-kai-den-krinoume.jpg": { name: "Ακούμε και δεν κρίνουμε", category: "News & Gossip" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -128,12 +130,32 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
   {
     day: "Sat",
     fullName: "Saturday",
-    shows: []
+    shows: [
+      {
+        id: "show-laz-and-stol",
+        title: "Laz & Stol Show",
+        time: "18:00 - 20:00",
+        host: "Laz & Stol",
+        tags: ["#Sports", "#SocialTalk", "#Predictions"],
+        description: "Sports commentary, behind-the-scenes insights, sports predictions, and open dialogue on social topics.",
+        image: "/shows/laz-and-stol-show.png"
+      }
+    ]
   },
   {
     day: "Sun",
     fullName: "Sunday",
-    shows: []
+    shows: [
+      {
+        id: "show-akoume-kai-den-krinoume",
+        title: "Akoume Kai Den Krinoume",
+        time: "20:00 - 22:00",
+        host: "Akoume Kai Den Krinoume",
+        tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+        description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
+        image: "/shows/akoume-kai-den-krinoume.jpg"
+      }
+    ]
   }
 ];
 
@@ -216,12 +238,32 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
   {
     day: "Σαβ",
     fullName: "Σάββατο",
-    shows: []
+    shows: [
+      {
+        id: "show-laz-and-stol",
+        title: "Laz & Stol Show",
+        time: "18:00 - 20:00",
+        host: "Laz & Stol",
+        tags: ["#Sports", "#SocialTalk", "#Predictions"],
+        description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
+        image: "/shows/laz-and-stol-show.png"
+      }
+    ]
   },
   {
     day: "Κυρ",
     fullName: "Κυριακή",
-    shows: []
+    shows: [
+      {
+        id: "show-akoume-kai-den-krinoume",
+        title: "Ακούμε και δεν κρίνουμε",
+        time: "20:00 - 22:00",
+        host: "Ακούμε και δεν κρίνουμε",
+        tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+        description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
+        image: "/shows/akoume-kai-den-krinoume.jpg"
+      }
+    ]
   }
 ];
 
@@ -265,6 +307,22 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
     tags: ["#Entechno", "#StudentLife", "#LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg"
+  },
+  {
+    id: "show-laz-and-stol",
+    title: "Laz & Stol Show",
+    host: "Laz & Stol",
+    description: "Sports commentary, behind-the-scenes insights, sports predictions, and open dialogue on social topics.",
+    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    image: "/shows/laz-and-stol-show.png"
+  },
+  {
+    id: "show-akoume-kai-den-krinoume",
+    title: "Akoume Kai Den Krinoume",
+    host: "Akoume Kai Den Krinoume",
+    description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
+    tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+    image: "/shows/akoume-kai-den-krinoume.jpg"
   }
 ];
 
@@ -308,6 +366,22 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
     tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg"
+  },
+  {
+    id: "show-laz-and-stol",
+    title: "Laz & Stol Show",
+    host: "Laz & Stol",
+    description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
+    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    image: "/shows/laz-and-stol-show.png"
+  },
+  {
+    id: "show-akoume-kai-den-krinoume",
+    title: "Ακούμε και δεν κρίνουμε",
+    host: "Ακούμε και δεν κρίνουμε",
+    description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
+    tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+    image: "/shows/akoume-kai-den-krinoume.jpg"
   }
 ];
 
@@ -365,6 +439,24 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     tags: ["#Metal", "#HardRock", "#Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
+  },
+  {
+    id: "show-laz-and-stol",
+    title: "Laz & Stol Show",
+    date: "Mixcloud Archive",
+    description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
+    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    image: "/shows/laz-and-stol-show.png",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-akoume-kai-den-krinoume",
+    title: "Ακούμε και δεν κρίνουμε",
+    date: "Mixcloud Archive",
+    description: "News, gossip, γέλιο και μουσική — όλα σε ένα! Showbiz, viral θέματα, rap & trap από Ελλάδα και εξωτερικό.",
+    tags: ["#News", "#Gossip", "#RapTrap"],
+    image: "/shows/akoume-kai-den-krinoume.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   }
 ];
 
@@ -479,6 +571,24 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     tags: ["#Metal", "#HardRock", "#Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
+  },
+  {
+    id: "show-laz-and-stol",
+    title: "Laz & Stol Show",
+    date: "Mixcloud Archive",
+    description: "Sports commentary, behind-the-scenes insights, match predictions, and open discussions on social topics.",
+    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    image: "/shows/laz-and-stol-show.png",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
+  },
+  {
+    id: "show-akoume-kai-den-krinoume",
+    title: "Akoume Kai Den Krinoume",
+    date: "Mixcloud Archive",
+    description: "News, gossip, laughs, and music — all in one! Showbiz, viral moments, rap & trap from Greece and abroad.",
+    tags: ["#News", "#Gossip", "#RapTrap"],
+    image: "/shows/akoume-kai-den-krinoume.jpg",
+    mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   }
 ];
 
