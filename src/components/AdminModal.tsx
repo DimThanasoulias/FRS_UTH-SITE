@@ -81,6 +81,8 @@ interface AdminModalProps {
   onClose: () => void;
   isComingSoon: boolean;
   onToggleComingSoon: (enabled: boolean) => Promise<void>;
+  showProducers?: boolean;
+  onToggleShowProducers?: (enabled: boolean) => Promise<void>;
   onResetComplete?: () => void;
   onLogout: () => void;
 }
@@ -101,6 +103,8 @@ export default function AdminModal({
   onClose,
   isComingSoon,
   onToggleComingSoon,
+  showProducers = false,
+  onToggleShowProducers,
   onResetComplete,
   onLogout
 }: AdminModalProps) {
@@ -112,6 +116,7 @@ export default function AdminModal({
   const [isResetting, setIsResetting] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isTogglingComingSoon, setIsTogglingComingSoon] = useState(false);
+  const [isTogglingProducers, setIsTogglingProducers] = useState(false);
 
   // Applications Tab state
   const [applications, setApplications] = useState<OpenCallApplication[]>([]);
@@ -241,6 +246,24 @@ export default function AdminModal({
       showNotification(undefined, err?.message || "Error updating mode");
     } finally {
       setIsTogglingComingSoon(false);
+    }
+  };
+
+  const handleToggleShowProducers = async () => {
+    if (!onToggleShowProducers) return;
+    setIsTogglingProducers(true);
+    try {
+      const targetState = !showProducers;
+      await onToggleShowProducers(targetState);
+      showNotification(
+        targetState
+          ? (isGreek ? "Τα ονόματα παραγωγών είναι πλέον ορατά σε όλο τον ιστότοπο!" : "Producer names are now visible site-wide!")
+          : (isGreek ? "Τα ονόματα παραγωγών αποκρύφθηκαν από τον ιστότοπο." : "Producer names hidden from public view.")
+      );
+    } catch (err: any) {
+      showNotification(undefined, err?.message || "Error updating producer visibility");
+    } finally {
+      setIsTogglingProducers(false);
     }
   };
 
@@ -605,6 +628,68 @@ export default function AdminModal({
                     <>
                       <EyeOff className="w-4 h-4" />
                       <span>{isGreek ? "Ενεργοποίηση Coming Soon" : "Enable Coming Soon"}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Producer Names Visibility Toggle */}
+              <div className="bg-[#FAF8F4] border border-stone-200/80 rounded-2xl p-4">
+                <div className="flex items-start justify-between gap-3 mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                      showProducers ? "bg-emerald-100 text-emerald-700" : "bg-stone-100 text-stone-700"
+                    }`}>
+                      <Users className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-[#1C1917]">
+                        {isGreek ? "Εμφάνιση Ονομάτων Παραγωγών" : "Show Producer Names"}
+                      </h4>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className={`w-2 h-2 rounded-full ${
+                          showProducers ? "bg-emerald-500" : "bg-stone-400"
+                        }`} />
+                        <span className="text-[11px] font-semibold text-[#78716C]">
+                          {showProducers 
+                            ? (isGreek ? "Ενεργό (Ορατά ονόματα στις εκπομπές)" : "Active (Visible on shows)")
+                            : (isGreek ? "Ανενεργό (Κρυμμένα ονόματα παραγωγών)" : "Hidden (Producer names hidden)")}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-[#78716C] mb-3 leading-relaxed">
+                  {showProducers
+                    ? (isGreek 
+                        ? "Τα ονόματα των παραγωγών προβάλλονται δημόσια στις κάρτες, στο πρόγραμμα, στον player και στο chat. Πατήστε για απόκρυψη."
+                        : "Producer names are publicly visible across cards, schedule, player, and chat. Click to hide.")
+                    : (isGreek 
+                        ? "Τα ονόματα των παραγωγών είναι κρυμμένα από το κοινό και προβάλλονται μόνο οι τίτλοι των εκπομπών. Πατήστε για εμφάνιση."
+                        : "Producer names are hidden from visitors and only show titles appear. Click to display.")}
+                </p>
+
+                <button
+                  onClick={handleToggleShowProducers}
+                  disabled={isTogglingProducers}
+                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs ${
+                    showProducers
+                      ? "bg-stone-200 hover:bg-stone-300 text-stone-800"
+                      : "bg-[#ad021a] hover:bg-[#8f0115] text-white"
+                  }`}
+                >
+                  {isTogglingProducers ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : showProducers ? (
+                    <>
+                      <EyeOff className="w-4 h-4" />
+                      <span>{isGreek ? "Απόκρυψη Ονομάτων Παραγωγών" : "Hide Producer Names"}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      <span>{isGreek ? "Εμφάνιση Ονομάτων Παραγωγών" : "Show Producer Names"}</span>
                     </>
                   )}
                 </button>

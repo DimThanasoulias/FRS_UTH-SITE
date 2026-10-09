@@ -92,6 +92,7 @@ export interface AdSpaceConfig {
 
 export interface SiteConfig {
   isComingSoon: boolean;
+  showProducers?: boolean;
   updatedAt?: number;
   updatedBy?: string;
   adSpace?: AdSpaceConfig;

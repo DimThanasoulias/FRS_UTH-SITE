@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, update, onValue } from "firebase/database";
 import { collection, getDocs, writeBatch } from "firebase/firestore";
 import { rtdb, db } from "./firebase";
 import { SiteConfig } from "../types";
@@ -48,6 +48,7 @@ export function logoutAdmin(): void {
 }
 
 export const COMING_SOON_CACHE_KEY = "frs_cached_coming_soon";
+export const SHOW_PRODUCERS_CACHE_KEY = "frs_cached_show_producers";
 
 /**
  * Synchronously retrieves cached Coming Soon state from localStorage.
@@ -77,6 +78,33 @@ export function setCachedComingSoon(isComingSoon: boolean): void {
 }
 
 /**
+ * Synchronously retrieves cached Show Producers state from localStorage.
+ * Returns null if never cached on this browser before.
+ */
+export function getCachedShowProducers(): boolean | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const val = localStorage.getItem(SHOW_PRODUCERS_CACHE_KEY);
+    if (val === null) return null;
+    return val === "true";
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Cache Show Producers state locally for instant zero-latency initial renders.
+ */
+export function setCachedShowProducers(showProducers: boolean): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(SHOW_PRODUCERS_CACHE_KEY, showProducers ? "true" : "false");
+  } catch {
+    // Ignore quota/permission errors
+  }
+}
+
+/**
  * Subscribe to site-wide configuration in Firebase Realtime Database.
  * Uses presence/site_status path which has granted permissions under deployed RTDB rules.
  * Consumes 0 Firestore reads/writes (optimal for Firebase Spark free plan).
@@ -92,20 +120,25 @@ export function subscribeToSiteConfig(
       if (snapshot.exists()) {
         const val = snapshot.val();
         const isComingSoon = !!val?.isComingSoon;
+        // Default to false (hidden) per user requirement: "Βγάλε τα ονόματα των παραγωγών"
+        const showProducers = val?.showProducers !== undefined ? !!val.showProducers : false;
         setCachedComingSoon(isComingSoon);
+        setCachedShowProducers(showProducers);
         callback({
           isComingSoon,
+          showProducers,
           updatedAt: val?.updatedAt,
           updatedBy: val?.updatedBy
         });
       } else {
         setCachedComingSoon(false);
-        callback({ isComingSoon: false });
+        setCachedShowProducers(false);
+        callback({ isComingSoon: false, showProducers: false });
       }
     },
     (error) => {
       console.warn("RTDB siteConfig subscription notice:", error);
-      callback({ isComingSoon: false });
+      callback({ isComingSoon: false, showProducers: false });
     }
   );
 
@@ -120,10 +153,25 @@ export function subscribeToSiteConfig(
 export async function setComingSoonMode(enabled: boolean): Promise<void> {
   setCachedComingSoon(enabled);
   const configRef = ref(rtdb, "presence/site_status");
-  await set(configRef, {
+  await update(configRef, {
     online: true,
     lastSeen: Date.now(),
     isComingSoon: enabled,
+    updatedAt: Date.now(),
+    updatedBy: "Administrator"
+  });
+}
+
+/**
+ * Toggle showing producer / host names site-wide
+ */
+export async function setShowProducersMode(enabled: boolean): Promise<void> {
+  setCachedShowProducers(enabled);
+  const configRef = ref(rtdb, "presence/site_status");
+  await update(configRef, {
+    online: true,
+    lastSeen: Date.now(),
+    showProducers: enabled,
     updatedAt: Date.now(),
     updatedBy: "Administrator"
   });

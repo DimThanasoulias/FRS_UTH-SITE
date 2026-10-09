@@ -50,6 +50,7 @@ interface LiveChatProps {
   isComingSoon?: boolean;
   onToggleComingSoon?: (enabled: boolean) => Promise<void>;
   isAdmin?: boolean;
+  showProducers?: boolean;
 }
 
 const TAB_NAME_KEY = "frs_tab_user_name";
@@ -112,7 +113,8 @@ export default function LiveChat({
   onUnreadChange,
   isComingSoon = false,
   onToggleComingSoon,
-  isAdmin: propIsAdmin
+  isAdmin: propIsAdmin,
+  showProducers = false
 }: LiveChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
@@ -458,7 +460,9 @@ export default function LiveChat({
   const effectiveVolPercent = isMuted ? 0 : volume * 100;
 
   const displayShowTitle = currentLiveShow?.title || (isGreek ? "Μουσική Ροή FRS UTH" : "FRS UTH Music Selection");
-  const displayShowHost = currentLiveShow ? currentLiveShow.host : (isGreek ? "Non-Stop Μουσική 24/7" : "Non-Stop Music 24/7");
+  const displayShowHost = currentLiveShow 
+    ? (showProducers && currentLiveShow.host ? currentLiveShow.host : (currentLiveShow.time || (isGreek ? "Ζωντανή Ροή" : "Live Stream")))
+    : (isGreek ? "Non-Stop Μουσική 24/7" : "Non-Stop Music 24/7");
 
   return (
     <AnimatePresence>
@@ -585,8 +589,10 @@ export default function LiveChat({
                       </button>
                     )}
                   </div>
-                  <p className="text-xs text-[#78716C] mt-0.5">
-                    {displayShowTitle} • {displayShowHost}
+                  <p className="text-xs text-[#78716C] mt-0.5 truncate">
+                    {showProducers && currentLiveShow?.host
+                      ? `${displayShowTitle} • ${currentLiveShow.host}`
+                      : (currentLiveShow?.time ? `${displayShowTitle} • ${currentLiveShow.time}` : displayShowTitle)}
                   </p>
                 </div>
               </div>

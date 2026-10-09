@@ -23,6 +23,7 @@ interface MainPlayerProps {
   isMuted: boolean;
   setIsMuted: (m: boolean) => void;
   className?: string;
+  showProducers?: boolean;
 }
 
 // Single 24/7 universal live MP3 radio stream for FRS UTH (Official Asura Hosting Stream)
@@ -172,7 +173,8 @@ export default function MainPlayer({
   setVolume,
   isMuted,
   setIsMuted,
-  className = ""
+  className = "",
+  showProducers = false
 }: MainPlayerProps) {
   const [copiedShare, setCopiedShare] = React.useState(false);
   const [tick, setTick] = React.useState(Date.now());
@@ -258,7 +260,7 @@ export default function MainPlayer({
   // Dynamically compute display title, description and artwork
   const displayTitle = currentLiveShow?.title || (isGreek ? UNIVERSAL_CHANNEL.greekName : UNIVERSAL_CHANNEL.name);
   const displaySubtitle = currentLiveShow 
-    ? `${currentLiveShow.host} • ${currentLiveShow.time}` 
+    ? (showProducers && currentLiveShow.host ? `${currentLiveShow.host} • ${currentLiveShow.time}` : currentLiveShow.time)
     : (isGreek ? "Non-Stop Μουσική 24/7" : "Non-Stop Music 24/7");
 
   const currentImage = currentLiveShow

@@ -45,7 +45,7 @@ import CookieBanner from "./components/CookieBanner";
 import AdBanner from "./components/AdBanner";
 import { subscribeToAdSpace, getCachedAdSpace } from "./lib/adService";
 import { subscribeToActivePoll } from "./lib/pollService";
-import { subscribeToSiteConfig, setComingSoonMode, isAdminAuthenticated, logoutAdmin, getCachedComingSoon } from "./lib/adminService";
+import { subscribeToSiteConfig, setComingSoonMode, setShowProducersMode, isAdminAuthenticated, logoutAdmin, getCachedComingSoon, getCachedShowProducers } from "./lib/adminService";
 import { 
   subscribeToCustomSchedule, 
   subscribeToCustomEvents, 
@@ -160,14 +160,23 @@ export default function App() {
     }));
   }, [customEvents, isGreek]);
 
-  // Site-Wide Config (Coming Soon) & Admin state (synchronous local cache eliminates any initial flash)
+  // Site-Wide Config (Coming Soon & Producer Visibility) & Admin state (synchronous local cache eliminates any initial flash)
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
     const cached = getCachedComingSoon();
+    const cachedShowProducers = getCachedShowProducers();
     return {
       // Default to true if not cached yet (guarantees zero flash of unlaunched site on first visit)
-      isComingSoon: cached !== null ? cached : true
+      isComingSoon: cached !== null ? cached : true,
+      showProducers: cachedShowProducers !== null ? cachedShowProducers : false
     };
   });
+  const showProducers = !!siteConfig.showProducers;
+
+  const handleToggleShowProducers = async (enabled: boolean) => {
+    await setShowProducersMode(enabled);
+    setSiteConfig(prev => ({ ...prev, showProducers: enabled }));
+  };
+
   const [isConfigReady, setIsConfigReady] = useState<boolean>(() => {
     return getCachedComingSoon() !== null || isAdminAuthenticated();
   });
@@ -1059,6 +1068,7 @@ export default function App() {
                     setVolume={setVolume}
                     isMuted={isMuted}
                     setIsMuted={setIsMuted}
+                    showProducers={showProducers}
                   />
                 </div>
               </section>
@@ -1120,7 +1130,7 @@ export default function App() {
                               {currentLiveShow ? currentLiveShow.title : currentT.noLiveShow}
                             </h3>
 
-                            {currentLiveShow && (
+                            {currentLiveShow && showProducers && currentLiveShow.host && (
                               <span className="text-xs font-bold text-[#ad021a] mt-1 flex items-center gap-1">
                                 <Mic className="w-3.5 h-3.5" />
                                 <span>{currentLiveShow.host}</span>
@@ -1145,7 +1155,7 @@ export default function App() {
 
                         <p className="text-xs sm:text-sm text-[#6B6560] mt-1 line-clamp-2 leading-relaxed">
                           {currentLiveShow 
-                            ? (currentLiveShow.description || currentLiveShowDetails?.description || `Με παραγωγό ${currentLiveShow.host}`)
+                            ? (currentLiveShow.description || currentLiveShowDetails?.description || (showProducers && currentLiveShow.host ? `Με παραγωγό ${currentLiveShow.host}` : ""))
                             : currentT.autoStreamDesc}
                         </p>
                       </div>
@@ -1177,10 +1187,12 @@ export default function App() {
                               {nextShow ? nextShow.title : "Global Grooves"}
                             </h3>
 
-                            <span className="text-xs font-bold text-[#ad021a] mt-1 flex items-center gap-1">
-                              <Mic className="w-3.5 h-3.5" />
-                              <span>{nextShow ? nextShow.host : "World Tour"}</span>
-                            </span>
+                            {showProducers && (nextShow ? nextShow.host : "World Tour") && (
+                              <span className="text-xs font-bold text-[#ad021a] mt-1 flex items-center gap-1">
+                                <Mic className="w-3.5 h-3.5" />
+                                <span>{nextShow ? nextShow.host : "World Tour"}</span>
+                              </span>
+                            )}
                           </div>
                           {nextShow && 
                            nextShow.id !== "stream" && 
@@ -1232,10 +1244,12 @@ export default function App() {
                               {laterShow ? laterShow.title : "Lazy Sunday"}
                             </h3>
 
-                            <span className="text-xs font-bold text-[#ad021a] mt-1 flex items-center gap-1">
-                              <Mic className="w-3.5 h-3.5" />
-                              <span>{laterShow ? laterShow.host : "Chill Crew"}</span>
-                            </span>
+                            {showProducers && (laterShow ? laterShow.host : "Chill Crew") && (
+                              <span className="text-xs font-bold text-[#ad021a] mt-1 flex items-center gap-1">
+                                <Mic className="w-3.5 h-3.5" />
+                                <span>{laterShow ? laterShow.host : "Chill Crew"}</span>
+                              </span>
+                            )}
                           </div>
                           {laterShow && 
                            laterShow.id !== "stream" && 
@@ -1532,10 +1546,12 @@ export default function App() {
                                     {show.title}
                                   </h4>
 
-                                  <span className="text-xs font-bold text-[#ad021a] mt-1.5 flex items-center gap-1">
-                                    <Mic className="w-3.5 h-3.5" />
-                                    <span>{show.host}</span>
-                                  </span>
+                                  {showProducers && show.host && (
+                                    <span className="text-xs font-bold text-[#ad021a] mt-1.5 flex items-center gap-1">
+                                      <Mic className="w-3.5 h-3.5" />
+                                      <span>{show.host}</span>
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 bg-stone-900 border border-black/10 relative shadow-xs">
                                   <img
@@ -1623,9 +1639,11 @@ export default function App() {
                                     {show.title}
                                   </h5>
 
-                                  <span className="text-[11px] font-semibold text-[#ad021a]">
-                                    {show.host}
-                                  </span>
+                                  {showProducers && show.host && (
+                                    <span className="text-[11px] font-semibold text-[#ad021a]">
+                                      {show.host}
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0 bg-stone-900 border border-black/10 relative shadow-xs">
                                   <img
@@ -2336,9 +2354,11 @@ export default function App() {
                     <h2 className="font-display text-2xl sm:text-3xl font-black text-[#1C1917] tracking-tight">
                       {selectedShow.title}
                     </h2>
-                    <p className="text-xs font-bold text-[#ad021a] mt-0.5">
-                      {isGreek ? "Παραγωγός" : "Hosted by"}: {selectedShow.host}
-                    </p>
+                    {showProducers && selectedShow.host && (
+                      <p className="text-xs font-bold text-[#ad021a] mt-0.5">
+                        {isGreek ? "Παραγωγός" : "Hosted by"}: {selectedShow.host}
+                      </p>
+                    )}
                   </div>
 
                   <p className="text-xs sm:text-sm text-[#6B6560] leading-relaxed">
@@ -2563,6 +2583,7 @@ export default function App() {
         isComingSoon={siteConfig.isComingSoon}
         onToggleComingSoon={setComingSoonMode}
         isAdmin={isAdmin}
+        showProducers={showProducers}
       />
 
       {/* ADMIN CONTROLS MODAL (Accessible directly from navbar when authenticated as admin) */}
@@ -2572,6 +2593,8 @@ export default function App() {
         onClose={() => setShowAdminModal(false)}
         isComingSoon={siteConfig.isComingSoon}
         onToggleComingSoon={setComingSoonMode}
+        showProducers={showProducers}
+        onToggleShowProducers={handleToggleShowProducers}
         onLogout={() => {
           logoutAdmin();
           setIsAdmin(false);
