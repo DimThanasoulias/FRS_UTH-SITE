@@ -25,7 +25,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "masa-kai-arkoudios.jpg": { name: "Η Μάσα και ο Αρκούδιος", category: "Stories & Eclectic" },
   "oso-boreis-entechna.jpg": { name: "Όσο Μπορείς Έντεχνα", category: "Έντεχνο" },
   "laz-and-stol-show.png": { name: "Laz & Stol Show", category: "Sports & Social" },
-  "akoume-kai-den-krinoume.jpg": { name: "Ακούμε και δεν κρίνουμε", category: "News & Gossip" }
+  "akoume-kai-den-krinoume.jpg": { name: "Ακούμε και δεν κρίνουμε", category: "News & Gossip" },
+  "mix-tapes.jpg": { name: "Mix Tapes", category: "Mixtapes & DJ Sets" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -61,9 +62,10 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         title: "Arlekin",
         time: "20:00 - 22:00",
         host: "Arlekin",
-        tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+        tags: ["Entechno", "Laiko", "Rebetiko"],
         description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
-        image: "/shows/arlekin.jpg"
+        image: "/shows/arlekin.jpg",
+        hidden: true
       }
     ]
   },
@@ -72,13 +74,34 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Tuesday",
     shows: [
       {
-        id: "show-girls-next-door",
-        title: "The Girls Next Door",
+        id: "show-laz-and-stol",
+        title: "Laz & Stol Show",
         time: "18:00 - 20:00",
-        host: "The Girls Next Door",
-        tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
-        description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
-        image: "/shows/girls-next-door.jpg"
+        host: "Laz & Stol",
+        tags: ["Sports", "SocialTalk", "Predictions"],
+        description: "Sports commentary, behind-the-scenes insights, sports predictions, and open dialogue on social topics.",
+        image: "/shows/laz-and-stol-show.png",
+        hidden: false
+      },
+      {
+        id: "show-drink-n-roll",
+        title: "Drink N Roll",
+        time: "20:00 - 22:00",
+        host: "Drink N Roll Crew",
+        tags: ["Rock", "NightSession", "Talk"],
+        description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations. Grab a beer, chill out, and tune in late at night.",
+        image: "/shows/drink-and-roll.jpg",
+        hidden: false
+      },
+      {
+        id: "show-mix-tapes",
+        title: "Mix Tapes",
+        time: "22:00 - 23:00",
+        host: "Mix Tapes",
+        tags: ["MixTapes", "DJSet", "Eclectic"],
+        description: "",
+        image: "/shows/vinyl.jpg",
+        hidden: false
       }
     ]
   },
@@ -87,13 +110,14 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Wednesday",
     shows: [
       {
-        id: "show-oso-boreis-entechna",
-        title: "Oso Boreis Entechna",
-        time: "19:00 - 21:00",
-        host: "Entechno Crew",
-        tags: ["#Entechno", "#StudentLife", "#LiveChat"],
-        description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
-        image: "/shows/oso-boreis-entechna.jpg"
+        id: "show-girls-next-door",
+        title: "The Girls Next Door",
+        time: "22:00 - 23:00",
+        host: "The Girls Next Door",
+        tags: ["GirlTalk", "PopCulture", "StudentLife"],
+        description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
+        image: "/shows/girls-next-door.jpg",
+        hidden: false
       }
     ]
   },
@@ -102,60 +126,51 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Thursday",
     shows: [
       {
+        id: "show-oso-boreis-entechna",
+        title: "Oso Boreis Entechna",
+        time: "19:00 - 20:00",
+        host: "Entechno Crew",
+        tags: ["Entechno", "StudentLife", "LiveChat"],
+        description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
+        image: "/shows/oso-boreis-entechna.jpg",
+        hidden: false
+      },
+      {
+        id: "show-akoume-kai-den-krinoume",
+        title: "Akoume Kai Den Krinoume",
+        time: "20:00 - 21:00",
+        host: "Akoume Kai Den Krinoume",
+        tags: ["News", "Gossip", "RapTrap", "Viral"],
+        description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
+        image: "/shows/akoume-kai-den-krinoume.jpg",
+        hidden: false
+      },
+      {
         id: "show-masa-kai-arkoudios",
         title: "Masa & Arkoudios",
         time: "18:00 - 20:00",
         host: "Masa & Arkoudios",
-        tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+        tags: ["Stories", "Eclectic", "RadioCrew"],
         description: "Do you love everyday stories, spontaneous banter, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
-        image: "/shows/masa-kai-arkoudios.jpg"
+        image: "/shows/masa-kai-arkoudios.jpg",
+        hidden: true
       }
     ]
   },
   {
     day: "Fri",
     fullName: "Friday",
-    shows: [
-      {
-        id: "show-drink-n-roll",
-        title: "Drink N Roll",
-        time: "22:00 - 00:00",
-        host: "Drink N Roll Crew",
-        tags: ["#Rock", "#NightSession", "#Talk"],
-        description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations. Grab a beer, chill out, and tune in late at night.",
-        image: "/shows/drink-and-roll.jpg"
-      }
-    ]
+    shows: []
   },
   {
     day: "Sat",
     fullName: "Saturday",
-    shows: [
-      {
-        id: "show-laz-and-stol",
-        title: "Laz & Stol Show",
-        time: "18:00 - 20:00",
-        host: "Laz & Stol",
-        tags: ["#Sports", "#SocialTalk", "#Predictions"],
-        description: "Sports commentary, behind-the-scenes insights, sports predictions, and open dialogue on social topics.",
-        image: "/shows/laz-and-stol-show.png"
-      }
-    ]
+    shows: []
   },
   {
     day: "Sun",
     fullName: "Sunday",
-    shows: [
-      {
-        id: "show-akoume-kai-den-krinoume",
-        title: "Akoume Kai Den Krinoume",
-        time: "20:00 - 22:00",
-        host: "Akoume Kai Den Krinoume",
-        tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
-        description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
-        image: "/shows/akoume-kai-den-krinoume.jpg"
-      }
-    ]
+    shows: []
   }
 ];
 
@@ -169,9 +184,10 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         title: "Αρλεκίν",
         time: "20:00 - 22:00",
         host: "Αρλεκίν",
-        tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+        tags: ["Entechno", "Laiko", "Rebetiko"],
         description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
-        image: "/shows/arlekin.jpg"
+        image: "/shows/arlekin.jpg",
+        hidden: true
       }
     ]
   },
@@ -180,13 +196,34 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Τρίτη",
     shows: [
       {
-        id: "show-girls-next-door",
-        title: "The Girls Next Door",
+        id: "show-laz-and-stol",
+        title: "Laz & Stol Show",
         time: "18:00 - 20:00",
-        host: "The Girls Next Door",
-        tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
-        description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
-        image: "/shows/girls-next-door.jpg"
+        host: "Laz & Stol",
+        tags: ["Sports", "SocialTalk", "Predictions"],
+        description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
+        image: "/shows/laz-and-stol-show.png",
+        hidden: false
+      },
+      {
+        id: "show-drink-n-roll",
+        title: "Drink N Roll",
+        time: "20:00 - 22:00",
+        host: "Drink N Roll Crew",
+        tags: ["Rock", "NightSession", "Talk"],
+        description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν. Have a drink on me, όπως λένε και οι AC/DC πιάσε μια μπύρα, άραξε και έλα να τα πούμε αργά το βράδυ.",
+        image: "/shows/drink-and-roll.jpg",
+        hidden: false
+      },
+      {
+        id: "show-mix-tapes",
+        title: "Mix Tapes",
+        time: "22:00 - 23:00",
+        host: "Mix Tapes",
+        tags: ["MixTapes", "DJSet", "Eclectic"],
+        description: "",
+        image: "/shows/vinyl.jpg",
+        hidden: false
       }
     ]
   },
@@ -195,13 +232,14 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Τετάρτη",
     shows: [
       {
-        id: "show-oso-boreis-entechna",
-        title: "Όσο Μπορείς Έντεχνα",
-        time: "19:00 - 21:00",
-        host: "Έντεχνη Παρέα",
-        tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
-        description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
-        image: "/shows/oso-boreis-entechna.jpg"
+        id: "show-girls-next-door",
+        title: "The Girls Next Door",
+        time: "22:00 - 23:00",
+        host: "The Girls Next Door",
+        tags: ["GirlTalk", "PopCulture", "StudentLife"],
+        description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
+        image: "/shows/girls-next-door.jpg",
+        hidden: false
       }
     ]
   },
@@ -210,60 +248,51 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Πέμπτη",
     shows: [
       {
+        id: "show-oso-boreis-entechna",
+        title: "Όσο Μπορείς Έντεχνα",
+        time: "19:00 - 20:00",
+        host: "Έντεχνη Παρέα",
+        tags: ["Entechno", "StudentVibes", "LiveChat"],
+        description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
+        image: "/shows/oso-boreis-entechna.jpg",
+        hidden: false
+      },
+      {
+        id: "show-akoume-kai-den-krinoume",
+        title: "Ακούμε και δεν κρίνουμε",
+        time: "20:00 - 21:00",
+        host: "Ακούμε και δεν κρίνουμε",
+        tags: ["News", "Gossip", "RapTrap", "Viral"],
+        description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
+        image: "/shows/akoume-kai-den-krinoume.jpg",
+        hidden: false
+      },
+      {
         id: "show-masa-kai-arkoudios",
         title: "Η Μάσα και ο Αρκούδιος",
         time: "18:00 - 20:00",
         host: "Μάσα & Αρκούδιος",
-        tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+        tags: ["Stories", "Eclectic", "RadioCrew"],
         description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
-        image: "/shows/masa-kai-arkoudios.jpg"
+        image: "/shows/masa-kai-arkoudios.jpg",
+        hidden: true
       }
     ]
   },
   {
     day: "Παρ",
     fullName: "Παρασκευή",
-    shows: [
-      {
-        id: "show-drink-n-roll",
-        title: "Drink N Roll",
-        time: "22:00 - 00:00",
-        host: "Drink N Roll Crew",
-        tags: ["#Rock", "#NightSession", "#Talk"],
-        description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν. Have a drink on me, όπως λένε και οι AC/DC πιάσε μια μπύρα, άραξε και έλα να τα πούμε αργά το βράδυ.",
-        image: "/shows/drink-and-roll.jpg"
-      }
-    ]
+    shows: []
   },
   {
     day: "Σαβ",
     fullName: "Σάββατο",
-    shows: [
-      {
-        id: "show-laz-and-stol",
-        title: "Laz & Stol Show",
-        time: "18:00 - 20:00",
-        host: "Laz & Stol",
-        tags: ["#Sports", "#SocialTalk", "#Predictions"],
-        description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
-        image: "/shows/laz-and-stol-show.png"
-      }
-    ]
+    shows: []
   },
   {
     day: "Κυρ",
     fullName: "Κυριακή",
-    shows: [
-      {
-        id: "show-akoume-kai-den-krinoume",
-        title: "Ακούμε και δεν κρίνουμε",
-        time: "20:00 - 22:00",
-        host: "Ακούμε και δεν κρίνουμε",
-        tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
-        description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
-        image: "/shows/akoume-kai-den-krinoume.jpg"
-      }
-    ]
+    shows: []
   }
 ];
 
@@ -323,6 +352,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
     tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
     image: "/shows/akoume-kai-den-krinoume.jpg"
+  },
+  {
+    id: "show-mix-tapes",
+    title: "Mix Tapes",
+    host: "Mix Tapes",
+    description: "",
+    tags: ["MixTapes", "DJSet", "Eclectic"],
+    image: "/shows/vinyl.jpg"
   }
 ];
 
@@ -382,6 +419,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
     tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
     image: "/shows/akoume-kai-den-krinoume.jpg"
+  },
+  {
+    id: "show-mix-tapes",
+    title: "Mix Tapes",
+    host: "Mix Tapes",
+    description: "",
+    tags: ["MixTapes", "DJSet", "Eclectic"],
+    image: "/shows/vinyl.jpg"
   }
 ];
 

@@ -12,6 +12,7 @@ export interface Show {
   isLive?: boolean;
   description?: string;
   image?: string;
+  hidden?: boolean;
 }
 
 export interface DayProgram {

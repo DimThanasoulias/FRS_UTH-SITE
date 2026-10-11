@@ -117,7 +117,8 @@ export default function App() {
       : (isGreek ? WEEKLY_SCHEDULE_GR : WEEKLY_SCHEDULE_EN);
 
     return baseSchedule.map(day => {
-      const showsWithDescriptions = (day.shows || []).map(show => {
+      const visibleShows = (day.shows || []).filter(show => !show.hidden);
+      const showsWithDescriptions = visibleShows.map(show => {
         if (show.description && show.description.trim()) {
           return show;
         }
@@ -1610,7 +1611,12 @@ export default function App() {
                       </div>
 
                       <div className="flex flex-col gap-3">
-                        {dayProg.shows.map((show) => {
+                        {dayProg.shows.length === 0 ? (
+                          <div className="py-5 text-center text-xs text-[#78716C] bg-[#FAF8F4] rounded-2xl border border-black/5 italic">
+                            {isGreek ? "Συνεχής μουσική ροή (Music Stream)" : "Automated music stream"}
+                          </div>
+                        ) : (
+                          dayProg.shows.map((show) => {
                           const isLive = currentLiveShow?.id === show.id;
                           return (
                             <div
@@ -1659,7 +1665,7 @@ export default function App() {
                               )}
                             </div>
                           );
-                        })}
+                        }))}
                       </div>
                     </div>
                   ))}

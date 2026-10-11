@@ -8,7 +8,7 @@ import { collection, getDocs, doc, deleteDoc, addDoc, query, orderBy } from "fir
 import { rtdb, db } from "./firebase";
 import { DayProgram, StationEvent, OpenCallApplication } from "../types";
 
-const SCHEDULE_CACHE_KEY = "frs_cached_schedule";
+const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v2";
 const EVENTS_CACHE_KEY = "frs_cached_events";
 
 /**

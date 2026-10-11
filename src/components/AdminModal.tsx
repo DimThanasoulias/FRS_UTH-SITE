@@ -67,7 +67,8 @@ const syncShowsWithDescriptions = (days: DayProgram[]): DayProgram[] => {
       return {
         ...show,
         description: (show.description && show.description.trim()) ? show.description : (found?.description || ""),
-        image: show.image || found?.image || "/shows/vinyl.jpg"
+        image: show.image || found?.image || "/shows/vinyl.jpg",
+        hidden: show.hidden ?? false
       };
     })
   })));
@@ -330,6 +331,24 @@ export default function AdminModal({
         return {
           ...dayProg,
           shows: dayProg.shows.filter(s => s.id !== showId)
+        };
+      });
+    });
+  };
+
+  const handleToggleShowVisibility = (showId: string) => {
+    setScheduleDraft(prev => {
+      return prev.map(dayProg => {
+        if (dayProg.day !== selectedDayKey) return dayProg;
+        return {
+          ...dayProg,
+          shows: dayProg.shows.map(s => {
+            if (s.id !== showId) return s;
+            return {
+              ...s,
+              hidden: !s.hidden
+            };
+          })
         };
       });
     });
@@ -924,8 +943,8 @@ export default function AdminModal({
                     <Radio className="w-3.5 h-3.5 text-[#ad021a]" />
                     <span>
                       {isGreek 
-                        ? `Εκπομπές: ${SCHEDULE_DAYS.find(d => d.key === selectedDayKey)?.labelGr} (${currentDayProgram.shows.length})` 
-                        : `Shows: ${SCHEDULE_DAYS.find(d => d.key === selectedDayKey)?.labelEn} (${currentDayProgram.shows.length})`}
+                        ? `Εκπομπές: ${SCHEDULE_DAYS.find(d => d.key === selectedDayKey)?.labelGr} (${currentDayProgram.shows.filter(s => !s.hidden).length} εμφανείς${currentDayProgram.shows.some(s => s.hidden) ? `, ${currentDayProgram.shows.filter(s => s.hidden).length} κρυφές` : ""})` 
+                        : `Shows: ${SCHEDULE_DAYS.find(d => d.key === selectedDayKey)?.labelEn} (${currentDayProgram.shows.filter(s => !s.hidden).length} visible${currentDayProgram.shows.some(s => s.hidden) ? `, ${currentDayProgram.shows.filter(s => s.hidden).length} hidden` : ""})`}
                     </span>
                   </h4>
 
@@ -941,7 +960,8 @@ export default function AdminModal({
                           host: "",
                           tags: ["Radio"],
                           description: "",
-                          image: "/shows/vinyl.jpg"
+                          image: "/shows/vinyl.jpg",
+                          hidden: false
                         }
                       });
                       setShowGalleryPicker(false);
@@ -1149,6 +1169,41 @@ export default function AdminModal({
                           </div>
                         )}
                       </div>
+
+                      {/* Show Visibility Toggle in Form */}
+                      <div className="sm:col-span-2 flex items-center justify-between p-3 rounded-xl bg-stone-50 border border-stone-200">
+                        <div className="flex items-center gap-2.5">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${editingShow.show.hidden ? "bg-stone-200 text-stone-500" : "bg-emerald-100 text-emerald-700"}`}>
+                            {editingShow.show.hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-[#1C1917]">
+                              {isGreek ? "Κατάσταση Εκπομπής στο Πρόγραμμα" : "Show Visibility on Public Schedule"}
+                            </div>
+                            <div className="text-[10.5px] text-stone-500">
+                              {editingShow.show.hidden 
+                                ? (isGreek ? "Η εκπομπή είναι κρυφή από το δημόσιο πρόγραμμα του σταθμού." : "The show is hidden from the public station schedule.") 
+                                : (isGreek ? "Η εκπομπή προβάλλεται κανονικά στο δημόσιο πρόγραμμα." : "The show is visible on the public schedule.")}
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setEditingShow({
+                            ...editingShow,
+                            show: { ...editingShow.show, hidden: !editingShow.show.hidden }
+                          })}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            editingShow.show.hidden
+                              ? "bg-stone-200 text-stone-700 hover:bg-stone-300"
+                              : "bg-emerald-600 text-white hover:bg-emerald-700 shadow-xs"
+                          }`}
+                        >
+                          {editingShow.show.hidden 
+                            ? (isGreek ? "Κρυφή (Κλικ για Εμφάνιση)" : "Hidden (Click to Show)") 
+                            : (isGreek ? "Εμφανής στο Πρόγραμμα" : "Visible on Schedule")}
+                        </button>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-end gap-2 pt-1">
@@ -1180,16 +1235,31 @@ export default function AdminModal({
                     {currentDayProgram.shows.map((s) => (
                       <div 
                         key={s.id}
-                        className="bg-white p-3 rounded-xl border border-stone-200/80 flex items-center justify-between gap-3 shadow-2xs"
+                        className={`p-3 rounded-xl border flex items-center justify-between gap-3 shadow-2xs transition-all ${
+                          s.hidden 
+                            ? "bg-stone-100/75 border-stone-200 border-dashed opacity-75" 
+                            : "bg-white border-stone-200/80"
+                        }`}
                       >
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 mb-0.5">
+                          <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                             <span className="text-[11px] font-mono font-bold text-[#ad021a] bg-[#FCECEE] px-2 py-0.5 rounded">
                               {s.time}
                             </span>
                             <h5 className="font-bold text-xs text-[#1C1917] truncate">
                               {s.title}
                             </h5>
+                            {s.hidden ? (
+                              <span className="text-[9.5px] font-bold text-stone-600 bg-stone-200/80 px-2 py-0.5 rounded flex items-center gap-1">
+                                <EyeOff className="w-3 h-3 text-stone-500" />
+                                <span>{isGreek ? "Κρυφή" : "Hidden"}</span>
+                              </span>
+                            ) : (
+                              <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/70 flex items-center gap-1">
+                                <Eye className="w-3 h-3 text-emerald-600" />
+                                <span>{isGreek ? "Εμφανής" : "Visible"}</span>
+                              </span>
+                            )}
                           </div>
                           <p className="text-[11px] text-stone-600 truncate">
                             🎙️ {s.host} {s.tags?.length > 0 && `• ${s.tags.join(", ")}`}
@@ -1202,6 +1272,18 @@ export default function AdminModal({
                         </div>
 
                         <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleToggleShowVisibility(s.id)}
+                            className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                              s.hidden 
+                                ? "text-stone-400 hover:text-stone-700 hover:bg-stone-200" 
+                                : "text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+                            }`}
+                            title={s.hidden ? (isGreek ? "Εμφάνιση στο δημόσιο πρόγραμμα" : "Show on public schedule") : (isGreek ? "Απόκρυψη από το δημόσιο πρόγραμμα" : "Hide from public schedule")}
+                          >
+                            {s.hidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                          </button>
                           <button
                             type="button"
                             onClick={() => {
