@@ -31,8 +31,7 @@ import {
   Loader2,
   BarChart2,
   Instagram,
-  ShieldCheck,
-  Disc3
+  ShieldCheck
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -1820,10 +1819,10 @@ export default function App() {
               className="flex flex-col gap-8 max-w-5xl mx-auto w-full"
             >
               {archiveComingSoon && !adminPreviewArchive ? (
-                /* Mixcloud Archive Coming Soon Showcase */
-                <div className="flex flex-col items-center gap-8 py-4 sm:py-8">
+                /* Mixcloud Archive Coming Soon Showcase (Minimalist) */
+                <div className="flex flex-col items-center gap-8 py-6 sm:py-12">
                   {/* Hero Showcase Card */}
-                  <div className="warm-card rounded-3xl p-7 sm:p-10 w-full text-center flex flex-col items-center gap-6 relative overflow-hidden border border-black/5 shadow-xl">
+                  <div className="warm-card rounded-3xl p-8 sm:p-14 w-full text-center flex flex-col items-center justify-center gap-5 relative overflow-hidden border border-black/5 shadow-xl min-h-[260px]">
                     {/* Background Ambient Glow */}
                     <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[#ad021a]/10 blur-3xl pointer-events-none" />
 
@@ -1837,81 +1836,19 @@ export default function App() {
                       <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-[#1C1917] tracking-tight">
                         {isGreek ? "Το Αρχείο Mixcloud Ετοιμάζεται!" : "Mixcloud Archive is on the Way!"}
                       </h1>
-                      <p className="text-sm sm:text-base text-[#6B6560] leading-relaxed max-w-xl mx-auto">
-                        {isGreek
-                          ? "Συγκεντρώνουμε και οργανώνουμε όλες τις ηχογραφημένες εκπομπές, τα podcasts και τα guest DJ sets των παραγωγών του FRS UTH για on-demand ακρόαση οποιαδήποτε στιγμή."
-                          : "We are curating and digitizing all recorded broadcasts, podcasts, and guest DJ sets from FRS UTH producers for on-demand playback whenever you want."}
-                      </p>
                     </div>
 
-                    {/* Three Feature Highlight Pillars */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl text-left my-2">
-                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
-                        <div className="w-9 h-9 rounded-xl bg-[#FCECEE] text-[#ad021a] flex items-center justify-center font-bold">
-                          <Radio className="w-4 h-4" />
-                        </div>
-                        <h3 className="font-bold text-sm text-[#1C1917]">
-                          {isGreek ? "On-Demand Εκπομπές" : "On-Demand Shows"}
-                        </h3>
-                        <p className="text-xs text-[#6B6560] leading-relaxed">
-                          {isGreek 
-                            ? "Πλήρες αρχείο των εβδομαδιαίων ραδιοφωνικών εκπομπών για να ακούτε ξανά τα αγαπημένα σας slots."
-                            : "Full archive of weekly broadcasts to replay your favorite airtime slots anytime."}
-                        </p>
-                      </div>
-
-                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
-                        <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
-                          <Disc3 className="w-4 h-4" />
-                        </div>
-                        <h3 className="font-bold text-sm text-[#1C1917]">
-                          {isGreek ? "DJ Sets & Mix-Tapes" : "DJ Sets & Mixtapes"}
-                        </h3>
-                        <p className="text-xs text-[#6B6560] leading-relaxed">
-                          {isGreek 
-                            ? "Ειδικά μουσικά αφιερώματα, vinyl sessions και non-stop DJ sets από τους συντελεστές του σταθμού."
-                            : "Special music features, vinyl sessions, and continuous DJ mixes from station selectors."}
-                        </p>
-                      </div>
-
-                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
-                        <div className="w-9 h-9 rounded-xl bg-stone-100 text-stone-800 flex items-center justify-center font-bold">
-                          <ExternalLink className="w-4 h-4" />
-                        </div>
-                        <h3 className="font-bold text-sm text-[#1C1917]">
-                          {isGreek ? "Επίσημο Mixcloud" : "Official Mixcloud"}
-                        </h3>
-                        <p className="text-xs text-[#6B6560] leading-relaxed">
-                          {isGreek 
-                            ? "Άμεση διασύνδεση με το επίσημο προφίλ του FRS UTH στο Mixcloud σε υψηλή πιστότητα ήχου."
-                            : "Direct link to the official FRS UTH Mixcloud profile in high-fidelity audio stream."}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Mixcloud Channel CTA Button */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
-                      <a
-                        href="https://www.mixcloud.com/frs-volou/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#ad021a] hover:bg-[#8f0115] text-white font-bold text-xs sm:text-sm shadow-md shadow-[#ad021a]/25 transition-all flex items-center justify-center gap-2"
-                      >
-                        <Radio className="w-4 h-4" />
-                        <span>{isGreek ? "Επισκεφθείτε το Mixcloud του FRS UTH" : "Visit FRS UTH on Mixcloud"}</span>
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-
-                      {isAdmin && (
+                    {isAdmin && (
+                      <div className="mt-2">
                         <button
                           onClick={() => setAdminPreviewArchive(true)}
-                          className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white border border-black/10 text-stone-800 hover:bg-stone-50 font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
+                          className="px-5 py-2.5 rounded-full bg-white border border-black/10 text-stone-800 hover:bg-stone-50 font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
                         >
                           <Eye className="w-3.5 h-3.5 text-[#ad021a]" />
                           <span>{isGreek ? "Προεπισκόπηση Αρχείου (Διαχειριστής)" : "Preview Archive (Admin)"}</span>
                         </button>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
