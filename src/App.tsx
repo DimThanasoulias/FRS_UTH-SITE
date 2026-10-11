@@ -138,7 +138,7 @@ export default function App() {
   }, [customSchedule, isGreek]);
 
   const activeEvents = useMemo(() => {
-    let list = (customEvents !== null && Array.isArray(customEvents))
+    const list = (customEvents !== null && Array.isArray(customEvents))
       ? customEvents.filter(ev => 
           ev.id !== "ev1" && 
           ev.id !== "ev2" && 
@@ -149,11 +149,7 @@ export default function App() {
         )
       : (isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN);
 
-    if (list.length === 0) {
-      list = isGreek ? DEFAULT_EVENTS_GR : DEFAULT_EVENTS_EN;
-    }
-
-    // Never show #VolosNightlife tag
+    // Filter out unwanted nightlife tags
     return list.map(ev => ({
       ...ev,
       tags: ev.tags ? ev.tags.filter(t => !t.toLowerCase().includes("nightlife")) : []

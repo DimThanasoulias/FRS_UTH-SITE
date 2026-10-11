@@ -89,9 +89,7 @@ export function getCachedCustomSchedule(): DayProgram[] | null {
 }
 
 function isLegacyMockEvents(events: any[]): boolean {
-  if (!Array.isArray(events) || events.length === 0) return true;
-  // There is currently only 1 official event; any cached multi-event list is from old mock tests
-  if (events.length > 1) return true;
+  if (!Array.isArray(events) || events.length === 0) return false;
   return events.some(e => 
     e.id === "ev1" || 
     e.id === "ev2" || 
@@ -215,15 +213,16 @@ export function subscribeToCustomEvents(
     (snapshot) => {
       if (snapshot.exists()) {
         const val = snapshot.val();
-        if (val && Array.isArray(val.events)) {
-          if (isLegacyMockEvents(val.events)) {
+        if (val) {
+          const rawEvents = Array.isArray(val.events) ? val.events : [];
+          if (isLegacyMockEvents(rawEvents)) {
             try {
               localStorage.removeItem(EVENTS_CACHE_KEY);
             } catch (e) {}
             callback(null);
             return;
           }
-          const evts: StationEvent[] = val.events;
+          const evts: StationEvent[] = rawEvents;
           try {
             localStorage.setItem(EVENTS_CACHE_KEY, JSON.stringify(evts));
           } catch (e) {}
