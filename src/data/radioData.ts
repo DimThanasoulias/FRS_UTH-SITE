@@ -302,7 +302,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Drink N Roll",
     host: "Drink N Roll Crew",
     description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations. Grab a beer, chill out, and tune in late at night.",
-    tags: ["#Rock", "#NightSession", "#Talk"],
+    tags: ["Rock", "NightSession", "Talk"],
     image: "/shows/drink-and-roll.jpg"
   },
   {
@@ -310,7 +310,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "The Girls Next Door",
     host: "The Girls Next Door",
     description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
-    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    tags: ["GirlTalk", "PopCulture", "StudentLife"],
     image: "/shows/girls-next-door.jpg"
   },
   {
@@ -318,7 +318,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Arlekin",
     host: "Arlekin",
     description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
-    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    tags: ["Entechno", "Laiko", "Rebetiko"],
     image: "/shows/arlekin.jpg"
   },
   {
@@ -326,7 +326,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Masa & Arkoudios",
     host: "Masa & Arkoudios",
     description: "Do you love everyday stories, spontaneous conversations, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
-    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    tags: ["Stories", "Eclectic", "RadioCrew"],
     image: "/shows/masa-kai-arkoudios.jpg"
   },
   {
@@ -334,7 +334,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Oso Boreis Entechna",
     host: "Entechno Crew",
     description: "A show rooted in Greek entechno music with romance and nostalgia, seasoned with student energy and diverse influences from rock to rap and rebetiko. The live chat is yours to request songs and shape tribute nights! Tune in with us!",
-    tags: ["#Entechno", "#StudentLife", "#LiveChat"],
+    tags: ["Entechno", "StudentLife", "LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg"
   },
   {
@@ -342,7 +342,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Laz & Stol Show",
     host: "Laz & Stol",
     description: "Sports commentary, behind-the-scenes insights, sports predictions, and open dialogue on social topics.",
-    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    tags: ["Sports", "SocialTalk", "Predictions"],
     image: "/shows/laz-and-stol-show.png"
   },
   {
@@ -350,7 +350,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     title: "Akoume Kai Den Krinoume",
     host: "Akoume Kai Den Krinoume",
     description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
-    tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+    tags: ["News", "Gossip", "RapTrap", "Viral"],
     image: "/shows/akoume-kai-den-krinoume.jpg"
   },
   {
@@ -369,7 +369,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Drink N Roll",
     host: "Drink N Roll Crew",
     description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν. Have a drink on me, όπως λένε και οι AC/DC πιάσε μια μπύρα, άραξε και έλα να τα πούμε αργά το βράδυ.",
-    tags: ["#Rock", "#NightSession", "#Talk"],
+    tags: ["Rock", "NightSession", "Talk"],
     image: "/shows/drink-and-roll.jpg"
   },
   {
@@ -377,7 +377,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "The Girls Next Door",
     host: "The Girls Next Door",
     description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
-    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    tags: ["GirlTalk", "PopCulture", "StudentLife"],
     image: "/shows/girls-next-door.jpg"
   },
   {
@@ -385,7 +385,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Αρλεκίν",
     host: "Αρλεκίν",
     description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
-    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    tags: ["Entechno", "Laiko", "Rebetiko"],
     image: "/shows/arlekin.jpg"
   },
   {
@@ -393,7 +393,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Η Μάσα και ο Αρκούδιος",
     host: "Μάσα & Αρκούδιος",
     description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
-    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    tags: ["Stories", "Eclectic", "RadioCrew"],
     image: "/shows/masa-kai-arkoudios.jpg"
   },
   {
@@ -401,7 +401,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Όσο Μπορείς Έντεχνα",
     host: "Έντεχνη Παρέα",
     description: "Μία εκπομπή βασισμένη στο έντεχνο, με διακριτά στοιχεία ρομαντισμού και πινελιές νοσταλγίας. Ωστόσο, ως γνήσιοι φοιτητές, το μιουσικ τειστ μας είναι πιο ακατάστατο και από τη ζωή μας. Από τη μία υπάρχουν μέρες που ξημερώνουμε στο Σαντάν και άλλες που το πρωί μας βρίσκει στα ρεμπετάδικα. Έτσι και η εκπομπή, χωρίς να παρεκκλίνει από το βασικό της πυρήνα, το έντεχνο, θα περιέχει επιρροές και άλλων ειδών μουσικής, βασισμένες στη θεματολογία της ημέρας, όπως ροκ, ραπ και οτιδήποτε άλλο νιώσεις πως πρέπει να ακουστεί (Γι' αυτό θυμήσου, το chat του ραδιοφώνου είναι για σένα.) Όπως προαναφέραμε λοιπόν, σε χιουμοριστικό τόνο, επιθυμούμε την ανάμιξή σας με την εκπομπή, ώστε να δημιουργήσουμε βραδιές-αφιέρωμα και να αναπτύξουμε θεματολογίες βασισμένες σε δικές σας ιδέες και προβληματισμούς. Συντονίσου στην παρέα μας!",
-    tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
+    tags: ["Entechno", "StudentVibes", "LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg"
   },
   {
@@ -409,7 +409,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Laz & Stol Show",
     host: "Laz & Stol",
     description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
-    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    tags: ["Sports", "SocialTalk", "Predictions"],
     image: "/shows/laz-and-stol-show.png"
   },
   {
@@ -417,7 +417,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     title: "Ακούμε και δεν κρίνουμε",
     host: "Ακούμε και δεν κρίνουμε",
     description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
-    tags: ["#News", "#Gossip", "#RapTrap", "#Viral"],
+    tags: ["News", "Gossip", "RapTrap", "Viral"],
     image: "/shows/akoume-kai-den-krinoume.jpg"
   },
   {
@@ -436,7 +436,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "The Girls Next Door",
     date: "Mixcloud Archive",
     description: "Το girl talk γίνεται on air! Hot topics, random σκέψεις, φοιτητικά feelings, νέα ταινιών, βιβλία, gossip και διαδραστικά παιχνίδια με τους ακροατές.",
-    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    tags: ["GirlTalk", "PopCulture", "StudentLife"],
     image: "/shows/girls-next-door.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/the-girls-next-door2024-25/"
   },
@@ -445,7 +445,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Drink N Roll",
     date: "Mixcloud Archive",
     description: "Ένα μουσικό-χαοτικό ταξίδι γεμάτο rock ενέργεια, fun facts για καλλιτέχνες, ενημέρωση και χαλαρές συζητήσεις που δεν ξέρεις ποτέ πού θα καταλήξουν.",
-    tags: ["#Rock", "#NightSession", "#Talk"],
+    tags: ["Rock", "NightSession", "Talk"],
     image: "/shows/drink-and-roll.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -454,7 +454,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Αρλεκίν",
     date: "Mixcloud Archive",
     description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με επιλεγμένο ξενόγλωσσο στίχο.",
-    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    tags: ["Entechno", "Laiko", "Rebetiko"],
     image: "/shows/arlekin.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -463,7 +463,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Η Μάσα και ο Αρκούδιος",
     date: "Mixcloud Archive",
     description: "Καθημερινές ιστορίες, αυθόρμητες κουβέντες και εκλεκτικές μουσικές. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
-    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    tags: ["Stories", "Eclectic", "RadioCrew"],
     image: "/shows/masa-kai-arkoudios.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -472,7 +472,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Όσο Μπορείς Έντεχνα",
     date: "Mixcloud Archive",
     description: "Βασισμένη στο έντεχνο με ρομαντισμό και νοσταλγία, εμπλουτισμένη με ροκ, ραπ και ρεμπέτικα ακούσματα και αλληλεπίδραση με το chat.",
-    tags: ["#Entechno", "#StudentVibes", "#LiveChat"],
+    tags: ["Entechno", "StudentVibes", "LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -481,7 +481,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Metal Zone",
     date: "2024 - 2025",
     description: "Heavy metal, hard rock και underground κιθαριστικά riff από το ιστορικό αρχείο του FRS UTH.",
-    tags: ["#Metal", "#HardRock", "#Archive"],
+    tags: ["Metal", "HardRock", "Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
   },
@@ -490,7 +490,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Laz & Stol Show",
     date: "Mixcloud Archive",
     description: "Σχολιασμός πάνω στην αθλητική επικαιρότητα, παρασκήνιο, αθλητικές προβλέψεις αλλά και διάλογος πάνω σε κοινωνικά θέματα.",
-    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    tags: ["Sports", "SocialTalk", "Predictions"],
     image: "/shows/laz-and-stol-show.png",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -499,7 +499,7 @@ export const ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Ακούμε και δεν κρίνουμε",
     date: "Mixcloud Archive",
     description: "News, gossip, γέλιο και μουσική — όλα σε ένα! Showbiz, viral θέματα, rap & trap από Ελλάδα και εξωτερικό.",
-    tags: ["#News", "#Gossip", "#RapTrap"],
+    tags: ["News", "Gossip", "RapTrap"],
     image: "/shows/akoume-kai-den-krinoume.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   }
@@ -511,7 +511,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Hangover",
     date: "2024 - 2025",
     description: "Αυθόρμητες συζητήσεις, φοιτητική καθημερινότητα και ποικίλα μουσικά ακούσματα από τους παραγωγούς του σταθμού.",
-    tags: ["#Hangover", "#StudentTalk", "#Archive"],
+    tags: ["Hangover", "StudentTalk", "Archive"],
     image: "/shows/studio.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/hangover2024-25/"
   },
@@ -520,7 +520,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Αρχίζει το Ματς",
     date: "2024 - 2025",
     description: "Αθλητική ενημέρωση, σχολιασμός της αγωνιστικής επικαιρότητας και φοιτητικός παλμός.",
-    tags: ["#Sports", "#CampusTalk", "#Archive"],
+    tags: ["Sports", "CampusTalk", "Archive"],
     image: "/shows/concert.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CE%B1%CF%81%CF%87%CE%AF%CE%B6%CE%B5%CE%B9-%CF%84%CE%BF-%CE%BC%CE%B1%CF%84%CF%822024-25/"
   },
@@ -529,7 +529,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Φοιτητικές Ανησυχίες",
     date: "2024 - 2025",
     description: "Συζητήσεις για την πανεπιστημιακή ζωή, κοινωνικούς προβληματισμούς και φοιτητικά νέα.",
-    tags: ["#StudentLife", "#Discussions", "#Archive"],
+    tags: ["StudentLife", "Discussions", "Archive"],
     image: "/shows/vinyl.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%B9%CE%BA%CE%AD%CF%82-%CE%B1%CE%BD%CE%B7%CF%83%CF%85%CF%87%CE%AF%CE%B5%CF%822024-25/"
   },
@@ -538,7 +538,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Ράδιο Σενάριο",
     date: "2024 - 2025",
     description: "Κινηματογράφος, σειρές, τηλεοπτικά νέα και αγαπημένα κινηματογραφικά soundtrack.",
-    tags: ["#Cinema", "#Soundtracks", "#Archive"],
+    tags: ["Cinema", "Soundtracks", "Archive"],
     image: "/shows/on-air.png",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%81%CE%AC%CE%B4%CE%B9%CE%BF-%CF%83%CE%B5%CE%BD%CE%AC%CF%81%CE%B9%CE%BF2024-25/"
   },
@@ -547,7 +547,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Cancelled",
     date: "2024 - 2025",
     description: "Εκπομπή σχολιασμού και μουσικών περιπλανήσεων από την ομάδα του σταθμού.",
-    tags: ["#Talk", "#Alternative", "#Archive"],
+    tags: ["Talk", "Alternative", "Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/cancelled2024-25/"
   },
@@ -556,7 +556,7 @@ export const EXTRA_ARCHIVE_ITEMS_GR: ArchiveItem[] = [
     title: "Πάλι Δευτέρα",
     date: "2024 - 2025",
     description: "Το ξεκίνημα της εβδομάδας με καλή μουσική, χιούμορ και ενέργεια.",
-    tags: ["#MondayVibes", "#Eclectic", "#Archive"],
+    tags: ["MondayVibes", "Eclectic", "Archive"],
     image: "/shows/studio.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%80%CE%AC%CE%BB%CE%B9-%CE%B4%CE%B5%CF%85%CF%84%CE%AD%CF%81%CE%B12024-25/"
   }
@@ -568,7 +568,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "The Girls Next Door",
     date: "Mixcloud Archive",
     description: "Girl talk goes on air! Hot topics, random thoughts, student feelings, movies, books, gossip, and games with listeners.",
-    tags: ["#GirlTalk", "#PopCulture", "#StudentLife"],
+    tags: ["GirlTalk", "PopCulture", "StudentLife"],
     image: "/shows/girls-next-door.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/the-girls-next-door2024-25/"
   },
@@ -577,7 +577,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Drink N Roll",
     date: "Mixcloud Archive",
     description: "A chaotic musical journey packed with rock energy, artist trivia, campus updates, and laid-back late-night conversations.",
-    tags: ["#Rock", "#NightSession", "#Talk"],
+    tags: ["Rock", "NightSession", "Talk"],
     image: "/shows/drink-and-roll.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -586,7 +586,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Arlekin",
     date: "Mixcloud Archive",
     description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
-    tags: ["#Entechno", "#Laiko", "#Rebetiko"],
+    tags: ["Entechno", "Laiko", "Rebetiko"],
     image: "/shows/arlekin.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -595,7 +595,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Masa & Arkoudios",
     date: "Mixcloud Archive",
     description: "Everyday stories, spontaneous conversations, and eclectic music selections from a crew that never gets boring.",
-    tags: ["#Stories", "#Eclectic", "#RadioCrew"],
+    tags: ["Stories", "Eclectic", "RadioCrew"],
     image: "/shows/masa-kai-arkoudios.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -604,7 +604,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Oso Boreis Entechna",
     date: "Mixcloud Archive",
     description: "Rooted in Greek entechno music with romance and nostalgia, seasoned with student energy, rock, rap, and live chat interaction.",
-    tags: ["#Entechno", "#StudentLife", "#LiveChat"],
+    tags: ["Entechno", "StudentLife", "LiveChat"],
     image: "/shows/oso-boreis-entechna.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -613,7 +613,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Metal Zone",
     date: "2024 - 2025",
     description: "Heavy metal, hard rock, and underground guitar riffs from the station archives.",
-    tags: ["#Metal", "#HardRock", "#Archive"],
+    tags: ["Metal", "HardRock", "Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/metal-zone2024-25/"
   },
@@ -622,7 +622,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Laz & Stol Show",
     date: "Mixcloud Archive",
     description: "Sports commentary, behind-the-scenes insights, match predictions, and open discussions on social topics.",
-    tags: ["#Sports", "#SocialTalk", "#Predictions"],
+    tags: ["Sports", "SocialTalk", "Predictions"],
     image: "/shows/laz-and-stol-show.png",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   },
@@ -631,7 +631,7 @@ export const ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Akoume Kai Den Krinoume",
     date: "Mixcloud Archive",
     description: "News, gossip, laughs, and music — all in one! Showbiz, viral moments, rap & trap from Greece and abroad.",
-    tags: ["#News", "#Gossip", "#RapTrap"],
+    tags: ["News", "Gossip", "RapTrap"],
     image: "/shows/akoume-kai-den-krinoume.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/"
   }
@@ -643,7 +643,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Hangover",
     date: "2024 - 2025",
     description: "Spontaneous discussions, student life, and varied music selections by station hosts.",
-    tags: ["#Hangover", "#StudentTalk", "#Archive"],
+    tags: ["Hangover", "StudentTalk", "Archive"],
     image: "/shows/studio.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/hangover2024-25/"
   },
@@ -652,7 +652,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Arxizei To Mats",
     date: "2024 - 2025",
     description: "Sports updates, match reviews, and university campus sports energy.",
-    tags: ["#Sports", "#CampusTalk", "#Archive"],
+    tags: ["Sports", "CampusTalk", "Archive"],
     image: "/shows/concert.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CE%B1%CF%81%CF%87%CE%AF%CE%B6%CE%B5%CE%B9-%CF%84%CE%BF-%CE%BC%CE%B1%CF%84%CF%822024-25/"
   },
@@ -661,7 +661,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Foititikes Anisixies",
     date: "2024 - 2025",
     description: "Discussions on campus student life, social topics, and student community news.",
-    tags: ["#StudentLife", "#Discussions", "#Archive"],
+    tags: ["StudentLife", "Discussions", "Archive"],
     image: "/shows/vinyl.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%B9%CE%BA%CE%AD%CF%82-%CE%B1%CE%BD%CE%B7%CF%83%CF%85%CF%87%CE%AF%CE%B5%CF%822024-25/"
   },
@@ -670,7 +670,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Radio Scenario",
     date: "2024 - 2025",
     description: "Cinema, TV series, screenwriting, and iconic movie soundtracks.",
-    tags: ["#Cinema", "#Soundtracks", "#Archive"],
+    tags: ["Cinema", "Soundtracks", "Archive"],
     image: "/shows/on-air.png",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%81%CE%AC%CE%B4%CE%B9%CE%BF-%CF%83%CE%B5%CE%BD%CE%AC%CF%81%CE%B9%CE%BF2024-25/"
   },
@@ -679,7 +679,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Cancelled",
     date: "2024 - 2025",
     description: "Commentary show with alternative and indie musical discoveries.",
-    tags: ["#Talk", "#Alternative", "#Archive"],
+    tags: ["Talk", "Alternative", "Archive"],
     image: "/shows/rock.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/cancelled2024-25/"
   },
@@ -688,7 +688,7 @@ export const EXTRA_ARCHIVE_ITEMS_EN: ArchiveItem[] = [
     title: "Pali Deytera",
     date: "2024 - 2025",
     description: "Starting the week off right with great tunes, humor, and fresh energy.",
-    tags: ["#MondayVibes", "#Eclectic", "#Archive"],
+    tags: ["MondayVibes", "Eclectic", "Archive"],
     image: "/shows/studio.jpg",
     mixcloudUrl: "https://www.mixcloud.com/frs-volou/playlists/%CF%80%CE%AC%CE%BB%CE%B9-%CE%B4%CE%B5%CF%85%CF%84%CE%AD%CF%81%CE%B12024-25/"
   }
@@ -703,7 +703,7 @@ export const DEFAULT_EVENTS_GR: StationEvent[] = [
     timeLocation: "🕒 21:00 • 📍 Cafe Santan (Εργατικού Κέντρου 12, Βόλος)",
     title: "Cafe Santan x FRS-UTH • Welcome Party",
     description: "Το πρώτο επίσημο Welcome Party της χρονιάς από το FRS UTH στο θρυλικό Cafe Santan! Μουσική επιμέλεια και DJ set από τον Apostolis G. Σας περιμένουμε όλους να ξεκινήσουμε τη νέα ραδιοφωνική σεζόν δυνατά!",
-    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH"],
+    tags: ["WelcomeParty", "CafeSantan", "ApostolisG", "FRSUTH"],
     link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];
@@ -717,7 +717,7 @@ export const DEFAULT_EVENTS_EN: StationEvent[] = [
     timeLocation: "🕒 21:00 • 📍 Cafe Santan (12 Ergatikou Kentrou, Volos)",
     title: "Cafe Santan x FRS-UTH • Welcome Party",
     description: "The first official Welcome Party of the academic year by FRS UTH at the legendary Cafe Santan! DJ set and musical curation by Apostolis G. Join us to kick off the new season!",
-    tags: ["#WelcomeParty", "#CafeSantan", "#ApostolisG", "#FRSUTH"],
+    tags: ["WelcomeParty", "CafeSantan", "ApostolisG", "FRSUTH"],
     link: "https://www.facebook.com/events/cafe-santan/cafe-santan-x-frs-uth-welcome-party/1121089790612134/"
   }
 ];

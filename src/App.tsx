@@ -31,7 +31,8 @@ import {
   Loader2,
   BarChart2,
   Instagram,
-  ShieldCheck
+  ShieldCheck,
+  Disc3
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -45,7 +46,17 @@ import CookieBanner from "./components/CookieBanner";
 import AdBanner from "./components/AdBanner";
 import { subscribeToAdSpace, getCachedAdSpace } from "./lib/adService";
 import { subscribeToActivePoll } from "./lib/pollService";
-import { subscribeToSiteConfig, setComingSoonMode, setShowProducersMode, isAdminAuthenticated, logoutAdmin, getCachedComingSoon, getCachedShowProducers } from "./lib/adminService";
+import { 
+  subscribeToSiteConfig, 
+  setComingSoonMode, 
+  setShowProducersMode, 
+  setArchiveComingSoonMode,
+  isAdminAuthenticated, 
+  logoutAdmin, 
+  getCachedComingSoon, 
+  getCachedShowProducers,
+  getCachedArchiveComingSoon
+} from "./lib/adminService";
 import { 
   subscribeToCustomSchedule, 
   subscribeToCustomEvents, 
@@ -157,21 +168,30 @@ export default function App() {
     }));
   }, [customEvents, isGreek]);
 
-  // Site-Wide Config (Coming Soon & Producer Visibility) & Admin state (synchronous local cache eliminates any initial flash)
+  // Site-Wide Config (Coming Soon, Producer Visibility & Mixcloud Archive Coming Soon) & Admin state (synchronous local cache eliminates any initial flash)
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
     const cached = getCachedComingSoon();
     const cachedShowProducers = getCachedShowProducers();
+    const cachedArchiveComingSoon = getCachedArchiveComingSoon();
     return {
       // Default to true if not cached yet (guarantees zero flash of unlaunched site on first visit)
       isComingSoon: cached !== null ? cached : true,
-      showProducers: cachedShowProducers !== null ? cachedShowProducers : false
+      showProducers: cachedShowProducers !== null ? cachedShowProducers : false,
+      archiveComingSoon: cachedArchiveComingSoon !== null ? cachedArchiveComingSoon : true
     };
   });
   const showProducers = !!siteConfig.showProducers;
+  const archiveComingSoon = siteConfig.archiveComingSoon !== undefined ? !!siteConfig.archiveComingSoon : true;
+  const [adminPreviewArchive, setAdminPreviewArchive] = useState(false);
 
   const handleToggleShowProducers = async (enabled: boolean) => {
     await setShowProducersMode(enabled);
     setSiteConfig(prev => ({ ...prev, showProducers: enabled }));
+  };
+
+  const handleToggleArchiveComingSoon = async (enabled: boolean) => {
+    await setArchiveComingSoonMode(enabled);
+    setSiteConfig(prev => ({ ...prev, archiveComingSoon: enabled }));
   };
 
   const [isConfigReady, setIsConfigReady] = useState<boolean>(() => {
@@ -534,7 +554,7 @@ export default function App() {
         description: isGreek 
           ? "Συνεχής μουσική ροή 24/7 με επιλογές από την ομάδα του σταθμού. Lo-fi, Indie, Rock, Electronic και ποιοτικές ραδιοφωνικές παραγωγές χωρίς διακοπή."
           : "Continuous 24/7 music stream curated by the station team. Lo-fi, Indie, Rock, Electronic and non-stop quality radio selections.",
-        tags: ["#24/7", "#MusicStream", "#FRSUTH"],
+        tags: ["24/7", "MusicStream", "FRSUTH"],
         image: "/music-stream.jpg"
       };
     }
@@ -555,7 +575,7 @@ export default function App() {
         title: weeklyShow.title,
         host: weeklyShow.host,
         description: weeklyShow.description,
-        tags: weeklyShow.tags && weeklyShow.tags.length > 0 ? weeklyShow.tags : (matchingStatic?.tags || ["#Radio", "#FRSUTH"]),
+        tags: weeklyShow.tags && weeklyShow.tags.length > 0 ? weeklyShow.tags : (matchingStatic?.tags || ["Radio", "FRSUTH"]),
         image: weeklyShow.image || matchingStatic?.image || "/music-stream.jpg"
       };
     }
@@ -584,7 +604,7 @@ export default function App() {
           : (isGreek 
             ? `Ζωντανή εκπομπή "${weeklyShow.title}" στο FRS UTH με παραγωγό ${weeklyShow.host}. Συντονιστείτε για τις καλύτερες μουσικές επιλογές.`
             : `Live show "${weeklyShow.title}" on FRS UTH hosted by ${weeklyShow.host}. Tune in for the finest music rotation.`),
-        tags: weeklyShow.tags || ["#Radio", "#FRSUTH"],
+        tags: weeklyShow.tags || ["Radio", "FRSUTH"],
         image: weeklyShow.image || matchingStatic?.image || "/music-stream.jpg"
       };
     }
@@ -743,6 +763,13 @@ export default function App() {
                     />
                   )}
                   <span>{tab.label}</span>
+                  {tab.id === "archive" && archiveComingSoon && (
+                    <span className={`ml-1.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase transition-colors ${
+                      isActive ? "bg-white/20 text-white" : "bg-[#ad021a]/10 text-[#ad021a]"
+                    }`}>
+                      {isGreek ? "Σύντομα" : "Soon"}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -895,6 +922,13 @@ export default function App() {
                         <span className="font-editorial text-xl">
                           {item.label}
                         </span>
+                        {item.id === "archive" && archiveComingSoon && (
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            isActive ? "bg-white/25 text-white" : "bg-[#ad021a]/15 text-[#ad021a]"
+                          }`}>
+                            {isGreek ? "Σύντομα" : "Soon"}
+                          </span>
+                        )}
                       </div>
                       <ChevronRight className={`w-4 h-4 ${isActive ? "text-white" : "text-[#78716C]"}`} />
                     </button>
@@ -1572,7 +1606,7 @@ export default function App() {
                               <div className="flex flex-wrap gap-1.5">
                                 {show.tags.map(tag => (
                                   <span key={tag} className="text-[10px] bg-[#FAF8F4] text-[#6B6560] px-2.5 py-0.5 rounded-md font-semibold border border-black/5">
-                                    {tag}
+                                    {tag.replace(/^#/, "")}
                                   </span>
                                 ))}
                               </div>
@@ -1760,7 +1794,7 @@ export default function App() {
                           <div className="flex flex-wrap gap-2 pt-3 border-t border-black/[0.06]">
                             {ev.tags.map((tag) => (
                               <span key={tag} className="text-[11px] bg-[#FAF8F4] text-[#6B6560] px-3 py-1 rounded-lg font-semibold border border-black/5">
-                                {tag}
+                                {tag.replace(/^#/, "")}
                               </span>
                             ))}
                           </div>
@@ -1785,127 +1819,238 @@ export default function App() {
               transition={{ duration: 0.3 }}
               className="flex flex-col gap-8 max-w-5xl mx-auto w-full"
             >
-              <div className="text-center max-w-2xl mx-auto flex flex-col items-center gap-3">
-                <span className="text-xs font-grotesk font-bold text-[#ad021a] tracking-wider uppercase">
-                  {isGreek ? "ΑΡΧΕΙΟ ΕΚΠΟΜΠΩΝ" : "AUDIO VAULT"}
-                </span>
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-[#1C1917] tracking-tight">
-                  {isGreek ? "Αρχείο Mixcloud" : "Mixcloud Archive"}
-                </h1>
-                <p className="text-sm text-[#6B6560] leading-relaxed">
-                  {isGreek
-                    ? "Ανακαλύψτε το αρχείο μας. Παλιές εκπομπές και φοιτητική ραδιοφωνική ιστορία αποθηκευμένα στο επίσημο κανάλι μας."
-                    : "Discover our vault. Past broadcasts and student radio history preserved on our Mixcloud channel."}
-                </p>
-              </div>
+              {archiveComingSoon && !adminPreviewArchive ? (
+                /* Mixcloud Archive Coming Soon Showcase */
+                <div className="flex flex-col items-center gap-8 py-4 sm:py-8">
+                  {/* Hero Showcase Card */}
+                  <div className="warm-card rounded-3xl p-7 sm:p-10 w-full text-center flex flex-col items-center gap-6 relative overflow-hidden border border-black/5 shadow-xl">
+                    {/* Background Ambient Glow */}
+                    <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[#ad021a]/10 blur-3xl pointer-events-none" />
 
-              {/* Search Bar */}
-              <div className="relative max-w-md mx-auto w-full">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6560] pointer-events-none z-10" />
-                <input
-                  type="text"
-                  value={archiveSearch}
-                  onChange={(e) => setArchiveSearch(e.target.value)}
-                  placeholder={isGreek ? "Αναζήτηση εκπομπών, παραγωγών, ειδών..." : "Search shows, hosts, genres..."}
-                  className="field !pl-12 pr-4 py-3 rounded-full text-sm"
-                  style={{ paddingLeft: "3rem" }}
-                />
-              </div>
-
-              {/* Archive Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredArchive.map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.mixcloudUrl || "https://www.mixcloud.com/frs-volou/"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="warm-card rounded-3xl overflow-hidden flex flex-col justify-between group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block cursor-pointer border border-black/5 hover:border-[#ad021a]/30"
-                  >
-                    {/* Artwork Container with Ambient Backdrop Blur */}
-                    <div className="relative aspect-video sm:aspect-[16/10] overflow-hidden bg-stone-950 flex items-center justify-center">
-                      {/* Ambient blurred backdrop so square and non-standard posters fill naturally without letterbox */}
-                      <img
-                        src={item.image}
-                        alt=""
-                        aria-hidden="true"
-                        className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-40 group-hover:scale-135 transition-transform duration-500 pointer-events-none select-none"
-                      />
-                      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
-
-                      {/* Crisp uncropped show artwork */}
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="relative z-10 w-full h-full object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 drop-shadow-md select-none"
-                      />
-
-                      {/* Floating hover badge */}
-                      <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ad021a] text-white text-xs font-bold shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform">
-                          <Radio className="w-3.5 h-3.5" />
-                          <span>{isGreek ? "Ακρόαση στο Mixcloud" : "Listen on Mixcloud"}</span>
-                          <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
-                        </span>
-                      </div>
-
-                      {/* Date / Archive badge */}
-                      <span className="absolute bottom-3 left-3 z-20 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-2 py-0.5 rounded shadow">
-                        {item.date}
-                      </span>
-
-                      {/* Mixcloud pill indicator */}
-                      <span className="absolute top-3 right-3 z-20 bg-[#ad021a] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow flex items-center gap-1">
-                        Mixcloud
-                        <ExternalLink className="w-2.5 h-2.5" />
-                      </span>
+                    {/* Animated Status Pill */}
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FCECEE] text-[#ad021a] text-xs font-bold uppercase tracking-wider border border-[#ad021a]/20 shadow-2xs">
+                      <span className="w-2 h-2 rounded-full bg-[#ad021a] animate-pulse" />
+                      <span>{isGreek ? "ΣΥΝΤΟΜΑ ΔΙΑΘΕΣΙΜΟ • COMING SOON" : "COMING SOON • UNDER PREPARATION"}</span>
                     </div>
 
-                    <div className="p-5 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-start justify-between gap-2">
-                          <h4 className="font-bold text-base text-[#1C1917] group-hover:text-[#ad021a] transition-colors leading-snug">
-                            {item.title}
-                          </h4>
-                          <ExternalLink className="w-4 h-4 text-[#ad021a] opacity-60 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5" />
+                    <div className="max-w-2xl mx-auto flex flex-col gap-3">
+                      <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-[#1C1917] tracking-tight">
+                        {isGreek ? "Το Αρχείο Mixcloud Ετοιμάζεται!" : "Mixcloud Archive is on the Way!"}
+                      </h1>
+                      <p className="text-sm sm:text-base text-[#6B6560] leading-relaxed max-w-xl mx-auto">
+                        {isGreek
+                          ? "Συγκεντρώνουμε και οργανώνουμε όλες τις ηχογραφημένες εκπομπές, τα podcasts και τα guest DJ sets των παραγωγών του FRS UTH για on-demand ακρόαση οποιαδήποτε στιγμή."
+                          : "We are curating and digitizing all recorded broadcasts, podcasts, and guest DJ sets from FRS UTH producers for on-demand playback whenever you want."}
+                      </p>
+                    </div>
+
+                    {/* Three Feature Highlight Pillars */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl text-left my-2">
+                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-[#FCECEE] text-[#ad021a] flex items-center justify-center font-bold">
+                          <Radio className="w-4 h-4" />
                         </div>
-                        <p className="text-xs text-[#6B6560] mt-2 line-clamp-2 leading-relaxed">
-                          {item.description}
+                        <h3 className="font-bold text-sm text-[#1C1917]">
+                          {isGreek ? "On-Demand Εκπομπές" : "On-Demand Shows"}
+                        </h3>
+                        <p className="text-xs text-[#6B6560] leading-relaxed">
+                          {isGreek 
+                            ? "Πλήρες αρχείο των εβδομαδιαίων ραδιοφωνικών εκπομπών για να ακούτε ξανά τα αγαπημένα σας slots."
+                            : "Full archive of weekly broadcasts to replay your favorite airtime slots anytime."}
                         </p>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-black/[0.05] flex items-center justify-between">
-                        <div className="flex flex-wrap gap-1.5">
-                          {item.tags.slice(0, 2).map(tag => (
-                            <span key={tag} className="text-[10px] text-[#6B6560] font-semibold bg-black/[0.04] px-2 py-0.5 rounded-full">
-                              {tag}
-                            </span>
-                          ))}
+                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                          <Disc3 className="w-4 h-4" />
                         </div>
+                        <h3 className="font-bold text-sm text-[#1C1917]">
+                          {isGreek ? "DJ Sets & Mix-Tapes" : "DJ Sets & Mixtapes"}
+                        </h3>
+                        <p className="text-xs text-[#6B6560] leading-relaxed">
+                          {isGreek 
+                            ? "Ειδικά μουσικά αφιερώματα, vinyl sessions και non-stop DJ sets από τους συντελεστές του σταθμού."
+                            : "Special music features, vinyl sessions, and continuous DJ mixes from station selectors."}
+                        </p>
+                      </div>
 
-                        <span className="text-xs font-bold text-[#ad021a] group-hover:underline flex items-center gap-1">
-                          <span>{isGreek ? "Αρχείο Εκπομπής" : "Show Archive"}</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </span>
+                      <div className="bg-white/75 backdrop-blur-xs p-5 rounded-2xl border border-black/5 shadow-2xs flex flex-col gap-2">
+                        <div className="w-9 h-9 rounded-xl bg-stone-100 text-stone-800 flex items-center justify-center font-bold">
+                          <ExternalLink className="w-4 h-4" />
+                        </div>
+                        <h3 className="font-bold text-sm text-[#1C1917]">
+                          {isGreek ? "Επίσημο Mixcloud" : "Official Mixcloud"}
+                        </h3>
+                        <p className="text-xs text-[#6B6560] leading-relaxed">
+                          {isGreek 
+                            ? "Άμεση διασύνδεση με το επίσημο προφίλ του FRS UTH στο Mixcloud σε υψηλή πιστότητα ήχου."
+                            : "Direct link to the official FRS UTH Mixcloud profile in high-fidelity audio stream."}
+                        </p>
                       </div>
                     </div>
-                  </a>
-                ))}
-              </div>
 
-              {/* Load More Button */}
-              {!loadedMore && (
-                <div className="flex justify-center mt-4">
-                  <button
-                    onClick={handleLoadMore}
-                    disabled={archiveLoading}
-                    className="px-6 py-3 rounded-full bg-white border border-black/10 text-[#1C1917] font-bold text-xs hover:bg-[#FAF8F4] transition-all cursor-pointer shadow-xs"
-                  >
-                    {archiveLoading ? (isGreek ? "Φόρτωση..." : "Loading...") : (isGreek ? "Φόρτωση Περισσότερων" : "Load More Archives")}
-                  </button>
+                    {/* Mixcloud Channel CTA Button */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+                      <a
+                        href="https://www.mixcloud.com/frs-volou/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#ad021a] hover:bg-[#8f0115] text-white font-bold text-xs sm:text-sm shadow-md shadow-[#ad021a]/25 transition-all flex items-center justify-center gap-2"
+                      >
+                        <Radio className="w-4 h-4" />
+                        <span>{isGreek ? "Επισκεφθείτε το Mixcloud του FRS UTH" : "Visit FRS UTH on Mixcloud"}</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+
+                      {isAdmin && (
+                        <button
+                          onClick={() => setAdminPreviewArchive(true)}
+                          className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white border border-black/10 text-stone-800 hover:bg-stone-50 font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
+                        >
+                          <Eye className="w-3.5 h-3.5 text-[#ad021a]" />
+                          <span>{isGreek ? "Προεπισκόπηση Αρχείου (Διαχειριστής)" : "Preview Archive (Admin)"}</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
+              ) : (
+                /* Full Archive Grid View (When Coming Soon is disabled or Admin preview is active) */
+                <>
+                  {isAdmin && archiveComingSoon && adminPreviewArchive && (
+                    <div className="bg-amber-500/10 border border-amber-500/30 text-amber-900 rounded-2xl p-3.5 px-4 flex items-center justify-between gap-3 text-xs font-semibold">
+                      <div className="flex items-center gap-2">
+                        <Eye className="w-4 h-4 text-amber-700 shrink-0" />
+                        <span>
+                          {isGreek 
+                            ? "Προεπισκόπηση Διαχειριστή: Το αρχείο είναι σε Coming Soon για τους κανονικούς επισκέπτες." 
+                            : "Admin Preview: The archive is currently in Coming Soon mode for public visitors."}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => setAdminPreviewArchive(false)}
+                        className="px-3 py-1 bg-white rounded-lg border border-amber-500/30 text-stone-800 hover:bg-stone-100 font-bold text-[11px] cursor-pointer shrink-0"
+                      >
+                        {isGreek ? "Κλείσιμο Προεπισκόπησης" : "Close Preview"}
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="text-center max-w-2xl mx-auto flex flex-col items-center gap-3">
+                    <span className="text-xs font-grotesk font-bold text-[#ad021a] tracking-wider uppercase">
+                      {isGreek ? "ΑΡΧΕΙΟ ΕΚΠΟΜΠΩΝ" : "AUDIO VAULT"}
+                    </span>
+                    <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-[#1C1917] tracking-tight">
+                      {isGreek ? "Αρχείο Mixcloud" : "Mixcloud Archive"}
+                    </h1>
+                    <p className="text-sm text-[#6B6560] leading-relaxed">
+                      {isGreek
+                        ? "Ανακαλύψτε το αρχείο μας. Παλιές εκπομπές και φοιτητική ραδιοφωνική ιστορία αποθηκευμένα στο επίσημο κανάλι μας."
+                        : "Discover our vault. Past broadcasts and student radio history preserved on our Mixcloud channel."}
+                    </p>
+                  </div>
+
+                  {/* Search Bar */}
+                  <div className="relative max-w-md mx-auto w-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6560] pointer-events-none z-10" />
+                    <input
+                      type="text"
+                      value={archiveSearch}
+                      onChange={(e) => setArchiveSearch(e.target.value)}
+                      placeholder={isGreek ? "Αναζήτηση εκπομπών, παραγωγών, ειδών..." : "Search shows, hosts, genres..."}
+                      className="field !pl-12 pr-4 py-3 rounded-full text-sm"
+                      style={{ paddingLeft: "3rem" }}
+                    />
+                  </div>
+
+                  {/* Archive Grid with Clean Edge-to-Edge Fill */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredArchive.map((item) => (
+                      <a
+                        key={item.id}
+                        href={item.mixcloudUrl || "https://www.mixcloud.com/frs-volou/"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="warm-card rounded-3xl overflow-hidden flex flex-col justify-between group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block cursor-pointer border border-black/5 hover:border-[#ad021a]/30"
+                      >
+                        {/* Artwork Container with Clean Edge-to-Edge Fill */}
+                        <div className="relative aspect-[4/3] overflow-hidden bg-stone-900 flex items-center justify-center">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 select-none"
+                          />
+                          {/* Subtle gradient overlays for badge contrast */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
+
+                          {/* Floating hover badge */}
+                          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ad021a] text-white text-xs font-bold shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform">
+                              <Radio className="w-3.5 h-3.5" />
+                              <span>{isGreek ? "Ακρόαση στο Mixcloud" : "Listen on Mixcloud"}</span>
+                              <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
+                            </span>
+                          </div>
+
+                          {/* Date / Archive badge */}
+                          <span className="absolute bottom-3 left-3 z-20 bg-black/75 backdrop-blur-xs text-white text-[10px] font-mono px-2 py-0.5 rounded shadow">
+                            {item.date}
+                          </span>
+
+                          {/* Mixcloud pill indicator */}
+                          <span className="absolute top-3 right-3 z-20 bg-[#ad021a] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow flex items-center gap-1">
+                            Mixcloud
+                            <ExternalLink className="w-2.5 h-2.5" />
+                          </span>
+                        </div>
+
+                        <div className="p-5 flex-1 flex flex-col justify-between">
+                          <div>
+                            <div className="flex items-start justify-between gap-2">
+                              <h4 className="font-bold text-base text-[#1C1917] group-hover:text-[#ad021a] transition-colors leading-snug">
+                                {item.title}
+                              </h4>
+                              <ExternalLink className="w-4 h-4 text-[#ad021a] opacity-60 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5" />
+                            </div>
+                            <p className="text-xs text-[#6B6560] mt-2 line-clamp-2 leading-relaxed">
+                              {item.description}
+                            </p>
+                          </div>
+
+                          <div className="mt-4 pt-3 border-t border-black/[0.05] flex items-center justify-between">
+                            <div className="flex flex-wrap gap-1.5">
+                              {item.tags.slice(0, 2).map(tag => (
+                                <span key={tag} className="text-[10px] text-[#6B6560] font-semibold bg-black/[0.04] px-2 py-0.5 rounded-full">
+                                  {tag.replace(/^#/, "")}
+                                </span>
+                              ))}
+                            </div>
+
+                            <span className="text-xs font-bold text-[#ad021a] group-hover:underline flex items-center gap-1">
+                              <span>{isGreek ? "Αρχείο Εκπομπής" : "Show Archive"}</span>
+                              <ExternalLink className="w-3 h-3" />
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+
+                  {/* Load More Button */}
+                  {!loadedMore && (
+                    <div className="flex justify-center mt-4">
+                      <button
+                        onClick={handleLoadMore}
+                        disabled={archiveLoading}
+                        className="px-6 py-3 rounded-full bg-white border border-black/10 text-[#1C1917] font-bold text-xs hover:bg-[#FAF8F4] transition-all cursor-pointer shadow-xs"
+                      >
+                        {archiveLoading ? (isGreek ? "Φόρτωση..." : "Loading...") : (isGreek ? "Φόρτωση Περισσότερων" : "Load More Archives")}
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </motion.div>
           )}
@@ -2325,31 +2470,22 @@ export default function App() {
                 </button>
 
                 <div className="flex flex-col gap-4">
-                  <div className="relative aspect-video sm:aspect-[16/10] w-full rounded-2xl overflow-hidden bg-[#1C1917] border border-black/10 flex items-center justify-center shadow-inner">
-                    {/* Ambient blurred backdrop so any aspect ratio fills gracefully */}
-                    <img
-                      src={selectedShow.image || "/music-stream.jpg"}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-50 pointer-events-none select-none"
-                    />
-                    <div className="absolute inset-0 bg-black/20 backdrop-blur-xs pointer-events-none" />
-
-                    {/* Uncropped crisp foreground artwork */}
+                  <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full rounded-2xl overflow-hidden bg-stone-900 border border-black/10 flex items-center justify-center shadow-inner">
                     <img
                       src={selectedShow.image || "/music-stream.jpg"}
                       alt={selectedShow.title}
                       loading="lazy"
                       decoding="async"
-                      className="relative z-10 w-full h-full object-contain p-2 drop-shadow-md select-none"
+                      className="w-full h-full object-cover object-center select-none"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
                   </div>
 
                   <div>
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       {selectedShow.tags.map(tag => (
                         <span key={tag} className="text-[10px] bg-[#FCECEE] text-[#ad021a] px-2.5 py-0.5 rounded-full font-bold">
-                          {tag}
+                          {tag.replace(/^#/, "")}
                         </span>
                       ))}
                     </div>
@@ -2597,6 +2733,8 @@ export default function App() {
         onToggleComingSoon={setComingSoonMode}
         showProducers={showProducers}
         onToggleShowProducers={handleToggleShowProducers}
+        archiveComingSoon={archiveComingSoon}
+        onToggleArchiveComingSoon={handleToggleArchiveComingSoon}
         onLogout={() => {
           logoutAdmin();
           setIsAdmin(false);

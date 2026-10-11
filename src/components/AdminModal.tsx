@@ -84,6 +84,8 @@ interface AdminModalProps {
   onToggleComingSoon: (enabled: boolean) => Promise<void>;
   showProducers?: boolean;
   onToggleShowProducers?: (enabled: boolean) => Promise<void>;
+  archiveComingSoon?: boolean;
+  onToggleArchiveComingSoon?: (enabled: boolean) => Promise<void>;
   onResetComplete?: () => void;
   onLogout: () => void;
 }
@@ -106,6 +108,8 @@ export default function AdminModal({
   onToggleComingSoon,
   showProducers = false,
   onToggleShowProducers,
+  archiveComingSoon = true,
+  onToggleArchiveComingSoon,
   onResetComplete,
   onLogout
 }: AdminModalProps) {
@@ -118,6 +122,7 @@ export default function AdminModal({
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isTogglingComingSoon, setIsTogglingComingSoon] = useState(false);
   const [isTogglingProducers, setIsTogglingProducers] = useState(false);
+  const [isTogglingArchiveComingSoon, setIsTogglingArchiveComingSoon] = useState(false);
 
   // Applications Tab state
   const [applications, setApplications] = useState<OpenCallApplication[]>([]);
@@ -265,6 +270,24 @@ export default function AdminModal({
       showNotification(undefined, err?.message || "Error updating producer visibility");
     } finally {
       setIsTogglingProducers(false);
+    }
+  };
+
+  const handleToggleArchiveComingSoon = async () => {
+    if (!onToggleArchiveComingSoon) return;
+    setIsTogglingArchiveComingSoon(true);
+    try {
+      const targetState = !archiveComingSoon;
+      await onToggleArchiveComingSoon(targetState);
+      showNotification(
+        targetState
+          ? (isGreek ? "Η λειτουργία Coming Soon στο Αρχείο Mixcloud ενεργοποιήθηκε!" : "Mixcloud Archive Coming Soon mode activated!")
+          : (isGreek ? "Το Αρχείο Mixcloud είναι πλέον διαθέσιμο για όλους τους επισκέπτες!" : "Mixcloud Archive is now fully accessible to all visitors!")
+      );
+    } catch (err: any) {
+      showNotification(undefined, err?.message || "Error updating archive mode");
+    } finally {
+      setIsTogglingArchiveComingSoon(false);
     }
   };
 
@@ -709,6 +732,68 @@ export default function AdminModal({
                     <>
                       <Eye className="w-4 h-4" />
                       <span>{isGreek ? "Εμφάνιση Ονομάτων Παραγωγών" : "Show Producer Names"}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Mixcloud Archive Coming Soon Toggle */}
+              <div className="bg-[#FAF8F4] border border-stone-200/80 rounded-2xl p-4">
+                <div className="flex items-start justify-between gap-3 mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                      archiveComingSoon ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"
+                    }`}>
+                      <Radio className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-[#1C1917]">
+                        {isGreek ? "Κατάσταση Αρχείου Mixcloud" : "Mixcloud Archive Status"}
+                      </h4>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className={`w-2 h-2 rounded-full ${
+                          archiveComingSoon ? "bg-amber-500" : "bg-emerald-500"
+                        }`} />
+                        <span className="text-[11px] font-semibold text-[#78716C]">
+                          {archiveComingSoon 
+                            ? (isGreek ? "Coming Soon (Υπό προετοιμασία)" : "Coming Soon (Under preparation)")
+                            : (isGreek ? "Ενεργό (Πλήρες Αρχείο δημόσιο)" : "Active (Full archive public)")}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-[#78716C] mb-3 leading-relaxed">
+                  {archiveComingSoon
+                    ? (isGreek 
+                        ? "Οι επισκέπτες βλέπουν την καλαίσθητη σελίδα Coming Soon με πληροφορίες και σύνδεσμο προς το Mixcloud. Πατήστε για ενεργοποίηση του πλήρους αρχείου."
+                        : "Visitors see the Coming Soon showcase card with Mixcloud links. Click to make the full archive visible.")
+                    : (isGreek 
+                        ? "Το πλήρες αρχείο εκπομπών και playlists είναι δημόσια προσβάσιμο σε όλους τους ακροατές. Πατήστε για επιστροφή σε Coming Soon mode."
+                        : "The full archive of shows and playlists is publicly open. Click to switch back to Coming Soon mode.")}
+                </p>
+
+                <button
+                  onClick={handleToggleArchiveComingSoon}
+                  disabled={isTogglingArchiveComingSoon}
+                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs ${
+                    archiveComingSoon
+                      ? "bg-[#ad021a] hover:bg-[#8f0115] text-white"
+                      : "bg-stone-200 hover:bg-stone-300 text-stone-800"
+                  }`}
+                >
+                  {isTogglingArchiveComingSoon ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : archiveComingSoon ? (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      <span>{isGreek ? "Άνοιγμα Πλήρους Αρχείου Mixcloud" : "Enable Public Mixcloud Archive"}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-4 h-4" />
+                      <span>{isGreek ? "Επαναφορά σε Coming Soon Mode" : "Set Archive to Coming Soon Mode"}</span>
                     </>
                   )}
                 </button>

@@ -49,6 +49,7 @@ export function logoutAdmin(): void {
 
 export const COMING_SOON_CACHE_KEY = "frs_cached_coming_soon";
 export const SHOW_PRODUCERS_CACHE_KEY = "frs_cached_show_producers";
+export const ARCHIVE_COMING_SOON_CACHE_KEY = "frs_cached_archive_coming_soon";
 
 /**
  * Synchronously retrieves cached Coming Soon state from localStorage.
@@ -105,6 +106,33 @@ export function setCachedShowProducers(showProducers: boolean): void {
 }
 
 /**
+ * Synchronously retrieves cached Mixcloud Archive Coming Soon state from localStorage.
+ * Defaults to true if never cached before.
+ */
+export function getCachedArchiveComingSoon(): boolean | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const val = localStorage.getItem(ARCHIVE_COMING_SOON_CACHE_KEY);
+    if (val === null) return null;
+    return val === "true";
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Cache Mixcloud Archive Coming Soon state locally for instant initial renders.
+ */
+export function setCachedArchiveComingSoon(archiveComingSoon: boolean): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(ARCHIVE_COMING_SOON_CACHE_KEY, archiveComingSoon ? "true" : "false");
+  } catch {
+    // Ignore quota/permission errors
+  }
+}
+
+/**
  * Subscribe to site-wide configuration in Firebase Realtime Database.
  * Uses presence/site_status path which has granted permissions under deployed RTDB rules.
  * Consumes 0 Firestore reads/writes (optimal for Firebase Spark free plan).
@@ -122,23 +150,28 @@ export function subscribeToSiteConfig(
         const isComingSoon = !!val?.isComingSoon;
         // Default to false (hidden) per user requirement: "Βγάλε τα ονόματα των παραγωγών"
         const showProducers = val?.showProducers !== undefined ? !!val.showProducers : false;
+        // Default to true (coming soon) per user requirement: "Βάλε ότι το αρχείο mixcloud είναι σε coming soon mode"
+        const archiveComingSoon = val?.archiveComingSoon !== undefined ? !!val.archiveComingSoon : true;
         setCachedComingSoon(isComingSoon);
         setCachedShowProducers(showProducers);
+        setCachedArchiveComingSoon(archiveComingSoon);
         callback({
           isComingSoon,
           showProducers,
+          archiveComingSoon,
           updatedAt: val?.updatedAt,
           updatedBy: val?.updatedBy
         });
       } else {
         setCachedComingSoon(false);
         setCachedShowProducers(false);
-        callback({ isComingSoon: false, showProducers: false });
+        setCachedArchiveComingSoon(true);
+        callback({ isComingSoon: false, showProducers: false, archiveComingSoon: true });
       }
     },
     (error) => {
       console.warn("RTDB siteConfig subscription notice:", error);
-      callback({ isComingSoon: false, showProducers: false });
+      callback({ isComingSoon: false, showProducers: false, archiveComingSoon: true });
     }
   );
 
@@ -172,6 +205,21 @@ export async function setShowProducersMode(enabled: boolean): Promise<void> {
     online: true,
     lastSeen: Date.now(),
     showProducers: enabled,
+    updatedAt: Date.now(),
+    updatedBy: "Administrator"
+  });
+}
+
+/**
+ * Toggle Mixcloud Archive Coming Soon mode site-wide
+ */
+export async function setArchiveComingSoonMode(enabled: boolean): Promise<void> {
+  setCachedArchiveComingSoon(enabled);
+  const configRef = ref(rtdb, "presence/site_status");
+  await update(configRef, {
+    online: true,
+    lastSeen: Date.now(),
+    archiveComingSoon: enabled,
     updatedAt: Date.now(),
     updatedBy: "Administrator"
   });
