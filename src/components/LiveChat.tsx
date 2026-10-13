@@ -24,7 +24,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ChatMessage, LivePollData } from "../types";
 import { collection, addDoc, query, limit, limitToLast, onSnapshot, serverTimestamp, getDocs, deleteDoc, doc, orderBy } from "firebase/firestore";
 import { db, rtdb } from "../lib/firebase";
-import { ref, onValue, onDisconnect, set } from "firebase/database";
+import { ref, onValue, onDisconnect, set, remove } from "firebase/database";
 import LivePoll from "./LivePoll";
 import { markPollResultAnnounced, isProducerAuthenticated, logoutProducer } from "../lib/pollService";
 import { isAdminAuthenticated, logoutAdmin, setComingSoonMode } from "../lib/adminService";
@@ -56,6 +56,21 @@ interface LiveChatProps {
 const TAB_NAME_KEY = "frs_tab_user_name";
 const TAB_COLOR_KEY = "frs_tab_avatar_color";
 const TAB_SESSION_KEY = "frs_tab_session_id";
+const DEVICE_ID_KEY = "frs_device_id";
+
+const getDeviceId = (): string => {
+  if (typeof window === "undefined") return "guest";
+  try {
+    let id = localStorage.getItem(DEVICE_ID_KEY);
+    if (!id) {
+      id = "user_" + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem(DEVICE_ID_KEY, id);
+    }
+    return id;
+  } catch {
+    return "guest_" + Date.now();
+  }
+};
 
 const AVATAR_COLORS = [
   "#ad021a",
@@ -261,37 +276,94 @@ export default function LiveChat({
     }
   }, [isGreek]);
 
-  // Realtime Database presence for online listeners
+  // Realtime Database presence for online listeners with Heartbeat and Stale Filtering
   useEffect(() => {
-    const sessionId = sessionStorage.getItem(TAB_SESSION_KEY) || "guest_" + Date.now();
-    const userStatusRef = ref(rtdb, `/presence/${sessionId}`);
+    const deviceId = getDeviceId();
+    const userStatusRef = ref(rtdb, `/presence/${deviceId}`);
     const connectedRef = ref(rtdb, ".info/connected");
     const allPresenceRef = ref(rtdb, "/presence");
 
+    const updatePresence = () => {
+      set(userStatusRef, {
+        online: true,
+        lastSeen: Date.now()
+      }).catch(() => {});
+    };
+
+    let heartbeatInterval: any = null;
+
     const unsubConnected = onValue(connectedRef, (snap) => {
       if (snap.val() === true) {
-        set(userStatusRef, {
-          online: true,
-          lastSeen: Date.now()
-        });
-        onDisconnect(userStatusRef).remove();
+        updatePresence();
+        onDisconnect(userStatusRef).remove().catch(() => {});
+
+        // Heartbeat every 25 seconds
+        if (heartbeatInterval) clearInterval(heartbeatInterval);
+        heartbeatInterval = setInterval(updatePresence, 25000);
+      } else {
+        if (heartbeatInterval) clearInterval(heartbeatInterval);
       }
     });
 
+    // Window visibility handler
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        updatePresence();
+      }
+    };
+    window.addEventListener("visibilitychange", handleVisibility);
+
+    // Active threshold: a session is only considered online if updated within the last 60 seconds
+    const ACTIVE_THRESHOLD_MS = 60000;
+    let latestRawPresence: any = null;
+
+    const computeActiveCount = (rawPresence: any) => {
+      if (!rawPresence) {
+        setOnlineCount(1);
+        return;
+      }
+      const now = Date.now();
+      let count = 0;
+      for (const [k, v] of Object.entries(rawPresence)) {
+        if (k.startsWith("site_")) continue;
+        const record = v as any;
+        if (record && record.online === true) {
+          const lastSeen = Number(record.lastSeen) || 0;
+          if (now - lastSeen < ACTIVE_THRESHOLD_MS) {
+            count++;
+          } else if (now - lastSeen > 300000) {
+            // Self-clean stale zombie sessions older than 5 minutes
+            remove(ref(rtdb, `/presence/${k}`)).catch(() => {});
+          }
+        }
+      }
+      setOnlineCount(Math.max(1, count));
+    };
+
     const unsubPresence = onValue(allPresenceRef, (snap) => {
       if (snap.exists()) {
-        const val = snap.val();
-        const activeKeys = Object.keys(val).filter((k) => !k.startsWith("site_"));
-        setOnlineCount(Math.max(1, activeKeys.length));
+        latestRawPresence = snap.val();
+        computeActiveCount(latestRawPresence);
       } else {
+        latestRawPresence = null;
         setOnlineCount(1);
       }
     });
 
+    // Local ticker every 10 seconds to decay inactive users without needing RTDB events
+    const decayInterval = setInterval(() => {
+      if (latestRawPresence) {
+        computeActiveCount(latestRawPresence);
+      }
+    }, 10000);
+
     return () => {
+      window.removeEventListener("visibilitychange", handleVisibility);
+      if (heartbeatInterval) clearInterval(heartbeatInterval);
+      clearInterval(decayInterval);
       unsubConnected();
       unsubPresence();
-      set(userStatusRef, null);
+      set(userStatusRef, null).catch(() => {});
     };
   }, []);
 
