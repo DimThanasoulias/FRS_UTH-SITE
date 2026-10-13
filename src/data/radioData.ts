@@ -26,7 +26,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "oso-boreis-entechna.jpg": { name: "Όσο Μπορείς Έντεχνα", category: "Έντεχνο" },
   "laz-and-stol-show.png": { name: "Laz & Stol Show", category: "Sports & Social" },
   "akoume-kai-den-krinoume.jpg": { name: "Ακούμε και δεν κρίνουμε", category: "News & Gossip" },
-  "mix-tapes.jpg": { name: "Mix Tapes", category: "Mixtapes & DJ Sets" }
+  "mix-tapes.jpg": { name: "Mix Tapes", category: "Mixtapes & DJ Sets" },
+  "high-fidelity.png": { name: "High Fidelity", category: "Music & Vinyl" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -143,6 +144,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         tags: ["News", "Gossip", "RapTrap", "Viral"],
         description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
         image: "/shows/akoume-kai-den-krinoume.jpg",
+        hidden: false
+      },
+      {
+        id: "show-high-fidelity",
+        title: "High Fidelity",
+        time: "21:00 - 23:00",
+        host: "High Fidelity",
+        tags: ["HighFidelity", "Vinyl", "Eclectic"],
+        description: "",
+        image: "/shows/high-fidelity.png",
         hidden: false
       },
       {
@@ -268,6 +279,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         hidden: false
       },
       {
+        id: "show-high-fidelity",
+        title: "High Fidelity",
+        time: "21:00 - 23:00",
+        host: "High Fidelity",
+        tags: ["HighFidelity", "Vinyl", "Eclectic"],
+        description: "",
+        image: "/shows/high-fidelity.png",
+        hidden: false
+      },
+      {
         id: "show-masa-kai-arkoudios",
         title: "Η Μάσα και ο Αρκούδιος",
         time: "18:00 - 20:00",
@@ -360,6 +381,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "",
     tags: ["MixTapes", "DJSet", "Eclectic"],
     image: "/shows/vinyl.jpg"
+  },
+  {
+    id: "show-high-fidelity",
+    title: "High Fidelity",
+    host: "High Fidelity",
+    description: "",
+    tags: ["HighFidelity", "Vinyl", "Eclectic"],
+    image: "/shows/high-fidelity.png"
   }
 ];
 
@@ -427,6 +456,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "",
     tags: ["MixTapes", "DJSet", "Eclectic"],
     image: "/shows/vinyl.jpg"
+  },
+  {
+    id: "show-high-fidelity",
+    title: "High Fidelity",
+    host: "High Fidelity",
+    description: "",
+    tags: ["HighFidelity", "Vinyl", "Eclectic"],
+    image: "/shows/high-fidelity.png"
   }
 ];
 
