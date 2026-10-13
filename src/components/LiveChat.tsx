@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChatMessage, LivePollData } from "../types";
-import { collection, addDoc, query, limit, onSnapshot, serverTimestamp, getDocs, deleteDoc, doc, orderBy } from "firebase/firestore";
+import { collection, addDoc, query, limit, limitToLast, onSnapshot, serverTimestamp, getDocs, deleteDoc, doc, orderBy } from "firebase/firestore";
 import { db, rtdb } from "../lib/firebase";
 import { ref, onValue, onDisconnect, set } from "firebase/database";
 import LivePoll from "./LivePoll";
@@ -83,7 +83,7 @@ const getMostRecent3AM = (): Date => {
 const pruneOldMessages = async (cutoff: Date) => {
   try {
     const cutoffMillis = cutoff.getTime();
-    const snap = await getDocs(query(collection(db, "messages"), limit(50)));
+    const snap = await getDocs(query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(50)));
     snap.forEach((docSnap) => {
       const data = docSnap.data();
       const msgMillis = data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.createdAt instanceof Date ? data.createdAt.getTime() : null);
@@ -303,7 +303,7 @@ export default function LiveChat({
     const q = query(
       collection(db, "messages"),
       orderBy("createdAt", "asc"),
-      limit(100)
+      limitToLast(150)
     );
 
     const unsubscribe = onSnapshot(
