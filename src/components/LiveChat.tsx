@@ -150,9 +150,20 @@ const getMostRecent3AM = (): Date => {
   return target;
 };
 
-// Prune old messages before cutoff from Firestore in the background
+const LAST_PRUNE_KEY = "frs_last_prune_time";
+
+// Prune old messages before cutoff from Firestore in the background (rate-limited for Firebase Free Tier)
 const pruneOldMessages = async (cutoff: Date) => {
   try {
+    if (typeof window !== "undefined") {
+      const lastPrune = Number(localStorage.getItem(LAST_PRUNE_KEY)) || 0;
+      // Rate-limit: run at most once every 6 hours per client to conserve Firebase Spark 50k daily reads
+      if (Date.now() - lastPrune < 6 * 60 * 60 * 1000) {
+        return;
+      }
+      localStorage.setItem(LAST_PRUNE_KEY, String(Date.now()));
+    }
+
     const cutoffMillis = cutoff.getTime();
     const snap = await getDocs(query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(50)));
     snap.forEach((docSnap) => {
