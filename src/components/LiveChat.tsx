@@ -57,6 +57,8 @@ const TAB_NAME_KEY = "frs_tab_user_name";
 const TAB_COLOR_KEY = "frs_tab_avatar_color";
 const TAB_SESSION_KEY = "frs_tab_session_id";
 const DEVICE_ID_KEY = "frs_device_id";
+const LISTENER_NUM_KEY = "frs_listener_number";
+const CUSTOM_NAME_KEY = "frs_custom_user_name";
 
 const getDeviceId = (): string => {
   if (typeof window === "undefined") return "guest";
@@ -69,6 +71,60 @@ const getDeviceId = (): string => {
     return id;
   } catch {
     return "guest_" + Date.now();
+  }
+};
+
+const getPersistentListenerNumber = (): string => {
+  if (typeof window === "undefined") return "100";
+  try {
+    let num = localStorage.getItem(LISTENER_NUM_KEY);
+    if (!num) {
+      // Check legacy name storage in case a number was already assigned
+      const legacy = localStorage.getItem(TAB_NAME_KEY);
+      const match = legacy?.match(/\d+/);
+      if (match) {
+        num = match[0];
+      } else {
+        num = String(Math.floor(100 + Math.random() * 900));
+      }
+      localStorage.setItem(LISTENER_NUM_KEY, num);
+    }
+    return num;
+  } catch {
+    return "100";
+  }
+};
+
+const getEffectiveUserName = (isGreek: boolean): string => {
+  if (typeof window === "undefined") return isGreek ? "Ακροατής #100" : "Listener #100";
+  try {
+    const custom = localStorage.getItem(CUSTOM_NAME_KEY);
+    if (custom && custom.trim()) return custom.trim();
+
+    const legacy = localStorage.getItem(TAB_NAME_KEY);
+    if (legacy && !legacy.startsWith("Ακροατής #") && !legacy.startsWith("Listener #")) {
+      localStorage.setItem(CUSTOM_NAME_KEY, legacy);
+      return legacy;
+    }
+
+    const num = getPersistentListenerNumber();
+    return (isGreek ? "Ακροατής #" : "Listener #") + num;
+  } catch {
+    return (isGreek ? "Ακροατής #" : "Listener #") + "100";
+  }
+};
+
+const getPersistentSessionId = (): string => {
+  if (typeof window === "undefined") return "guest";
+  try {
+    let sid = sessionStorage.getItem(TAB_SESSION_KEY);
+    if (!sid) {
+      sid = getDeviceId();
+      sessionStorage.setItem(TAB_SESSION_KEY, sid);
+    }
+    return sid;
+  } catch {
+    return getDeviceId();
   }
 };
 
@@ -133,10 +189,21 @@ export default function LiveChat({
 }: LiveChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState<string>(() => getEffectiveUserName(isGreek));
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState("");
-  const [avatarColor, setAvatarColor] = useState(AVATAR_COLORS[0]);
+  const [avatarColor, setAvatarColor] = useState<string>(() => {
+    if (typeof window === "undefined") return AVATAR_COLORS[0];
+    try {
+      const saved = localStorage.getItem(TAB_COLOR_KEY);
+      if (saved) return saved;
+      const randomColor = AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
+      localStorage.setItem(TAB_COLOR_KEY, randomColor);
+      return randomColor;
+    } catch {
+      return AVATAR_COLORS[0];
+    }
+  });
   const [onlineCount, setOnlineCount] = useState(1);
   const [isProducer, setIsProducer] = useState<boolean>(() => isProducerAuthenticated());
   const [isAdmin, setIsAdmin] = useState<boolean>(() => propIsAdmin ?? isAdminAuthenticated());
@@ -251,29 +318,24 @@ export default function LiveChat({
 
   // Initialize unique session identifier and default random name
   useEffect(() => {
-    let sessionId = sessionStorage.getItem(TAB_SESSION_KEY);
-    if (!sessionId) {
-      sessionId = "user_" + Math.random().toString(36).substring(2, 9);
-      sessionStorage.setItem(TAB_SESSION_KEY, sessionId);
-    }
+    getPersistentSessionId();
 
-    const savedName = localStorage.getItem(TAB_NAME_KEY);
-    if (savedName) {
-      setUserName(savedName);
-    } else {
-      const defaultName = (isGreek ? "Ακροατής #" : "Listener #") + Math.floor(100 + Math.random() * 900);
-      setUserName(defaultName);
-      localStorage.setItem(TAB_NAME_KEY, defaultName);
-    }
+    const effective = getEffectiveUserName(isGreek);
+    setUserName(effective);
+    try {
+      localStorage.setItem(TAB_NAME_KEY, effective);
+    } catch {}
 
-    const savedColor = localStorage.getItem(TAB_COLOR_KEY);
-    if (savedColor) {
-      setAvatarColor(savedColor);
-    } else {
-      const randomColor = AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
-      setAvatarColor(randomColor);
-      localStorage.setItem(TAB_COLOR_KEY, randomColor);
-    }
+    try {
+      const savedColor = localStorage.getItem(TAB_COLOR_KEY);
+      if (savedColor) {
+        setAvatarColor(savedColor);
+      } else {
+        const randomColor = AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
+        setAvatarColor(randomColor);
+        localStorage.setItem(TAB_COLOR_KEY, randomColor);
+      }
+    } catch {}
   }, [isGreek]);
 
   // Realtime Database presence for online listeners with Heartbeat and Stale Filtering
@@ -363,7 +425,8 @@ export default function LiveChat({
       clearInterval(decayInterval);
       unsubConnected();
       unsubPresence();
-      set(userStatusRef, null).catch(() => {});
+      // On rapid refresh or tab reloads, allow onDisconnect and heartbeat TTL to manage session cleanup
+      // rather than abruptly setting null, preventing the online counter from flickering to zero.
     };
   }, []);
 
@@ -383,7 +446,7 @@ export default function LiveChat({
       (snapshot) => {
         const list: ChatMessage[] = [];
         let hasNewExternalMsg = false;
-        const currentSession = typeof window !== "undefined" ? sessionStorage.getItem(TAB_SESSION_KEY) : null;
+        const currentSession = typeof window !== "undefined" ? getPersistentSessionId() : null;
         const lastSeen = lastSeenTimeRef.current;
         const chatIsOpen = isOpenRef.current;
 
@@ -502,7 +565,7 @@ export default function LiveChat({
 
     const now = new Date();
     const timeStr = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
-    const sessionId = sessionStorage.getItem(TAB_SESSION_KEY) || "guest";
+    const sessionId = getPersistentSessionId();
 
     try {
       if (!customText) setInputText("");
@@ -523,12 +586,15 @@ export default function LiveChat({
     if (tempName.trim()) {
       const safeName = tempName.trim().slice(0, 30);
       setUserName(safeName);
-      localStorage.setItem(TAB_NAME_KEY, safeName);
+      try {
+        localStorage.setItem(CUSTOM_NAME_KEY, safeName);
+        localStorage.setItem(TAB_NAME_KEY, safeName);
+      } catch {}
     }
     setIsEditingName(false);
   };
 
-  const currentSessionId = sessionStorage.getItem(TAB_SESSION_KEY);
+  const currentSessionId = getPersistentSessionId();
   const effectiveVolPercent = isMuted ? 0 : volume * 100;
 
   const displayShowTitle = currentLiveShow?.title || (isGreek ? "Μουσική Ροή FRS UTH" : "FRS UTH Music Selection");
