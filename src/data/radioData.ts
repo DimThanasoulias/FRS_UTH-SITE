@@ -27,7 +27,9 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "laz-and-stol-show.png": { name: "Laz & Stol Show", category: "Sports & Social" },
   "akoume-kai-den-krinoume.jpg": { name: "Ακούμε και δεν κρίνουμε", category: "News & Gossip" },
   "mix-tapes.jpg": { name: "Mix Tapes", category: "Mixtapes & DJ Sets" },
-  "high-fidelity.png": { name: "High Fidelity", category: "Music & Vinyl" }
+  "high-fidelity.png": { name: "High Fidelity", category: "Music & Vinyl" },
+  "gkomenes-fanky.png": { name: "Γκόμενες φάνκυ", category: "Music & Talk" },
+  "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -95,13 +97,13 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-mix-tapes",
-        title: "Mix Tapes",
+        id: "show-gkomenes-fanky",
+        title: "Gkomenes Funky",
         time: "22:00 - 23:00",
-        host: "Mix Tapes",
-        tags: ["MixTapes", "DJSet", "Eclectic"],
-        description: "",
-        image: "/shows/vinyl.jpg",
+        host: "Γκόμενες φάνκυ",
+        tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
+        description: "A crew of 4, one microphone, diverse music tastes, student and artistic vibes, cinema, TV series, and absolutely zero guaranteed coherence barely squeezed into an on-air jam every Tuesday at 22:00. Grab a beer and join us on this wild musical journey!",
+        image: "/shows/gkomenes-fanky.png",
         hidden: false
       }
     ]
@@ -149,7 +151,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
       {
         id: "show-high-fidelity",
         title: "High Fidelity",
-        time: "21:00 - 23:00",
+        time: "21:00 - 22:00",
         host: "High Fidelity",
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
@@ -157,14 +159,14 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-masa-kai-arkoudios",
-        title: "Masa & Arkoudios",
-        time: "18:00 - 20:00",
-        host: "Masa & Arkoudios",
-        tags: ["Stories", "Eclectic", "RadioCrew"],
-        description: "Do you love everyday stories, spontaneous banter, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
-        image: "/shows/masa-kai-arkoudios.jpg",
-        hidden: true
+        id: "show-all-panic-no-disco",
+        title: "All Panic No Disco",
+        time: "22:00 - 00:00",
+        host: "All Panic No Disco",
+        tags: ["Spooky", "Vibes", "Talk", "NightSession"],
+        description: "Unemployed news, spooky stories, and overall just vibes.",
+        image: "/shows/all-panic-no-disco.jpg",
+        hidden: false
       }
     ]
   },
@@ -181,7 +183,18 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
   {
     day: "Sun",
     fullName: "Sunday",
-    shows: []
+    shows: [
+      {
+        id: "show-masa-kai-arkoudios",
+        title: "Masa & Arkoudios",
+        time: "19:00 - 20:00",
+        host: "Masa & Arkoudios",
+        tags: ["Stories", "Eclectic", "RadioCrew"],
+        description: "Do you love everyday stories, spontaneous banter, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
+        image: "/shows/masa-kai-arkoudios.jpg",
+        hidden: false
+      }
+    ]
   }
 ];
 
@@ -227,13 +240,13 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-mix-tapes",
-        title: "Mix Tapes",
+        id: "show-gkomenes-fanky",
+        title: "Γκόμενες φάνκυ",
         time: "22:00 - 23:00",
-        host: "Mix Tapes",
-        tags: ["MixTapes", "DJSet", "Eclectic"],
-        description: "",
-        image: "/shows/vinyl.jpg",
+        host: "Γκόμενες φάνκυ",
+        tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
+        description: "Μια παρέα των 4, ένα μικρόφωνο, διαφορετικά music taste, φοιτητικές αλλά και καλλιτεχνικές ανησυχίες, σινεμά, σειρές και καμία προφανώς εγγυημένη συνοχή χώρεσαν τσίμα τσίμα σε ένα jammarisma στον αέρα κάθε Τρίτη στις 22:00. Είτε σε λένε Φώτη είτε όχι, πιάσε μια μπύρα κι έλα να μοιραστείς μαζί μας αυτό το μουσικό ταξιδάκι.",
+        image: "/shows/gkomenes-fanky.png",
         hidden: false
       }
     ]
@@ -281,7 +294,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
       {
         id: "show-high-fidelity",
         title: "High Fidelity",
-        time: "21:00 - 23:00",
+        time: "21:00 - 22:00",
         host: "High Fidelity",
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
@@ -289,14 +302,14 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-masa-kai-arkoudios",
-        title: "Η Μάσα και ο Αρκούδιος",
-        time: "18:00 - 20:00",
-        host: "Μάσα & Αρκούδιος",
-        tags: ["Stories", "Eclectic", "RadioCrew"],
-        description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
-        image: "/shows/masa-kai-arkoudios.jpg",
-        hidden: true
+        id: "show-all-panic-no-disco",
+        title: "All Panic No Disco",
+        time: "22:00 - 00:00",
+        host: "All Panic No Disco",
+        tags: ["Spooky", "Vibes", "Talk", "NightSession"],
+        description: "Άνεργα νέα, spooky stories and overall just vibes.",
+        image: "/shows/all-panic-no-disco.jpg",
+        hidden: false
       }
     ]
   },
@@ -313,7 +326,18 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
   {
     day: "Κυρ",
     fullName: "Κυριακή",
-    shows: []
+    shows: [
+      {
+        id: "show-masa-kai-arkoudios",
+        title: "Η Μάσα και ο Αρκούδιος",
+        time: "19:00 - 20:00",
+        host: "Μάσα & Αρκούδιος",
+        tags: ["Stories", "Eclectic", "RadioCrew"],
+        description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
+        image: "/shows/masa-kai-arkoudios.jpg",
+        hidden: false
+      }
+    ]
   }
 ];
 
@@ -375,12 +399,12 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     image: "/shows/akoume-kai-den-krinoume.jpg"
   },
   {
-    id: "show-mix-tapes",
-    title: "Mix Tapes",
-    host: "Mix Tapes",
-    description: "",
-    tags: ["MixTapes", "DJSet", "Eclectic"],
-    image: "/shows/vinyl.jpg"
+    id: "show-gkomenes-fanky",
+    title: "Gkomenes Funky",
+    host: "Γκόμενες φάνκυ",
+    description: "A crew of 4, one microphone, diverse music tastes, student and artistic vibes, cinema, TV series, and absolutely zero guaranteed coherence barely squeezed into an on-air jam every Tuesday at 22:00. Grab a beer and join us on this wild musical journey!",
+    tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
+    image: "/shows/gkomenes-fanky.png"
   },
   {
     id: "show-high-fidelity",
@@ -389,6 +413,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "",
     tags: ["HighFidelity", "Vinyl", "Eclectic"],
     image: "/shows/high-fidelity.png"
+  },
+  {
+    id: "show-all-panic-no-disco",
+    title: "All Panic No Disco",
+    host: "All Panic No Disco",
+    description: "Unemployed news, spooky stories, and overall just vibes.",
+    tags: ["Spooky", "Vibes", "Talk", "NightSession"],
+    image: "/shows/all-panic-no-disco.jpg"
   }
 ];
 
@@ -450,12 +482,12 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     image: "/shows/akoume-kai-den-krinoume.jpg"
   },
   {
-    id: "show-mix-tapes",
-    title: "Mix Tapes",
-    host: "Mix Tapes",
-    description: "",
-    tags: ["MixTapes", "DJSet", "Eclectic"],
-    image: "/shows/vinyl.jpg"
+    id: "show-gkomenes-fanky",
+    title: "Γκόμενες φάνκυ",
+    host: "Γκόμενες φάνκυ",
+    description: "Μια παρέα των 4, ένα μικρόφωνο, διαφορετικά music taste, φοιτητικές αλλά και καλλιτεχνικές ανησυχίες, σινεμά, σειρές και καμία προφανώς εγγυημένη συνοχή χώρεσαν τσίμα τσίμα σε ένα jammarisma στον αέρα κάθε Τρίτη στις 22:00. Είτε σε λένε Φώτη είτε όχι, πιάσε μια μπύρα κι έλα να μοιραστείς μαζί μας αυτό το μουσικό ταξιδάκι.",
+    tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
+    image: "/shows/gkomenes-fanky.png"
   },
   {
     id: "show-high-fidelity",
@@ -464,6 +496,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "",
     tags: ["HighFidelity", "Vinyl", "Eclectic"],
     image: "/shows/high-fidelity.png"
+  },
+  {
+    id: "show-all-panic-no-disco",
+    title: "All Panic No Disco",
+    host: "All Panic No Disco",
+    description: "Άνεργα νέα, spooky stories and overall just vibes.",
+    tags: ["Spooky", "Vibes", "Talk", "NightSession"],
+    image: "/shows/all-panic-no-disco.jpg"
   }
 ];
 
