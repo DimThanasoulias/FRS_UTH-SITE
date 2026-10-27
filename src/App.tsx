@@ -31,7 +31,8 @@ import {
   Loader2,
   BarChart2,
   Instagram,
-  ShieldCheck
+  ShieldCheck,
+  Eye
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
