@@ -8,7 +8,7 @@ import { collection, getDocs, doc, deleteDoc, addDoc, query, orderBy } from "fir
 import { rtdb, db } from "./firebase";
 import { DayProgram, StationEvent, OpenCallApplication } from "../types";
 
-const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v2";
+const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v3";
 const EVENTS_CACHE_KEY = "frs_cached_events";
 
 /**
@@ -73,6 +73,9 @@ function isLegacyMockSchedule(schedule: DayProgram[]): boolean {
  */
 export function getCachedCustomSchedule(): DayProgram[] | null {
   try {
+    try {
+      localStorage.removeItem("frs_cached_schedule_v2");
+    } catch {}
     const raw = localStorage.getItem(SCHEDULE_CACHE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
