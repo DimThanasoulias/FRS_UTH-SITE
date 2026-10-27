@@ -293,6 +293,7 @@ export async function saveOpenCallApplication(
     name: data.name || "",
     email: data.email || "",
     phone: data.phone || "",
+    instagram: data.instagram || "",
     showConcept: data.showConcept || "",
     musicGenres: data.musicGenres || "",
     createdAt: Date.now()
@@ -348,6 +349,7 @@ export async function fetchOpenCallApplications(): Promise<OpenCallApplication[]
             name: item.name || "",
             email: item.email || "",
             phone: item.phone || "",
+            instagram: item.instagram || "",
             showConcept: item.showConcept || "",
             musicGenres: item.musicGenres || "",
             createdAt: item.createdAt
@@ -379,6 +381,7 @@ export async function fetchOpenCallApplications(): Promise<OpenCallApplication[]
           name: data.name || "",
           email: data.email || "",
           phone: data.phone || "",
+          instagram: data.instagram || "",
           showConcept: data.showConcept || "",
           musicGenres: data.musicGenres || "",
           createdAt: data.createdAt

@@ -117,6 +117,7 @@ export interface OpenCallApplication {
   name: string;
   email: string;
   phone: string;
+  instagram?: string;
   showConcept: string;
   musicGenres: string;
   createdAt?: any;

@@ -30,7 +30,8 @@ import {
   Check,
   Image as ImageIcon,
   Megaphone,
-  ExternalLink
+  ExternalLink,
+  Instagram
 } from "lucide-react";
 import { resetChatAndPolls } from "../lib/adminService";
 import { 
@@ -927,6 +928,18 @@ export default function AdminModal({
                           </div>
 
                           <div className="flex items-center gap-1.5">
+                            {app.instagram && (
+                              <a
+                                href={app.instagram.startsWith("http") ? app.instagram : `https://instagram.com/${app.instagram.replace(/^@/, "")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-pink-600 hover:border-pink-300 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                                title="Instagram"
+                              >
+                                <Instagram className="w-3.5 h-3.5 text-pink-600" />
+                                <span>IG</span>
+                              </a>
+                            )}
                             <a
                               href={`mailto:${app.email}?subject=${encodeURIComponent("FRS UTH — Σχετικά με την αίτηση εκπομπής")}`}
                               className="px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-stone-700 hover:text-[#ad021a] hover:border-[#ad021a]/30 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
@@ -963,6 +976,19 @@ export default function AdminModal({
                               <Phone className="w-3.5 h-3.5 text-stone-400 shrink-0" />
                               <a href={`tel:${app.phone}`} className="hover:underline font-mono text-[11px]">
                                 {app.phone}
+                              </a>
+                            </div>
+                          )}
+                          {app.instagram && (
+                            <div className="flex items-center gap-1.5 truncate">
+                              <Instagram className="w-3.5 h-3.5 text-pink-600 shrink-0" />
+                              <a 
+                                href={app.instagram.startsWith("http") ? app.instagram : `https://instagram.com/${app.instagram.replace(/^@/, "")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline font-mono text-[11px] text-pink-600 truncate"
+                              >
+                                @{app.instagram.replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "")}
                               </a>
                             </div>
                           )}

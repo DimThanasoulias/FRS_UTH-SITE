@@ -260,7 +260,7 @@ export default function App() {
   // Open Call modal form
   const [openCallSubmitted, setOpenCallSubmitted] = useState(false);
   const [openCallLoading, setOpenCallLoading] = useState(false);
-  const [openCallForm, setOpenCallForm] = useState({ name: "", email: "", showConcept: "", musicGenres: "", phone: "" });
+  const [openCallForm, setOpenCallForm] = useState({ name: "", email: "", phone: "", instagram: "", showConcept: "", musicGenres: "" });
 
   // Legal Modal state (Privacy, Terms, Cookies)
   const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
@@ -2511,9 +2511,10 @@ export default function App() {
                       await saveOpenCallApplication({
                         name: openCallForm.name,
                         email: openCallForm.email,
+                        phone: openCallForm.phone,
+                        instagram: openCallForm.instagram,
                         showConcept: openCallForm.showConcept,
-                        musicGenres: openCallForm.musicGenres,
-                        phone: openCallForm.phone
+                        musicGenres: openCallForm.musicGenres
                       });
                     } catch (err) {
                       console.error("Error saving open call application:", err);
@@ -2525,6 +2526,7 @@ export default function App() {
                       name: "",
                       email: "",
                       phone: "",
+                      instagram: "",
                       showConcept: "",
                       musicGenres: ""
                     });
@@ -2560,21 +2562,21 @@ export default function App() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-bold text-[#1C1917] mb-1">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={openCallForm.email}
-                        onChange={(e) => setOpenCallForm({ ...openCallForm, email: e.target.value })}
-                        placeholder="email@uth.gr"
-                        className="field"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={openCallForm.email}
+                      onChange={(e) => setOpenCallForm({ ...openCallForm, email: e.target.value })}
+                      placeholder="email@uth.gr"
+                      className="field"
+                    />
+                  </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-bold text-[#1C1917] mb-1">
                         {isGreek ? "Τηλέφωνο" : "Phone"}
@@ -2586,6 +2588,22 @@ export default function App() {
                         placeholder="69xxxxxxxx"
                         className="field"
                       />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                        Instagram
+                      </label>
+                      <div className="relative flex items-center">
+                        <Instagram className="w-4 h-4 text-stone-400 absolute left-3 pointer-events-none" />
+                        <input
+                          type="text"
+                          value={openCallForm.instagram}
+                          onChange={(e) => setOpenCallForm({ ...openCallForm, instagram: e.target.value })}
+                          placeholder={isGreek ? "@username (προαιρετικό)" : "@username (optional)"}
+                          className="field !pl-9"
+                        />
+                      </div>
                     </div>
                   </div>
 

@@ -29,7 +29,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "mix-tapes.jpg": { name: "Mix Tapes", category: "Mixtapes & DJ Sets" },
   "high-fidelity.png": { name: "High Fidelity", category: "Music & Vinyl" },
   "gkomenes-fanky.png": { name: "Γκόμενες φάνκυ", category: "Music & Talk" },
-  "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" }
+  "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" },
+  "blonde-girls-gone-wild.png": { name: "Blonde Girls Gone Wild", category: "Student Life & Talk" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -60,6 +61,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     day: "Mon",
     fullName: "Monday",
     shows: [
+      {
+        id: "show-high-fidelity",
+        title: "High Fidelity",
+        time: "20:00 - 21:00",
+        host: "High Fidelity",
+        tags: ["HighFidelity", "Vinyl", "Eclectic"],
+        description: "",
+        image: "/shows/high-fidelity.png",
+        hidden: false
+      },
       {
         id: "show-arlekin",
         title: "Arlekin",
@@ -149,16 +160,6 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-high-fidelity",
-        title: "High Fidelity",
-        time: "21:00 - 22:00",
-        host: "High Fidelity",
-        tags: ["HighFidelity", "Vinyl", "Eclectic"],
-        description: "",
-        image: "/shows/high-fidelity.png",
-        hidden: false
-      },
-      {
         id: "show-all-panic-no-disco",
         title: "All Panic No Disco",
         time: "22:00 - 00:00",
@@ -173,7 +174,18 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
   {
     day: "Fri",
     fullName: "Friday",
-    shows: []
+    shows: [
+      {
+        id: "show-blonde-girls-gone-wild",
+        title: "Blonde Girls Gone Wild",
+        time: "20:00 - 21:00",
+        host: "Blonde Girls Gone Wild",
+        tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
+        description: "How does it feel to romanticize your student years? This show delivers chaos, love, astrology, and celebrity news packed into 1 hour of madness, filling Friday nights with hilarious stories, banter, relationship advice, and unstoppable chaos! There is no better portrayal of student life!",
+        image: "/shows/blonde-girls-gone-wild.png",
+        hidden: false
+      }
+    ]
   },
   {
     day: "Sat",
@@ -203,6 +215,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     day: "Δευ",
     fullName: "Δευτέρα",
     shows: [
+      {
+        id: "show-high-fidelity",
+        title: "High Fidelity",
+        time: "20:00 - 21:00",
+        host: "High Fidelity",
+        tags: ["HighFidelity", "Vinyl", "Eclectic"],
+        description: "",
+        image: "/shows/high-fidelity.png",
+        hidden: false
+      },
       {
         id: "show-arlekin",
         title: "Αρλεκίν",
@@ -292,16 +314,6 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-high-fidelity",
-        title: "High Fidelity",
-        time: "21:00 - 22:00",
-        host: "High Fidelity",
-        tags: ["HighFidelity", "Vinyl", "Eclectic"],
-        description: "",
-        image: "/shows/high-fidelity.png",
-        hidden: false
-      },
-      {
         id: "show-all-panic-no-disco",
         title: "All Panic No Disco",
         time: "22:00 - 00:00",
@@ -316,7 +328,18 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
   {
     day: "Παρ",
     fullName: "Παρασκευή",
-    shows: []
+    shows: [
+      {
+        id: "show-blonde-girls-gone-wild",
+        title: "Blonde Girls Gone Wild",
+        time: "20:00 - 21:00",
+        host: "Blonde Girls Gone Wild",
+        tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
+        description: "Πως είναι να romanticize τα φοιτητικά χρόνια; Αυτή η εκπομπή όχι μόνο δίνει χάος, αγάπη, αστρολογία, celebrity news όλα σε 1 ώρα τρέλας, αλλά επίσης γεμίζει τα βράδια της Παρασκευής με αστείες ιστορίες, πλάκες, συμβουλές για τα γκομενικά και ασταμάτητο χάος! Δεν υπάρχει καλύτερη απεικόνιση για τα χρόνια ενός φοιτητή!",
+        image: "/shows/blonde-girls-gone-wild.png",
+        hidden: false
+      }
+    ]
   },
   {
     day: "Σαβ",
@@ -421,6 +444,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "Unemployed news, spooky stories, and overall just vibes.",
     tags: ["Spooky", "Vibes", "Talk", "NightSession"],
     image: "/shows/all-panic-no-disco.jpg"
+  },
+  {
+    id: "show-blonde-girls-gone-wild",
+    title: "Blonde Girls Gone Wild",
+    host: "Blonde Girls Gone Wild",
+    description: "How does it feel to romanticize your student years? This show delivers chaos, love, astrology, and celebrity news packed into 1 hour of madness, filling Friday nights with hilarious stories, banter, relationship advice, and unstoppable chaos! There is no better portrayal of student life!",
+    tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
+    image: "/shows/blonde-girls-gone-wild.png"
   }
 ];
 
@@ -504,6 +535,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "Άνεργα νέα, spooky stories and overall just vibes.",
     tags: ["Spooky", "Vibes", "Talk", "NightSession"],
     image: "/shows/all-panic-no-disco.jpg"
+  },
+  {
+    id: "show-blonde-girls-gone-wild",
+    title: "Blonde Girls Gone Wild",
+    host: "Blonde Girls Gone Wild",
+    description: "Πως είναι να romanticize τα φοιτητικά χρόνια; Αυτή η εκπομπή όχι μόνο δίνει χάος, αγάπη, αστρολογία, celebrity news όλα σε 1 ώρα τρέλας, αλλά επίσης γεμίζει τα βράδια της Παρασκευής με αστείες ιστορίες, πλάκες, συμβουλές για τα γκομενικά και ασταμάτητο χάος! Δεν υπάρχει καλύτερη απεικόνιση για τα χρόνια ενός φοιτητή!",
+    tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
+    image: "/shows/blonde-girls-gone-wild.png"
   }
 ];
 

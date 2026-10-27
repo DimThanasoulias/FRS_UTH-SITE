@@ -138,7 +138,7 @@ export default function LegalModal({
                     </p>
                     <ul className="list-disc list-inside space-y-1 pl-2">
                       <li><strong>Φόρμα Επικοινωνίας:</strong> Όνομα, διεύθυνση email και το κείμενο του μηνύματός σας.</li>
-                      <li><strong>Αίτηση Open Call:</strong> Ονοματεπώνυμο, email, προαιρετικό τηλέφωνο, μουσικά ενδιαφέροντα και περιγραφή εκπομπής για την αξιολόγηση συμμετοχής στην ομάδα.</li>
+                      <li><strong>Αίτηση Open Call:</strong> Ονοματεπώνυμο, email, προαιρετικό τηλέφωνο, προαιρετικό προφίλ Instagram, μουσικά ενδιαφέροντα και περιγραφή εκπομπής για την αξιολόγηση συμμετοχής στην ομάδα.</li>
                       <li><strong>Live Chat:</strong> Το ψευδώνυμο (nickname) που επιλέγετε ελεύθερα και τα μηνύματα που δημοσιεύετε δημόσια στη συνομιλία.</li>
                     </ul>
 
@@ -160,7 +160,7 @@ export default function LegalModal({
                     </p>
                     <ul className="list-disc list-inside space-y-1 pl-2">
                       <li><strong>Contact Form:</strong> Name, email address, and your message content.</li>
-                      <li><strong>Open Call Application:</strong> Full name, email, optional phone, music genres, and show proposal for producer onboarding.</li>
+                      <li><strong>Open Call Application:</strong> Full name, email, optional phone, optional Instagram profile, music genres, and show proposal for producer onboarding.</li>
                       <li><strong>Live Chat:</strong> The display nickname you choose freely and messages submitted publicly.</li>
                     </ul>
 
