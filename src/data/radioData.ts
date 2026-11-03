@@ -56,6 +56,8 @@ export const SHOW_GALLERY_PRESETS: GalleryImage[] = availableFiles.map((file) =>
   };
 });
 
+const ARGORYTHMOI_DESCRIPTION = "Σε μία κοινωνία ριπών πληροφορίας οι ρυθμοί συλλογής και επεξεργασίας της μοιάζουν χαοτικοί. Οι νεοι άνθρωποι και ειδικότερα όσοι ασχολούνται με τον κλαδο της ΤΝ γνωρίζουν καλά την πίεση που ασκείται καθημερινά στην παγκόσμια κοινότητα οχι για προβάδισμα αλλά ακόμα και για ενημέρωση των τελευταίων τεχνολογιών. Παίρνοντας λοιπόν μια ανάσα από όλο αυτό τον πανικό οι Αργόρυθμοι είναι μία \"cross-domain\" ραδιοφωνική εκπομπή που απομυθοποιεί την Τεχνητή Νοημοσύνη. Μέσα από την ανάλυση της τεχνολογικής επικαιρότητας και εκτενείς συζητήσεις με ειδικούς καλεσμένους (καθηγητές, ερευνητές, επαγγελματίες της αγοράς, νέους επαγγελματίες), εξερευνούμε πώς το AI μετασχηματίζει το πανεπιστήμιο, την έρευνα, την αγορά εργασίας και την καθημερινότητά μας, χρησιμοποιώντας γλώσσα κατανοητή, χωρίς να απαιτούνται τεχνικές γνώσεις από τον ακροατή";
+
 export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
   {
     day: "Mon",
@@ -129,7 +131,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         time: "21:00 - 22:00",
         host: "Argorythmoi",
         tags: ["Radio", "FRSUTH"],
-        description: "",
+        description: ARGORYTHMOI_DESCRIPTION,
         image: "/shows/studio.jpg",
         hidden: false
       },
@@ -293,7 +295,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         time: "21:00 - 22:00",
         host: "Argorythmoi",
         tags: ["Radio", "FRSUTH"],
-        description: "",
+        description: ARGORYTHMOI_DESCRIPTION,
         image: "/shows/studio.jpg",
         hidden: false
       },
