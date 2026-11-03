@@ -252,7 +252,9 @@ input[type="range"] {
 :focus-visible { outline: 3px solid #ad021a; outline-offset: 4px; }
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 100000; transform: translateY(-160%); background: #fff; padding: 12px 18px; border-radius: 12px; }
 .skip-link:focus { transform: translateY(0); }
-.seasonal-lights { position: absolute; top: -28px; left: 0; width: 100%; height: 32px; pointer-events: none; }
+/* Match the hero top padding (32px / 48px), with the rope endpoints on the header border. */
+.seasonal-lights { position: absolute; top: -33px; left: 0; width: 100%; height: 32px; pointer-events: none; }
+@media (min-width: 640px) { .seasonal-lights { top: -49px; } }
 .seasonal-lights svg { width: 100%; height: 28px; }
 .seasonal-lights i { position: absolute; width: 5px; height: 8px; border-radius: 50%; background: #f6d58a; box-shadow: 0 0 9px 3px #f6d58a55; }
 .seasonal-lights i:nth-child(3n) { background: #ad021a; box-shadow: 0 0 7px #ad021a33; }
