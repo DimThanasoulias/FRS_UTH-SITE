@@ -30,7 +30,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "high-fidelity.png": { name: "High Fidelity", category: "Music & Vinyl" },
   "gkomenes-fanky.png": { name: "Γκόμενες φάνκυ", category: "Music & Talk" },
   "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" },
-  "blonde-girls-gone-wild.png": { name: "Blonde Girls Gone Wild", category: "Student Life & Talk" }
+  "blonde-girls-gone-wild.png": { name: "Blonde Girls Gone Wild", category: "Student Life & Talk" },
+  "pick-up.png": { name: "Pick Up", category: "Indie Rock & Post Punk" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -71,6 +72,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
+        hidden: false
+      },
+      {
+        id: "show-pick-up",
+        title: "Pick Up",
+        time: "21:00 - 22:00",
+        host: "Pick Up",
+        tags: ["IndieRock", "PostPunk", "StudentLife"],
+        description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
+        image: "/shows/pick-up.png",
         hidden: false
       }
     ]
@@ -235,6 +246,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
+        hidden: false
+      },
+      {
+        id: "show-pick-up",
+        title: "Pick Up",
+        time: "21:00 - 22:00",
+        host: "Pick Up",
+        tags: ["IndieRock", "PostPunk", "StudentLife"],
+        description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
+        image: "/shows/pick-up.png",
         hidden: false
       }
     ]
@@ -474,6 +495,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "How does it feel to romanticize your student years? This show delivers chaos, love, astrology, and celebrity news packed into 1 hour of madness, filling Friday nights with hilarious stories, banter, relationship advice, and unstoppable chaos! There is no better portrayal of student life!",
     tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
     image: "/shows/blonde-girls-gone-wild.png"
+  },
+  {
+    id: "show-pick-up",
+    title: "Pick Up",
+    host: "Pick Up",
+    description: "When your friends cancel plans last minute, grab a beer and chill with us every Monday 9 to 10. A bit of indie rock, a bit of post punk, and whatever comes to mind each time.",
+    tags: ["IndieRock", "PostPunk", "StudentLife"],
+    image: "/shows/pick-up.png"
   }
 ];
 
@@ -565,6 +594,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "Πως είναι να romanticize τα φοιτητικά χρόνια; Αυτή η εκπομπή όχι μόνο δίνει χάος, αγάπη, αστρολογία, celebrity news όλα σε 1 ώρα τρέλας, αλλά επίσης γεμίζει τα βράδια της Παρασκευής με αστείες ιστορίες, πλάκες, συμβουλές για τα γκομενικά και ασταμάτητο χάος! Δεν υπάρχει καλύτερη απεικόνιση για τα χρόνια ενός φοιτητή!",
     tags: ["Talk", "StudentLife", "Gossip", "Chaos"],
     image: "/shows/blonde-girls-gone-wild.png"
+  },
+  {
+    id: "show-pick-up",
+    title: "Pick Up",
+    host: "Pick Up",
+    description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
+    tags: ["IndieRock", "PostPunk", "StudentLife"],
+    image: "/shows/pick-up.png"
   }
 ];
 
