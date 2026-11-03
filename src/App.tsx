@@ -44,6 +44,7 @@ import AdminModal from "./components/AdminModal";
 import LegalModal, { LegalTab } from "./components/LegalModal";
 import CookieBanner from "./components/CookieBanner";
 import AdBanner from "./components/AdBanner";
+import { radioAudio } from "./lib/radioAudio";
 import { subscribeToAdSpace, getCachedAdSpace } from "./lib/adService";
 import { subscribeToActivePoll } from "./lib/pollService";
 import { 
@@ -95,6 +96,45 @@ export default function App() {
   const [isOpenCallModalOpen, setIsOpenCallModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activePoll, setActivePoll] = useState<LivePollData | null>(null);
+
+  // Connect to persistent single audio stream manager
+  useEffect(() => {
+    radioAudio.setCallbacks(
+      (loading) => setIsLoadingAudio(loading),
+      (playing) => setStationPlaying(playing)
+    );
+  }, []);
+
+  // Synchronize playback when stationPlaying state changes
+  useEffect(() => {
+    if (stationPlaying) {
+      if (!radioAudio.isPlaying()) {
+        radioAudio.play(volume, isMuted);
+      }
+    } else {
+      if (radioAudio.isPlaying()) {
+        radioAudio.pause();
+      }
+    }
+  }, [stationPlaying, volume, isMuted]);
+
+  // Synchronize volume and mute state in real time
+  useEffect(() => {
+    radioAudio.setVolume(volume, isMuted);
+  }, [volume, isMuted]);
+
+  const handleTogglePlay = (forceState?: boolean) => {
+    const nextState = typeof forceState === "boolean" ? forceState : !stationPlaying;
+    if (nextState) {
+      setIsLoadingAudio(true);
+      setStationPlaying(true);
+      radioAudio.play(volume, isMuted);
+    } else {
+      setIsLoadingAudio(false);
+      setStationPlaying(false);
+      radioAudio.pause();
+    }
+  };
 
   // Subscribe to real-time active poll from RTDB (Firebase Spark free tier zero-cost)
   useEffect(() => {
@@ -538,8 +578,7 @@ export default function App() {
 
   const handleTuneChannel = (trackId: string) => {
     setActiveTrackId(trackId);
-    setIsLoadingAudio(true);
-    setStationPlaying(true);
+    handleTogglePlay(true);
   };
 
   const getShowDetails = (idOrTitle: string) => {
@@ -839,13 +878,7 @@ export default function App() {
             {/* Primary Red Listen Button */}
             <button
               onClick={() => {
-                if (!stationPlaying) {
-                  setIsLoadingAudio(true);
-                  setStationPlaying(true);
-                } else {
-                  setStationPlaying(false);
-                  setIsLoadingAudio(false);
-                }
+                handleTogglePlay();
                 scrollToLiveStation();
               }}
               className="h-10 flex items-center gap-2 bg-[#ad021a] hover:bg-[#8f0115] text-white px-4 rounded-full font-bold text-xs shadow-md shadow-[#ad021a]/20 hover:shadow-lg hover:shadow-[#ad021a]/30 transition-all cursor-pointer active:scale-95 whitespace-nowrap"
@@ -1059,7 +1092,7 @@ export default function App() {
                     {/* Primary Button */}
                     <button
                       onClick={() => {
-                        setStationPlaying(!stationPlaying);
+                        handleTogglePlay();
                         scrollToLiveStation();
                       }}
                       className="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-[#ad021a] hover:bg-[#8f0115] text-white px-4 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm shadow-md shadow-[#ad021a]/25 hover:shadow-lg hover:shadow-[#ad021a]/35 transition-all cursor-pointer active:scale-95 whitespace-nowrap"
