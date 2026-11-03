@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DayProgram, ShowDescription, ArchiveItem, StationEvent } from "../types";
+import type { DayProgram, ShowDescription, ArchiveItem, StationEvent } from "../types";
 import { SHOW_FILES } from "virtual:show-images";
 
 export interface GalleryImage {
@@ -110,7 +110,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
       {
         id: "show-gkomenes-fanky",
         title: "Gkomenes Funky",
-        time: "22:00 - 23:00",
+        time: "22:00 - 23:30",
         host: "Γκόμενες φάνκυ",
         tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
         description: "A crew of 4, one microphone, diverse music tastes, student and artistic vibes, cinema, TV series, and absolutely zero guaranteed coherence barely squeezed into an on-air jam every Tuesday at 22:00. Grab a beer and join us on this wild musical journey!",
@@ -123,6 +123,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     day: "Wed",
     fullName: "Wednesday",
     shows: [
+      {
+        id: "show-argorythmoi",
+        title: "Argorythmoi",
+        time: "21:00 - 22:00",
+        host: "Argorythmoi",
+        tags: ["Radio", "FRSUTH"],
+        description: "",
+        image: "/shows/studio.jpg",
+        hidden: false
+      },
       {
         id: "show-girls-next-door",
         title: "The Girls Next Door",
@@ -152,7 +162,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
       {
         id: "show-akoume-kai-den-krinoume",
         title: "Akoume Kai Den Krinoume",
-        time: "20:00 - 21:00",
+        time: "20:00 - 22:00",
         host: "Akoume Kai Den Krinoume",
         tags: ["News", "Gossip", "RapTrap", "Viral"],
         description: "News, gossip, laughs, and music — all in one! From daily top stories and viral trends to showbiz, celebrity gossip, and rap & trap from Greece and abroad. You comment, we speak on air! 💬📻",
@@ -264,7 +274,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
       {
         id: "show-gkomenes-fanky",
         title: "Γκόμενες φάνκυ",
-        time: "22:00 - 23:00",
+        time: "22:00 - 23:30",
         host: "Γκόμενες φάνκυ",
         tags: ["Funky", "StudentLife", "Talk", "Eclectic"],
         description: "Μια παρέα των 4, ένα μικρόφωνο, διαφορετικά music taste, φοιτητικές αλλά και καλλιτεχνικές ανησυχίες, σινεμά, σειρές και καμία προφανώς εγγυημένη συνοχή χώρεσαν τσίμα τσίμα σε ένα jammarisma στον αέρα κάθε Τρίτη στις 22:00. Είτε σε λένε Φώτη είτε όχι, πιάσε μια μπύρα κι έλα να μοιραστείς μαζί μας αυτό το μουσικό ταξιδάκι.",
@@ -277,6 +287,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     day: "Τετ",
     fullName: "Τετάρτη",
     shows: [
+      {
+        id: "show-argorythmoi",
+        title: "Argorythmoi",
+        time: "21:00 - 22:00",
+        host: "Argorythmoi",
+        tags: ["Radio", "FRSUTH"],
+        description: "",
+        image: "/shows/studio.jpg",
+        hidden: false
+      },
       {
         id: "show-girls-next-door",
         title: "The Girls Next Door",
@@ -306,7 +326,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
       {
         id: "show-akoume-kai-den-krinoume",
         title: "Ακούμε και δεν κρίνουμε",
-        time: "20:00 - 21:00",
+        time: "20:00 - 22:00",
         host: "Ακούμε και δεν κρίνουμε",
         tags: ["News", "Gossip", "RapTrap", "Viral"],
         description: "🎙️ News, gossip, γέλιο και μουσική — όλα σε ένα!\n\nΑπό τα πιο ενδιαφέροντα νέα της ημέρας και τα viral της επικαιρότητας, μέχρι showbiz, gossip και rap & trap από Ελλάδα και εξωτερικό. 🌎🔥\n\nΕσείς σχολιάζετε, εμείς… τα λέμε στον αέρα! 💬📻",
