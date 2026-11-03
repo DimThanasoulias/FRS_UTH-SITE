@@ -259,12 +259,10 @@ input[type="range"] {
 .seasonal-snow { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; border-radius: 24px; }
 .seasonal-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; box-shadow: 0 0 2px #36534455; opacity: .65; animation: seasonal-fall linear infinite; }
 .seasonal-snow-paused { display: none; }
-.seasonal-controls { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.snow-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 12px; border: 1px solid #36534433; border-radius: 999px; font-size: 12px; color: #365344; cursor: pointer; background: #fff9; }
 @keyframes seasonal-fall { to { transform: translate(24px, 650px); } }
 @media (max-width: 640px) { .seasonal-snow i:nth-child(n+11) { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  .seasonal-snow, .snow-toggle { display: none; }
+  .seasonal-snow { display: none; }
 }

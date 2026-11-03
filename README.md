@@ -109,9 +109,10 @@ This project is open-source and developed for the **University of Thessaly Stude
 
 Christmas accents appear on the homepage automatically from November 1 through
 January 6, using Europe/Athens time. Signed-in admins can choose Automatic, On,
-or Off using the Christmas decorations control on the homepage. Visitors can
-turn snow off independently; their choice is saved locally. Reduced-motion users
-see static decorations only, and snow pauses while the browser tab is hidden.
+or Off using the Christmas decorations control on the homepage. Snow appears
+automatically whenever seasonal decorations are active, without a visitor toggle
+or caption. Reduced-motion users see static decorations only, and snow pauses
+while the browser tab is hidden.
 No seasonal settings are written until an admin changes the control.
 
 Use Node.js 24+ for the built-in regression suite:
