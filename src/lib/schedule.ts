@@ -17,11 +17,16 @@ export function getBroadcastSchedule(activeSchedule: DayProgram[], isGreek: bool
     const parseTimeRange = (timeStr: string) => {
       const parts = timeStr.split("-").map(s => s.trim());
       if (parts.length === 2) {
-        const [sH, sM] = parts[0].split(":").map(Number);
-        const [eH, eM] = parts[1].split(":").map(Number);
-        let startMin = (sH || 0) * 60 + (sM || 0);
-        let endMin = (eH || 0) * 60 + (eM || 0);
-        if (endMin <= startMin) endMin += 24 * 60;
+        let [sH, sM] = parts[0].split(":").map(Number);
+        let [eH, eM] = parts[1].split(":").map(Number);
+        sH = sH || 0;
+        sM = sM || 0;
+        eH = eH || 0;
+        eM = eM || 0;
+        if (sH < 6) sH += 24;
+        if (eH < 6 || (eH * 60 + eM) <= (sH * 60 + sM)) eH += 24;
+        let startMin = sH * 60 + sM;
+        let endMin = eH * 60 + eM;
         return { startMin, endMin };
       }
       return { startMin: 0, endMin: 0 };
@@ -55,7 +60,7 @@ export function getBroadcastSchedule(activeSchedule: DayProgram[], isGreek: bool
     const previous = activeSchedule.find(d => d.day === daysMapGR[yesterday] || d.day === daysMapEN[yesterday]);
     for (const show of previous?.shows || []) {
       const { startMin, endMin } = parseTimeRange(show.time);
-      if (endMin > 1440 && nowMinutes + 1440 < endMin) {
+      if (endMin > 1440 && (nowMinutes + 1440) >= startMin && (nowMinutes + 1440) < endMin) {
         active = { ...show, isLive: true };
       }
     }

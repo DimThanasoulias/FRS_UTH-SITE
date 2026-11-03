@@ -72,16 +72,6 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         description: "",
         image: "/shows/high-fidelity.png",
         hidden: false
-      },
-      {
-        id: "show-arlekin",
-        title: "Arlekin",
-        time: "20:00 - 22:00",
-        host: "Arlekin",
-        tags: ["Entechno", "Laiko", "Rebetiko"],
-        description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
-        image: "/shows/arlekin.jpg",
-        hidden: true
       }
     ]
   },
@@ -143,6 +133,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         tags: ["GirlTalk", "PopCulture", "StudentLife"],
         description: "If student life was a song, it would play on The Girls Next Door — where girl talk goes on air! Join us as we discuss hot topics, student vibes, movies, books, celeb gossip, and games with listeners. Because in the end... the radio idea made it out of the group chat! 💬",
         image: "/shows/girls-next-door.jpg",
+        hidden: false
+      },
+      {
+        id: "show-arlekin",
+        title: "Arlekin",
+        time: "00:00 - 01:00",
+        host: "Arlekin",
+        tags: ["Entechno", "Laiko", "Rebetiko"],
+        description: "Beloved songs from Greek entechno, laiko, and rebetiko repertoire, paired with international tracks and melodies.",
+        image: "/shows/arlekin.jpg",
         hidden: false
       }
     ]
@@ -236,16 +236,6 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         description: "",
         image: "/shows/high-fidelity.png",
         hidden: false
-      },
-      {
-        id: "show-arlekin",
-        title: "Αρλεκίν",
-        time: "20:00 - 22:00",
-        host: "Αρλεκίν",
-        tags: ["Entechno", "Laiko", "Rebetiko"],
-        description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
-        image: "/shows/arlekin.jpg",
-        hidden: true
       }
     ]
   },
@@ -307,6 +297,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["GirlTalk", "PopCulture", "StudentLife"],
         description: "Αν η φοιτητική ζωή ήταν τραγούδι, σίγουρα θα έπαιζε στο The Girls Next Door — εκεί όπου το girl talk γίνεται… on air! 🎙️ Δεν είμαστε απλώς τα κορίτσια της διπλανής πόρτας, αλλά εκείνες που σχολιάζουν τα πιο hot topics, μοιράζονται random σκέψεις, όλα τα φοιτητικά feelings και φυσικά, σας κρατούν συντροφιά με την καλύτερη μουσική! 🎶 Από νέα ταινιών, σειρών και βιβλίων μέχρι celeb gossip, νέους δίσκους και διαδραστικά παιχνίδια με τους ακροατές — όλα έχουν θέση στην εκπομπή μας. Γιατί τελικά… η ιδέα για το ραδιόφωνο made it out of the group chat! 💬",
         image: "/shows/girls-next-door.jpg",
+        hidden: false
+      },
+      {
+        id: "show-arlekin",
+        title: "Αρλεκίν",
+        time: "00:00 - 01:00",
+        host: "Αρλεκίν",
+        tags: ["Entechno", "Laiko", "Rebetiko"],
+        description: "Τραγούδια αγαπημένα από έντεχνο, λαϊκό, ρεμπέτικο ρεπερτόριο αλλά και με ξενόγλωσσο στίχο.",
+        image: "/shows/arlekin.jpg",
         hidden: false
       }
     ]

@@ -10,25 +10,29 @@ import { DayProgram, StationEvent, OpenCallApplication } from "../types";
 
 import { persistApplication } from "./persistApplication";
 
-const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v3";
+const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v4";
 const EVENTS_CACHE_KEY = "frs_cached_events";
 
 /**
- * Parses the starting time of a show string (e.g. "11:00 - 13:00", "09:30") into minutes from midnight.
+ * Parses the starting time of a show string (e.g. "11:00 - 13:00", "09:30", "00:00 - 01:00") into minutes from broadcast day start.
+ * In late-night radio schedules, times from 00:00 to 05:59 belong to the late-night slot of the day's broadcast.
  */
 export function parseShowStartTime(timeStr: string): number {
   if (!timeStr || typeof timeStr !== "string") return 0;
-  // Match first time pattern like "11:00", "09:30", "11.00", "14:00"
+  // Match first time pattern like "11:00", "09:30", "11.00", "14:00", "00:00"
   const match = timeStr.match(/(\d{1,2})\s*[:\.]\s*(\d{2})/);
   if (match) {
     const hours = parseInt(match[1], 10);
     const minutes = parseInt(match[2], 10);
-    return hours * 60 + minutes;
+    const effectiveHours = hours < 6 ? hours + 24 : hours;
+    return effectiveHours * 60 + minutes;
   }
   // Fallback: match just the first integer as hour (e.g. "11 - 13")
   const singleMatch = timeStr.match(/(\d{1,2})/);
   if (singleMatch) {
-    return parseInt(singleMatch[1], 10) * 60;
+    const hours = parseInt(singleMatch[1], 10);
+    const effectiveHours = hours < 6 ? hours + 24 : hours;
+    return effectiveHours * 60;
   }
   return 0;
 }

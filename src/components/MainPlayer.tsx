@@ -92,13 +92,20 @@ export default function MainPlayer({
     if (currentLiveShow && currentLiveShow.time) {
       const parts = currentLiveShow.time.split("-").map((s: string) => s.trim());
       if (parts.length === 2) {
-        const [startH, startM] = parts[0].split(":").map(Number);
-        const [endH, endM] = parts[1].split(":").map(Number);
+        let [startH, startM] = parts[0].split(":").map(Number);
+        let [endH, endM] = parts[1].split(":").map(Number);
+        startH = startH || 0;
+        startM = startM || 0;
+        endH = endH || 0;
+        endM = endM || 0;
+        if (startH < 6) startH += 24;
+        if (endH < 6 || (endH * 60 + endM) <= (startH * 60 + startM)) endH += 24;
+
         let startSec = (startH * 60 + startM) * 60;
         let endSec = (endH * 60 + endM) * 60;
-        if (endSec <= startSec) endSec += 24 * 3600;
 
         let nowSec = (now.hour * 60 + now.minute) * 60 + now.second;
+        if (now.hour < 6) nowSec += 24 * 3600;
         if (endSec > 24 * 3600 && nowSec < startSec) nowSec += 24 * 3600;
 
         const elapsed = Math.max(0, nowSec - startSec);
