@@ -28,12 +28,12 @@ import {
   endActivePoll, 
   clearActivePoll, 
   isProducerAuthenticated, 
-  verifyProducerPin,
+  verifyProducerLogin,
   logoutProducer,
   PRODUCER_NAME_KEY
 } from "../lib/pollService";
 import { 
-  verifyAdminPin, 
+  verifyAdminLogin,
   isAdminAuthenticated, 
   logoutAdmin 
 } from "../lib/adminService";
@@ -93,6 +93,7 @@ export default function LivePoll({
   const showCreateModal = propShowCreateModal !== undefined ? propShowCreateModal : internalShowCreateModal;
   const setShowCreateModal = propSetShowCreateModal || setInternalShowCreateModal;
 
+  const [usernameInput, setUsernameInput] = useState("");
   const [pinInput, setPinInput] = useState("");
   const [producerNameInput, setProducerNameInput] = useState("");
   const [authError, setAuthError] = useState("");
@@ -168,38 +169,40 @@ export default function LivePoll({
     };
   }, [poll]);
 
-  // Handle PIN Verification (Admin or Producer)
+  // Handle username/password verification (Admin or Producer)
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
     const defaultProducer = isGreek ? "The Hangover" : "The Hangover";
     const chosenName = producerNameInput.trim() || defaultProducer;
 
-    // 1. Check Admin PIN
-    if (verifyAdminPin(pinInput)) {
+    // 1. Check administrator credentials
+    if (verifyAdminLogin(usernameInput, pinInput)) {
       setIsAdmin(true);
       setIsProducer(true);
       setShowAuthModal(false);
       setPinInput("");
+      setUsernameInput("");
       setProducerNameInput("");
       return;
     }
 
-    // 2. Check Producer PIN
-    const ok = verifyProducerPin(pinInput, chosenName);
+    // 2. Check producer credentials
+    const ok = verifyProducerLogin(usernameInput, pinInput, chosenName);
     if (ok) {
       setIsProducer(true);
       setIsAdmin(false);
       setShowAuthModal(false);
       setPinInput("");
+      setUsernameInput("");
       setProducerNameInput("");
       return;
     }
 
     setAuthError(
       isGreek 
-        ? "Λανθασμένο PIN παραγωγού." 
-        : "Incorrect producer PIN."
+        ? "Λανθασμένο όνομα χρήστη ή κωδικός."
+        : "Incorrect username or password."
     );
   };
 
@@ -515,7 +518,7 @@ export default function LivePoll({
       )}
 
       {/* -------------------------------------------------------------
-          MODAL A: PRODUCER PIN AUTHENTICATION
+          MODAL A: USERNAME/PASSWORD AUTHENTICATION
          ------------------------------------------------------------- */}
       <AnimatePresence>
         {showAuthModal && (
@@ -542,12 +545,18 @@ export default function LivePoll({
                     {isGreek ? "Σύνδεση Παραγωγού" : "Producer Login"}
                   </h3>
                   <p className="text-xs text-[#78716C]">
-                    {isGreek ? "Εισάγετε το PIN" : "Enter PIN"}
+                    {isGreek ? "Εισάγετε όνομα χρήστη και κωδικό" : "Enter your username and password"}
                   </p>
                 </div>
               </div>
 
               <form onSubmit={handleAuthSubmit} className="flex flex-col gap-3">
+                <div>
+                  <label htmlFor="station-username" className="block text-xs font-semibold text-[#1C1917] mb-1">
+                    {isGreek ? "Όνομα χρήστη:" : "Username:"}
+                  </label>
+                  <input id="station-username" name="username" type="text" autoComplete="username" value={usernameInput} onChange={e => setUsernameInput(e.target.value)} className="field py-2 px-3 text-xs w-full" autoCapitalize="none" spellCheck={false} autoFocus required />
+                </div>
                 <div>
                   <label className="block text-xs font-semibold text-[#1C1917] mb-1">
                     {isGreek ? "Όνομα Παραγωγού / Εκπομπής:" : "Producer / Show Name:"}
@@ -562,16 +571,16 @@ export default function LivePoll({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#1C1917] mb-1">
-                    {isGreek ? "Κωδικός PIN:" : "PIN Code:"}
+                  <label htmlFor="station-password" className="block text-xs font-semibold text-[#1C1917] mb-1">
+                    {isGreek ? "Κωδικός πρόσβασης:" : "Password:"}
                   </label>
                   <input
+                    id="station-password" name="password" autoComplete="current-password"
                     type="password"
                     value={pinInput}
                     onChange={(e) => setPinInput(e.target.value)}
                     placeholder="••••••"
                     className="field py-2 px-3 text-xs w-full"
-                    autoFocus
                     required
                   />
                 </div>

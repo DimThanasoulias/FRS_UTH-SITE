@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Shield, FileText, Cookie, MapPin, Mail, Radio, AlertTriangle } from "lucide-react";
 
+import { useDialogFocus } from "../lib/useDialogFocus";
+
 export type LegalTab = "privacy" | "terms" | "cookies";
 
 interface LegalModalProps {
@@ -17,6 +19,7 @@ export default function LegalModal({
   initialTab = "privacy",
   isGreek
 }: LegalModalProps) {
+  useDialogFocus(isOpen, "legal-dialog", onClose);
   const [activeTab, setActiveTab] = useState<LegalTab>(initialTab);
 
   useEffect(() => {
@@ -25,14 +28,7 @@ export default function LegalModal({
     }
   }, [isOpen, initialTab]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+
 
   return (
     <AnimatePresence>
@@ -42,6 +38,7 @@ export default function LegalModal({
           className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
         >
           <motion.div
+            id="legal-dialog" tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="legal-modal-title"

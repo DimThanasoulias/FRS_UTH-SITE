@@ -7,9 +7,10 @@ import { ref, set, onValue, runTransaction, update } from "firebase/database";
 import { rtdb } from "./firebase";
 import { LivePollData, PollOption } from "../types";
 
+import { getLoginRole } from "./loginCredentials";
+
 export const PRODUCER_PIN_KEY = "frs_producer_authenticated";
 export const PRODUCER_NAME_KEY = "frs_producer_name";
-export const DEFAULT_PRODUCER_PIN = "frs2026";
 
 /**
  * Check if the current browser session has unlocked producer controls
@@ -20,10 +21,10 @@ export function isProducerAuthenticated(): boolean {
 }
 
 /**
- * Authenticate producer with PIN
+ * Authenticate producer with username and password
  */
-export function verifyProducerPin(pin: string, name?: string): boolean {
-  if (pin.trim() === DEFAULT_PRODUCER_PIN) {
+export function verifyProducerLogin(username: string, password: string, name?: string): boolean {
+  if (getLoginRole(username, password) === "producer") {
     sessionStorage.setItem(PRODUCER_PIN_KEY, "true");
     if (name) {
       sessionStorage.setItem(PRODUCER_NAME_KEY, name.trim());

@@ -92,6 +92,7 @@ export interface AdSpaceConfig {
 }
 
 export interface SiteConfig {
+  christmasMode?: "auto" | "on" | "off";
   isComingSoon: boolean;
   showProducers?: boolean;
   archiveComingSoon?: boolean;

@@ -9,8 +9,9 @@ import { rtdb, db } from "./firebase";
 import { SiteConfig } from "../types";
 import { PRODUCER_PIN_KEY, PRODUCER_NAME_KEY, clearActivePoll } from "./pollService";
 
+import { getLoginRole } from "./loginCredentials";
+
 export const ADMIN_PIN_KEY = "frs_admin_authenticated";
-export const DEFAULT_ADMIN_PIN = "admin2026";
 
 /**
  * Check if the current browser session has unlocked admin controls
@@ -21,10 +22,10 @@ export function isAdminAuthenticated(): boolean {
 }
 
 /**
- * Verify Admin PIN and grant both Admin and Producer permissions
+ * Verify admin username and password and grant both Admin and Producer permissions
  */
-export function verifyAdminPin(pin: string): boolean {
-  if (pin.trim() === DEFAULT_ADMIN_PIN) {
+export function verifyAdminLogin(username: string, password: string): boolean {
+  if (getLoginRole(username, password) === "admin") {
     sessionStorage.setItem(ADMIN_PIN_KEY, "true");
     sessionStorage.setItem(PRODUCER_PIN_KEY, "true");
     sessionStorage.setItem(PRODUCER_NAME_KEY, "Administrator");
@@ -157,6 +158,7 @@ export function subscribeToSiteConfig(
         setCachedArchiveComingSoon(archiveComingSoon);
         callback({
           isComingSoon,
+          christmasMode: val?.christmasMode === "on" || val?.christmasMode === "off" ? val.christmasMode : "auto",
           showProducers,
           archiveComingSoon,
           updatedAt: val?.updatedAt,
@@ -266,4 +268,11 @@ export async function resetChatAndPolls(): Promise<{ messagesDeleted: number; po
   }
 
   return { messagesDeleted, pollCleared: true };
+}
+
+export async function setChristmasMode(christmasMode: 'auto' | 'on' | 'off'): Promise<void> {
+  await update(ref(rtdb, 'presence/site_status'), {
+    online: true, lastSeen: Date.now(),
+    christmasMode, updatedAt: Date.now(), updatedBy: 'Administrator',
+  });
 }

@@ -5,8 +5,8 @@
   --font-display: "Unbounded", "Jost", sans-serif;
   --font-editorial: "Fraunces", Georgia, serif;
   --font-serif: "Fraunces", Georgia, serif;
-  --font-grotesk: "Space Grotesk", "Jost", sans-serif;
-  --font-mono: "Space Grotesk", "Jost", ui-monospace, monospace;
+  --font-grotesk: "Jost", sans-serif;
+  --font-mono: "Jost", ui-monospace, monospace;
 
   --color-canvas: #F7F4EC;
   --color-canvas-subtle: #EFECE3;
@@ -64,7 +64,7 @@ body {
 
 /* Grotesk Technical Accents */
 .font-grotesk {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Jost", sans-serif;
 }
 
 /* Custom Scrollbar */
@@ -247,3 +247,24 @@ input[type="range"] {
 .animate-wave-2 { animation: soundwave 0.8s ease-in-out infinite 0.3s; }
 .animate-wave-3 { animation: soundwave 1.2s ease-in-out infinite 0.2s; }
 .animate-wave-4 { animation: soundwave 0.9s ease-in-out infinite 0.4s; }
+
+/* Shared keyboard affordances and quiet seasonal accents. */
+:focus-visible { outline: 3px solid #ad021a; outline-offset: 4px; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 100000; transform: translateY(-160%); background: #fff; padding: 12px 18px; border-radius: 12px; }
+.skip-link:focus { transform: translateY(0); }
+.seasonal-lights { position: absolute; top: -28px; left: 0; width: 100%; height: 32px; pointer-events: none; }
+.seasonal-lights svg { width: 100%; height: 28px; }
+.seasonal-lights i { position: absolute; width: 5px; height: 8px; border-radius: 50%; background: #f6d58a; box-shadow: 0 0 9px 3px #f6d58a55; }
+.seasonal-lights i:nth-child(3n) { background: #ad021a; box-shadow: 0 0 7px #ad021a33; }
+.seasonal-snow { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; border-radius: 24px; }
+.seasonal-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; box-shadow: 0 0 2px #36534455; opacity: .65; animation: seasonal-fall linear infinite; }
+.seasonal-snow-paused { display: none; }
+.seasonal-controls { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.snow-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 12px; border: 1px solid #36534433; border-radius: 999px; font-size: 12px; color: #365344; cursor: pointer; background: #fff9; }
+@keyframes seasonal-fall { to { transform: translate(24px, 650px); } }
+@media (max-width: 640px) { .seasonal-snow i:nth-child(n+11) { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .seasonal-snow, .snow-toggle { display: none; }
+}

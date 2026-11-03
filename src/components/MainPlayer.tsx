@@ -6,6 +6,7 @@
 import React, { useEffect, useRef } from "react";
 import { Play, Pause, Volume, Volume1, Volume2, VolumeX, Share2, Check, Loader2, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { getAthensClock } from "../lib/schedule";
 import { RadioChannel } from "../types";
 
 interface MainPlayerProps {
@@ -87,7 +88,7 @@ export default function MainPlayer({
 
   // Calculate live show progress based on exact broadcast slot time
   const showProgress = React.useMemo(() => {
-    const now = new Date();
+    const now = getAthensClock(new Date(tick));
     if (currentLiveShow && currentLiveShow.time) {
       const parts = currentLiveShow.time.split("-").map((s: string) => s.trim());
       if (parts.length === 2) {
@@ -97,7 +98,7 @@ export default function MainPlayer({
         let endSec = (endH * 60 + endM) * 60;
         if (endSec <= startSec) endSec += 24 * 3600;
 
-        let nowSec = (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
+        let nowSec = (now.hour * 60 + now.minute) * 60 + now.second;
         if (endSec > 24 * 3600 && nowSec < startSec) nowSec += 24 * 3600;
 
         const elapsed = Math.max(0, nowSec - startSec);
@@ -202,7 +203,7 @@ export default function MainPlayer({
                   setIsLoadingAudio?.(false);
                 }
               }}
-              aria-label={stationPlaying ? "Pause stream" : "Play live radio"}
+              aria-label={isGreek ? (stationPlaying ? "Παύση" : "Ακούστε ζωντανά") : (stationPlaying ? "Pause stream" : "Play live radio")}
               className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#1C1917] text-white flex items-center justify-center shrink-0 hover:bg-black transition-transform active:scale-95 cursor-pointer shadow-md group"
             >
               {isLoadingAudio ? (
@@ -255,8 +256,8 @@ export default function MainPlayer({
             >
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="text-[#78716C] hover:text-[#ad021a] hover:scale-115 active:scale-85 transition-transform duration-200 cursor-pointer p-1 shrink-0"
-                aria-label={isMuted ? "Unmute" : "Mute"}
+                className="text-[#78716C] hover:text-[#ad021a] hover:scale-115 active:scale-85 transition-transform duration-200 cursor-pointer p-2 min-w-11 min-h-11 shrink-0"
+                aria-label={isGreek ? (isMuted ? "Ενεργοποίηση ήχου" : "Σίγαση") : (isMuted ? "Unmute" : "Mute")}
               >
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-[#ad021a]" />
@@ -306,7 +307,7 @@ export default function MainPlayer({
                   className={`w-16 sm:w-24 h-2 group-hover/vol:h-2.5 rounded-lg volume-slider transition-all duration-200 ${
                     stationPlaying && !isMuted && volume > 0 ? "volume-slider-playing" : ""
                   }`}
-                  aria-label="Volume slider"
+                  aria-label={isGreek ? "Ένταση ήχου" : "Volume"}
                 />
               </div>
             </div>
@@ -317,7 +318,7 @@ export default function MainPlayer({
               {onOpenChat && (
                 <button
                   onClick={onOpenChat}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-[#78716C] hover:text-[#1C1917] px-2.5 sm:px-3 py-1 rounded-full hover:bg-[#FAF8F4] border border-black/5 transition-colors cursor-pointer whitespace-nowrap group active:scale-95"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-[#78716C] hover:text-[#1C1917] px-2.5 sm:px-3 py-2 min-h-11 rounded-full hover:bg-[#FAF8F4] border border-black/5 transition-colors cursor-pointer whitespace-nowrap group active:scale-95"
                   title={isGreek ? "Άνοιγμα Live Chat" : "Open Live Chat"}
                 >
                   <MessageSquare className="w-3.5 h-3.5 text-[#78716C] group-hover:text-[#1C1917] group-hover:scale-110 transition-all" />
@@ -329,7 +330,7 @@ export default function MainPlayer({
               <div className="relative flex items-center">
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-[#78716C] hover:text-[#1C1917] px-2.5 sm:px-3 py-1 rounded-full hover:bg-[#FAF8F4] border border-black/5 transition-colors cursor-pointer whitespace-nowrap"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-[#78716C] hover:text-[#1C1917] px-2.5 sm:px-3 py-2 min-h-11 rounded-full hover:bg-[#FAF8F4] border border-black/5 transition-colors cursor-pointer whitespace-nowrap"
                   title={isGreek ? "Αντιγραφή συνδέσμου ιστοσελίδας" : "Copy site link"}
                 >
                   {copiedShare ? (

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RadioChannel } from "../types";
+import type { RadioChannel } from "../types";
 
 // Universal live MP3 radio stream URLs for FRS UTH (Official Asura Hosting Stream)
 export const STREAM_HTTPS_URL = "https://a9.asurahosting.com/listen/frs_uth/radio.mp3";
@@ -29,6 +29,7 @@ class RadioAudioManager {
   private audio: HTMLAudioElement | null = null;
   private onLoadingChange: ((loading: boolean) => void) | null = null;
   private onPlayingChange: ((playing: boolean) => void) | null = null;
+  private onErrorChange: ((failed: boolean) => void) | null = null;
   private userWantsPlaying = false;
 
   private initAudio(): HTMLAudioElement | null {
@@ -61,6 +62,7 @@ class RadioAudioManager {
 
       this.audio.addEventListener("error", (e) => {
         console.warn("Radio audio stream error:", e);
+        this.onErrorChange?.(true);
         this.onLoadingChange?.(false);
         if (this.userWantsPlaying) {
           this.userWantsPlaying = false;
@@ -73,13 +75,16 @@ class RadioAudioManager {
 
   public setCallbacks(
     onLoadingChange?: (loading: boolean) => void,
-    onPlayingChange?: (playing: boolean) => void
+    onPlayingChange?: (playing: boolean) => void,
+    onErrorChange?: (failed: boolean) => void
   ) {
     this.onLoadingChange = onLoadingChange || null;
     this.onPlayingChange = onPlayingChange || null;
+    this.onErrorChange = onErrorChange || null;
   }
 
   public play(volume = 0.85, isMuted = false) {
+    this.onErrorChange?.(false);
     this.userWantsPlaying = true;
     const audio = this.initAudio();
     if (!audio) return;
@@ -87,7 +92,7 @@ class RadioAudioManager {
     audio.volume = isMuted ? 0 : Math.max(0, Math.min(1, volume));
 
     const targetUrl = getEffectiveStreamUrl();
-    if (!audio.src || (audio.src !== STREAM_HTTPS_URL && audio.src !== STREAM_HTTP_URL)) {
+    if (audio.error || !audio.src || (audio.src !== STREAM_HTTPS_URL && audio.src !== STREAM_HTTP_URL)) {
       this.onLoadingChange?.(true);
       audio.src = targetUrl;
       audio.load();
@@ -106,6 +111,7 @@ class RadioAudioManager {
             this.onLoadingChange?.(false);
             if (err.name !== "AbortError") {
               console.warn("Radio audio play failed:", err);
+              this.onErrorChange?.(true);
               this.userWantsPlaying = false;
               this.onPlayingChange?.(false);
             }

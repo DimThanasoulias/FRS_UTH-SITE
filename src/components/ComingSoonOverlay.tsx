@@ -6,8 +6,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, X, AlertCircle, Instagram, Radio, ExternalLink } from "lucide-react";
-import { verifyAdminPin, isAdminAuthenticated, logoutAdmin } from "../lib/adminService";
-import AdminModal from "./AdminModal";
+import { verifyAdminLogin, isAdminAuthenticated, logoutAdmin } from "../lib/adminService";
+import AdminModal from "./LazyAdminModal";
 import UthLogo from "./UthLogo";
 
 interface ComingSoonOverlayProps {
@@ -25,6 +25,7 @@ export default function ComingSoonOverlay({
 }: ComingSoonOverlayProps) {
   const [showPinModal, setShowPinModal] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [adminUsername, setAdminUsername] = useState("");
   const [adminPin, setAdminPin] = useState("");
   const [pinError, setPinError] = useState("");
   const [isAdmin, setIsAdmin] = useState(() => isAdminAuthenticated());
@@ -33,6 +34,7 @@ export default function ComingSoonOverlay({
     if (isAdmin) {
       onAdminAuthenticated?.();
     } else {
+      setAdminUsername("");
       setShowPinModal(true);
       setPinError("");
       setAdminPin("");
@@ -42,14 +44,14 @@ export default function ComingSoonOverlay({
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setPinError("");
-    const ok = verifyAdminPin(adminPin);
+    const ok = verifyAdminLogin(adminUsername, adminPin);
     if (ok) {
       setIsAdmin(true);
       setShowPinModal(false);
       setAdminPin("");
       onAdminAuthenticated?.();
     } else {
-      setPinError(isGreek ? "Λανθασμένος κωδικός διαχειριστή." : "Incorrect admin PIN.");
+      setPinError(isGreek ? "Λανθασμένο όνομα χρήστη ή κωδικός." : "Incorrect username or password.");
     }
   };
 
@@ -221,7 +223,7 @@ export default function ComingSoonOverlay({
         </p>
       </footer>
 
-      {/* ADMIN PIN LOGIN MODAL */}
+      {/* ADMIN USERNAME/PASSWORD LOGIN MODAL */}
       <AnimatePresence>
         {showPinModal && (
           <div className="fixed inset-0 z-[10020] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
@@ -248,23 +250,29 @@ export default function ComingSoonOverlay({
                     {isGreek ? "Σύνδεση Διαχειριστή" : "Admin Authentication"}
                   </h3>
                   <p className="text-xs text-[#78716C]">
-                    {isGreek ? "Εισάγετε τον κωδικό PIN" : "Enter the administrator PIN"}
+                    {isGreek ? "Εισάγετε όνομα χρήστη και κωδικό" : "Enter your username and password"}
                   </p>
                 </div>
               </div>
 
               <form onSubmit={handlePinSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#1C1917] mb-1.5">
-                    {isGreek ? "Κωδικός PIN:" : "PIN Code:"}
+                  <label htmlFor="admin-username" className="block text-xs font-semibold text-[#1C1917] mb-1.5">
+                    {isGreek ? "Όνομα χρήστη:" : "Username:"}
+                  </label>
+                  <input id="admin-username" name="username" type="text" autoComplete="username" value={adminUsername} onChange={e => setAdminUsername(e.target.value)} className="field" autoCapitalize="none" spellCheck={false} autoFocus required />
+                </div>
+                <div>
+                  <label htmlFor="admin-password" className="block text-xs font-semibold text-[#1C1917] mb-1.5">
+                    {isGreek ? "Κωδικός πρόσβασης:" : "Password:"}
                   </label>
                   <input
+                    id="admin-password" name="password" autoComplete="current-password"
                     type="password"
                     value={adminPin}
                     onChange={(e) => setAdminPin(e.target.value)}
                     placeholder="••••••••"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-[#ad021a] focus:ring-2 focus:ring-[#ad021a]/20 transition-all font-mono"
-                    autoFocus
                     required
                   />
                 </div>

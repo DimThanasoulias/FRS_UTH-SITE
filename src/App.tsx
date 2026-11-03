@@ -36,11 +36,14 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
+import { getAthensClock, getBroadcastSchedule } from "./lib/schedule";
+import SeasonalTheme from "./components/SeasonalTheme";
+import { useDialogFocus } from "./lib/useDialogFocus";
 import UthLogo from "./components/UthLogo";
 import MainPlayer from "./components/MainPlayer";
 import LiveChat from "./components/LiveChat";
 import ComingSoonOverlay from "./components/ComingSoonOverlay";
-import AdminModal from "./components/AdminModal";
+import AdminModal from "./components/LazyAdminModal";
 import LegalModal, { LegalTab } from "./components/LegalModal";
 import CookieBanner from "./components/CookieBanner";
 import AdBanner from "./components/AdBanner";
@@ -87,6 +90,7 @@ export default function App() {
   const [isGreek, setIsGreek] = useState(true);
   const [stationPlaying, setStationPlaying] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  const [audioError, setAudioError] = useState(false);
   const [volume, setVolume] = useState(0.85);
   const [isMuted, setIsMuted] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -97,12 +101,16 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activePoll, setActivePoll] = useState<LivePollData | null>(null);
 
+  useEffect(() => { document.documentElement.lang = isGreek ? "el" : "en"; }, [isGreek]);
+
   // Connect to persistent single audio stream manager
   useEffect(() => {
     radioAudio.setCallbacks(
       (loading) => setIsLoadingAudio(loading),
-      (playing) => setStationPlaying(playing)
+      (playing) => setStationPlaying(playing),
+      setAudioError
     );
+    return () => radioAudio.setCallbacks();
   }, []);
 
   // Synchronize playback when stationPlaying state changes
@@ -278,7 +286,7 @@ export default function App() {
 
   // Active day index in weekly program (defaults to current day of week)
   const currentDayIndex = useMemo(() => {
-    const day = new Date().getDay(); // 0 is Sunday
+    const day = getAthensClock().weekday; // 0 is Sunday
     // Map to Monday-based index: 0=Mon, 1=Tue, 2=Wed, 3=Thu, 4=Fri, 5=Sat, 6=Sun
     return day === 0 ? 6 : day - 1;
   }, []);
@@ -296,11 +304,13 @@ export default function App() {
   // Contact / Open Call form state
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactLoading, setContactLoading] = useState(false);
+  const [contactError, setContactError] = useState(false);
   const [contactForm, setContactForm] = useState({ name: "", email: "", category: "join", message: "" });
 
   // Open Call modal form
   const [openCallSubmitted, setOpenCallSubmitted] = useState(false);
   const [openCallLoading, setOpenCallLoading] = useState(false);
+  const [openCallError, setOpenCallError] = useState(false);
   const [openCallForm, setOpenCallForm] = useState({ name: "", email: "", phone: "", instagram: "", showConcept: "", musicGenres: "" });
 
   // Legal Modal state (Privacy, Terms, Cookies)
@@ -353,122 +363,7 @@ export default function App() {
 
   // Dynamically compute live, next, and later shows according to current day and exact time
   const { currentLiveShow, nextShow, laterShow } = useMemo(() => {
-    const now = new Date();
-    const daysMapEN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const daysMapGR = ["Κυρ", "Δευ", "Τρι", "Τετ", "Πεμ", "Παρ", "Σαβ"];
-    const todayAbbrGR = daysMapGR[now.getDay()];
-    const todayAbbrEN = daysMapEN[now.getDay()];
-    
-    const currentSchedule = activeSchedule;
-    const todayProgram = currentSchedule.find(d => d.day === todayAbbrGR || d.day === todayAbbrEN) || currentSchedule[0];
-    const shows = todayProgram?.shows || [];
-    
-    const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-    const parseTimeRange = (timeStr: string) => {
-      const parts = timeStr.split("-").map(s => s.trim());
-      if (parts.length === 2) {
-        const [sH, sM] = parts[0].split(":").map(Number);
-        const [eH, eM] = parts[1].split(":").map(Number);
-        let startMin = (sH || 0) * 60 + (sM || 0);
-        let endMin = (eH || 0) * 60 + (eM || 0);
-        if (endMin <= startMin) endMin += 24 * 60;
-        return { startMin, endMin };
-      }
-      return { startMin: 0, endMin: 0 };
-    };
-
-    const getCountdownText = (diffMin: number, isGreekLang: boolean): string => {
-      if (diffMin <= 0) return isGreekLang ? "Τώρα" : "Now";
-      if (diffMin < 60) {
-        return diffMin === 1 
-          ? (isGreekLang ? "Σε 1 λεπτό" : "In 1 min")
-          : (isGreekLang ? `Σε ${diffMin} λεπτά` : `In ${diffMin} min`);
-      }
-      const hours = Math.round(diffMin / 60);
-      if (hours < 24) {
-        return hours === 1
-          ? (isGreekLang ? "Σε 1 ώρα" : "In 1 hour")
-          : (isGreekLang ? `Σε ${hours} ώρες` : `In ${hours} hours`);
-      }
-      const days = Math.round(diffMin / (24 * 60));
-      return days === 1
-        ? (isGreekLang ? "Σε 1 μέρα" : "In 1 day")
-        : (isGreekLang ? `Σε ${days} μέρες` : `In ${days} days`);
-    };
-    
-    let active: any = null;
-    let next: any = null;
-    let later: any = null;
-    
-    // 1. Check today's shows
-    for (let i = 0; i < shows.length; i++) {
-      const show = shows[i];
-      const { startMin, endMin } = parseTimeRange(show.time);
-      
-      if (nowMinutes >= startMin && nowMinutes < endMin) {
-        active = { ...show, isLive: true };
-      } else if (startMin > nowMinutes) {
-        const diff = startMin - nowMinutes;
-        const candidate = {
-          ...show,
-          timeLabel: show.time,
-          countdown: getCountdownText(diff, isGreek),
-          badge: isGreek ? "ΕΠΟΜΕΝΟ" : "NEXT",
-          diffMinutes: diff
-        };
-        if (!next) {
-          next = candidate;
-        } else if (!later) {
-          later = { ...candidate, badge: isGreek ? "ΣΤΗ ΣΥΝΕΧΕΙΑ" : "LATER" };
-          break;
-        }
-      }
-    }
-    
-    // 2. Look ahead to upcoming days if next or later is not yet found
-    if (!next || !later) {
-      for (let offset = 1; offset <= 7; offset++) {
-        const nextDayIdx = (now.getDay() + offset) % 7;
-        const nextDayAbbrGR = daysMapGR[nextDayIdx];
-        const nextDayAbbrEN = daysMapEN[nextDayIdx];
-        const nextDayProgram = currentSchedule.find(d => d.day === nextDayAbbrGR || d.day === nextDayAbbrEN);
-        
-        if (nextDayProgram && nextDayProgram.shows && nextDayProgram.shows.length > 0) {
-          const nextDayShows = nextDayProgram.shows;
-          for (let j = 0; j < nextDayShows.length; j++) {
-            const candidate = nextDayShows[j];
-            const { startMin } = parseTimeRange(candidate.time);
-            const diff = (offset * 24 * 60) + startMin - nowMinutes;
-
-            const isTomorrow = offset === 1;
-            const dayName = isTomorrow 
-              ? (isGreek ? "Αύριο" : "Tomorrow") 
-              : nextDayProgram.fullName;
-              
-            const candidateWithLabel = {
-              ...candidate,
-              timeLabel: `${dayName} • ${candidate.time}`,
-              countdown: getCountdownText(diff, isGreek),
-              badge: isTomorrow 
-                ? (isGreek ? "ΑΥΡΙΟ" : "TOMORROW") 
-                : (isGreek ? "ΠΡΟΣΕΧΩΣ" : "UPCOMING"),
-              diffMinutes: diff
-            };
-
-            if (!next) {
-              next = candidateWithLabel;
-            } else if (!later) {
-              later = candidateWithLabel;
-              break;
-            }
-          }
-          if (next && later) break;
-        }
-      }
-    }
-    
-    return { currentLiveShow: active, nextShow: next, laterShow: later };
+    return getBroadcastSchedule(activeSchedule, isGreek, new Date(nowTick));
   }, [isGreek, nowTick, activeSchedule]);
 
   // Search & sorting state for Mixcloud Archive
@@ -729,6 +624,15 @@ export default function App() {
     }, activeTab !== "home" ? 150 : 20);
   };
 
+  useDialogFocus(!!selectedShowId, 'show-dialog', () => setSelectedShowId(null));
+  useDialogFocus(isOpenCallModalOpen, 'application-dialog', () => setIsOpenCallModalOpen(false));
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') setIsMobileMenuOpen(false); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [isMobileMenuOpen]);
+
   // 1. Initial configuration gate: if config is still resolving for a first-time visitor and user is not admin, show seamless branded canvas
   if (!isConfigReady && !isAdmin) {
     return (
@@ -756,6 +660,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F7F4EC] text-[#1C1917] flex flex-col selection:bg-[#ad021a]/20 selection:text-[#ad021a] relative">
       
+      <a className="skip-link" href="#main-content">{isGreek ? "Μετάβαση στο περιεχόμενο" : "Skip to content"}</a>
       {/* Ambient Glassmorphic Background Glow Orbs (Desktop only to prevent mobile GPU compositing artifacts) */}
       <div className="hidden md:block fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-24 right-[-10%] w-[520px] h-[520px] rounded-full bg-[#ad021a]/8 blur-[130px]" />
@@ -900,6 +805,8 @@ export default function App() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden w-10 h-10 rounded-full bg-white border border-black/10 text-[#1C1917] flex items-center justify-center cursor-pointer shadow-xs hover:bg-[#FAF8F4] transition-all active:scale-95"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {isMobileMenuOpen ? (
                 <X className="w-4 h-4 text-[#ad021a]" />
@@ -915,6 +822,7 @@ export default function App() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -1053,7 +961,11 @@ export default function App() {
       </AnimatePresence>
 
       {/* MAIN CONTAINER */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col gap-16 sm:gap-24">
+      {audioError && <div role="alert" className="relative z-10 mx-auto max-w-7xl w-full px-4 pt-4 text-sm text-[#ad021a] flex flex-wrap items-center gap-3">
+        <span>{isGreek ? "Δεν ήταν δυνατή η σύνδεση με τη ζωντανή ροή." : "Could not connect to the live stream."}</span>
+        <button type="button" className="min-h-11 underline font-bold cursor-pointer" onClick={() => handleTogglePlay(true)}>{isGreek ? "Δοκιμάστε ξανά" : "Try again"}</button>
+      </div>}
+      <main id="main-content" tabIndex={-1} className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col gap-16 sm:gap-24">
         <AnimatePresence mode="wait">
           
           {/* =========================================================================
@@ -1070,8 +982,9 @@ export default function App() {
             >
               
               {/* SECTION 1: HERO SECTION (Image 1) */}
-              <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              <section className="relative isolate grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
                 
+                <SeasonalTheme isGreek={isGreek} isAdmin={isAdmin} mode={siteConfig.christmasMode || "auto"} />
                 {/* Left Column: Hero Copy & CTAs */}
                 <div className="lg:col-span-7 flex flex-col items-start text-left justify-center">
 
@@ -1102,7 +1015,7 @@ export default function App() {
                       ) : (
                         <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-0.5 shrink-0" />
                       )}
-                      <span className="whitespace-nowrap">{currentT.listenLive}</span>
+                      <span className="whitespace-nowrap">{stationPlaying ? (isGreek ? "Παύση" : "Pause") : currentT.listenLive}</span>
                     </button>
 
                     {/* Live Chat Button */}
@@ -1777,6 +1690,7 @@ export default function App() {
                         ? "Μείνετε συντονισμένοι στο web radio του σταθμού, οι νέες ημερομηνίες και τοποθεσίες για τα επόμενα πάρτι θα ανακοινωθούν σύντομα."
                         : "Stay tuned to our web radio, dates and locations for our upcoming parties will be announced soon."}
                     </p>
+                    <button type="button" onClick={() => { handleTogglePlay(true); scrollToLiveStation(); }} className="mt-4 min-h-11 px-5 rounded-full bg-[#ad021a] text-white font-semibold cursor-pointer">{isGreek ? "Ακούστε ζωντανά" : "Listen live"}</button>
                   </div>
                 ) : (
                   activeEvents.map((ev) => (
@@ -2126,6 +2040,8 @@ export default function App() {
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
+                        if (contactLoading) return;
+                        setContactError(false);
                         setContactLoading(true);
                         try {
                           await addDoc(collection(db, "contact_messages"), {
@@ -2137,6 +2053,9 @@ export default function App() {
                           });
                         } catch (err) {
                           console.error("Error saving message:", err);
+                          setContactError(true);
+                          setContactLoading(false);
+                          return;
                         }
 
                         setContactLoading(false);
@@ -2150,11 +2069,13 @@ export default function App() {
                       }}
                       className="flex flex-col gap-4"
                     >
+                      {contactError && <p role="alert" className="text-sm font-semibold text-[#ad021a]">{isGreek ? "Η αποστολή απέτυχε. Τα στοιχεία σας διατηρήθηκαν. Δοκιμάστε ξανά." : "Could not send. Your details have been kept. Please try again."}</p>}
                       <div>
-                        <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                        <label htmlFor="frs-field-1" className="block text-xs font-bold text-[#1C1917] mb-1">
                           {isGreek ? "Όνομα" : "Name"}
                         </label>
                         <input
+                          id="frs-field-1"
                           type="text"
                           required
                           maxLength={100}
@@ -2166,10 +2087,11 @@ export default function App() {
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                        <label htmlFor="frs-field-2" className="block text-xs font-bold text-[#1C1917] mb-1">
                           Email
                         </label>
                         <input
+                          id="frs-field-2"
                           type="email"
                           required
                           maxLength={120}
@@ -2181,10 +2103,11 @@ export default function App() {
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                        <label htmlFor="frs-field-3" className="block text-xs font-bold text-[#1C1917] mb-1">
                           {isGreek ? "Κατηγορία" : "Category"}
                         </label>
                         <select
+                          id="frs-field-3"
                           value={contactForm.category}
                           onChange={(e) => setContactForm({ ...contactForm, category: e.target.value })}
                           className="field cursor-pointer"
@@ -2196,10 +2119,11 @@ export default function App() {
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                        <label htmlFor="frs-field-4" className="block text-xs font-bold text-[#1C1917] mb-1">
                           {isGreek ? "Μήνυμα" : "Message"}
                         </label>
                         <textarea
+                          id="frs-field-4"
                           required
                           rows={4}
                           maxLength={2500}
@@ -2426,6 +2350,7 @@ export default function App() {
               className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
             >
               <motion.div
+                id="show-dialog" role="dialog" aria-modal="true" aria-label={isGreek ? "Εκπομπή" : "Show details"} tabIndex={-1}
                 initial={{ opacity: 0, scale: 0.95, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -2501,6 +2426,7 @@ export default function App() {
             className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
           >
             <motion.div
+              id="application-dialog" role="dialog" aria-modal="true" aria-label={isGreek ? "Αίτηση συμμετοχής" : "Join the station"} tabIndex={-1}
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -2540,6 +2466,8 @@ export default function App() {
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
+                    if (openCallLoading) return;
+                    setOpenCallError(false);
                     setOpenCallLoading(true);
                     try {
                       await saveOpenCallApplication({
@@ -2552,6 +2480,9 @@ export default function App() {
                       });
                     } catch (err) {
                       console.error("Error saving open call application:", err);
+                      setOpenCallError(true);
+                      setOpenCallLoading(false);
+                      return;
                     }
 
                     setOpenCallLoading(false);
@@ -2567,6 +2498,7 @@ export default function App() {
                   }}
                   className="flex flex-col gap-3.5"
                 >
+                      {openCallError && <p role="alert" className="text-sm font-semibold text-[#ad021a]">{isGreek ? "Η αποστολή απέτυχε. Τα στοιχεία σας διατηρήθηκαν. Δοκιμάστε ξανά." : "Could not send. Your details have been kept. Please try again."}</p>}
                   <div className="flex items-center gap-2 text-xs font-bold text-[#ad021a] uppercase">
                     <Sparkles className="w-4 h-4" />
                     <span>Open Call 2026</span>
@@ -2583,10 +2515,11 @@ export default function App() {
                   </p>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label htmlFor="frs-field-5" className="block text-xs font-bold text-[#1C1917] mb-1">
                       {isGreek ? "Ονοματεπώνυμο" : "Full Name"}
                     </label>
                     <input
+                          id="frs-field-5"
                       type="text"
                       required
                       value={openCallForm.name}
@@ -2597,10 +2530,11 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label htmlFor="frs-field-6" className="block text-xs font-bold text-[#1C1917] mb-1">
                       Email
                     </label>
                     <input
+                          id="frs-field-6"
                       type="email"
                       required
                       value={openCallForm.email}
@@ -2612,10 +2546,11 @@ export default function App() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                      <label htmlFor="frs-field-7" className="block text-xs font-bold text-[#1C1917] mb-1">
                         {isGreek ? "Τηλέφωνο" : "Phone"}
                       </label>
                       <input
+                          id="frs-field-7"
                         type="tel"
                         value={openCallForm.phone}
                         onChange={(e) => setOpenCallForm({ ...openCallForm, phone: e.target.value })}
@@ -2625,12 +2560,13 @@ export default function App() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                      <label htmlFor="frs-field-8" className="block text-xs font-bold text-[#1C1917] mb-1">
                         Instagram
                       </label>
                       <div className="relative flex items-center">
                         <Instagram className="w-4 h-4 text-stone-400 absolute left-3 pointer-events-none" />
                         <input
+                          id="frs-field-8"
                           type="text"
                           value={openCallForm.instagram}
                           onChange={(e) => setOpenCallForm({ ...openCallForm, instagram: e.target.value })}
@@ -2642,12 +2578,13 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label htmlFor="application-genres" className="block text-xs font-bold text-[#1C1917] mb-1">
                       {isGreek ? "Μουσικά Είδη / Θεματολογία" : "Music Genres / Topic"}
                     </label>
                     <input
                       type="text"
                       required
+                      id="application-genres"
                       value={openCallForm.musicGenres}
                       onChange={(e) => setOpenCallForm({ ...openCallForm, musicGenres: e.target.value })}
                       placeholder="e.g. Indie Rock, Post-Punk, Electronic, Talks"
@@ -2656,10 +2593,11 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1C1917] mb-1">
+                    <label htmlFor="frs-field-9" className="block text-xs font-bold text-[#1C1917] mb-1">
                       {isGreek ? "Περιγραφή & Ιδέα Εκπομπής" : "Show Concept & Pitch"}
                     </label>
                     <textarea
+                          id="frs-field-9"
                       required
                       rows={3}
                       value={openCallForm.showConcept}

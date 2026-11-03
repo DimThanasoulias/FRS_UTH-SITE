@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ref, set, get, onValue } from "firebase/database";
+import { ref, set, get, update, onValue } from "firebase/database";
 import { collection, getDocs, doc, deleteDoc, addDoc, query, orderBy } from "firebase/firestore";
 import { rtdb, db } from "./firebase";
 import { DayProgram, StationEvent, OpenCallApplication } from "../types";
+
+import { persistApplication } from "./persistApplication";
 
 const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v3";
 const EVENTS_CACHE_KEY = "frs_cached_events";
@@ -302,32 +304,16 @@ export async function saveOpenCallApplication(
     createdAt: Date.now()
   };
 
-  // 1. Write to RTDB
-  try {
-    const appsRef = ref(rtdb, "presence/site_applications");
-    const snap = await get(appsRef);
-    const existing = snap.exists() ? (snap.val()?.items || {}) : {};
-    existing[appId] = record;
-    await set(appsRef, {
+  await persistApplication([
+    () => update(ref(rtdb, "presence/site_applications"), {
       online: true,
       lastSeen: Date.now(),
-      items: existing
-    });
-  } catch (err) {
-    console.warn("RTDB saveOpenCallApplication notice:", err);
-  }
-
-  // 2. Dual-write to Firestore
-  try {
-    await addDoc(collection(db, "open_call_applications"), {
-      ...data,
-      appId,
-      createdAt: new Date()
-    });
-  } catch (err) {
-    // Non-blocking fallback
-    console.warn("Firestore saveOpenCallApplication notice:", err);
-  }
+      [`items/${appId}`]: record,
+    }),
+    () => addDoc(collection(db, "open_call_applications"), {
+      ...data, appId, createdAt: new Date(),
+    }),
+  ]);
 
   return appId;
 }

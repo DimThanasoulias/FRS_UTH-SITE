@@ -104,3 +104,28 @@ The production assets will be generated in the `dist/` directory.
 ## 🔒 License
 
 This project is open-source and developed for the **University of Thessaly Student Radio (FRS UTH)**. All branding and logos are property of FRS UTH.
+
+## Seasonal decorations and verification
+
+Christmas accents appear on the homepage automatically from December 1 through
+January 6, using Europe/Athens time. Signed-in admins can choose Automatic, On,
+or Off using the Christmas decorations control on the homepage. Visitors can
+turn snow off independently; their choice is saved locally. Reduced-motion users
+see static decorations only, and snow pauses while the browser tab is hidden.
+No seasonal settings are written until an admin changes the control.
+
+Use Node.js 24+ for the built-in regression suite:
+
+```sh
+npm test
+npm run lint
+npm run build
+```
+
+The regression tests cover broadcast timezones, overnight scheduling, playback
+error recovery, application persistence failures, and seasonal boundaries.
+
+The contact form requires the checked-in `firestore.rules` to be deployed to the
+Firebase project. The new `contact_messages` rule permits validated creates only;
+it does not allow public reads or changes to saved messages. Local builds do not
+deploy Firebase rules.

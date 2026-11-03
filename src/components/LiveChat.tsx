@@ -28,7 +28,7 @@ import { ref, onValue, onDisconnect, set, remove } from "firebase/database";
 import LivePoll from "./LivePoll";
 import { markPollResultAnnounced, isProducerAuthenticated, logoutProducer } from "../lib/pollService";
 import { isAdminAuthenticated, logoutAdmin, setComingSoonMode } from "../lib/adminService";
-import AdminModal from "./AdminModal";
+import AdminModal from "./LazyAdminModal";
 
 interface LiveChatProps {
   isGreek: boolean;
