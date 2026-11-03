@@ -45,7 +45,7 @@ export default function SeasonalTheme({ isGreek, isAdmin, mode }: {
         try { await setChristmasMode(event.target.value as ChristmasMode); } catch { setError(true); }
         finally { setSaving(false); }
       }}>
-        <option value="auto">{isGreek ? 'Αυτόματα (1 Δεκ.–6 Ιαν.)' : 'Automatic (Dec 1–Jan 6)'}</option>
+        <option value="auto">{isGreek ? 'Αυτόματα (1 Νοε.–6 Ιαν.)' : 'Automatic (Nov 1–Jan 6)'}</option>
         <option value="on">{isGreek ? 'Ενεργή' : 'On'}</option>
         <option value="off">{isGreek ? 'Ανενεργή' : 'Off'}</option>
       </select>

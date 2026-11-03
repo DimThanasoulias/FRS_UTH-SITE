@@ -107,7 +107,7 @@ This project is open-source and developed for the **University of Thessaly Stude
 
 ## Seasonal decorations and verification
 
-Christmas accents appear on the homepage automatically from December 1 through
+Christmas accents appear on the homepage automatically from November 1 through
 January 6, using Europe/Athens time. Signed-in admins can choose Automatic, On,
 or Off using the Christmas decorations control on the homepage. Visitors can
 turn snow off independently; their choice is saved locally. Reduced-motion users
