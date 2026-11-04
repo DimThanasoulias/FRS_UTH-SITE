@@ -95,7 +95,6 @@ export default function LivePoll({
 
   const [usernameInput, setUsernameInput] = useState("");
   const [pinInput, setPinInput] = useState("");
-  const [producerNameInput, setProducerNameInput] = useState("");
   const [authError, setAuthError] = useState("");
   
   // Create Poll Form State
@@ -173,8 +172,6 @@ export default function LivePoll({
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
-    const defaultProducer = isGreek ? "The Hangover" : "The Hangover";
-    const chosenName = producerNameInput.trim() || defaultProducer;
 
     // 1. Check administrator credentials
     if (verifyAdminLogin(usernameInput, pinInput)) {
@@ -183,19 +180,17 @@ export default function LivePoll({
       setShowAuthModal(false);
       setPinInput("");
       setUsernameInput("");
-      setProducerNameInput("");
       return;
     }
 
     // 2. Check producer credentials
-    const ok = verifyProducerLogin(usernameInput, pinInput, chosenName);
+    const ok = verifyProducerLogin(usernameInput, pinInput);
     if (ok) {
       setIsProducer(true);
       setIsAdmin(false);
       setShowAuthModal(false);
       setPinInput("");
       setUsernameInput("");
-      setProducerNameInput("");
       return;
     }
 
@@ -556,18 +551,6 @@ export default function LivePoll({
                     {isGreek ? "Όνομα χρήστη:" : "Username:"}
                   </label>
                   <input id="station-username" name="username" type="text" autoComplete="username" value={usernameInput} onChange={e => setUsernameInput(e.target.value)} className="field py-2 px-3 text-xs w-full" autoCapitalize="none" spellCheck={false} autoFocus required />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#1C1917] mb-1">
-                    {isGreek ? "Όνομα Παραγωγού / Εκπομπής:" : "Producer / Show Name:"}
-                  </label>
-                  <input
-                    type="text"
-                    value={producerNameInput}
-                    onChange={(e) => setProducerNameInput(e.target.value)}
-                    placeholder={isGreek ? "π.χ. The Hangover" : "e.g. The Hangover"}
-                    className="field py-2 px-3 text-xs w-full"
-                  />
                 </div>
 
                 <div>
