@@ -31,7 +31,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "gkomenes-fanky.png": { name: "Γκόμενες φάνκυ", category: "Music & Talk" },
   "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" },
   "blonde-girls-gone-wild.png": { name: "Blonde Girls Gone Wild", category: "Student Life & Talk" },
-  "pick-up.png": { name: "Pick Up", category: "Indie Rock & Post Punk" }
+  "pick-up.png": { name: "Pick Up", category: "Indie Rock & Post Punk" },
+  "argorythmoi.jpg": { name: "Argorythmoi", category: "Technology & AI" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -133,7 +134,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         host: "Argorythmoi",
         tags: ["Radio", "FRSUTH"],
         description: ARGORYTHMOI_DESCRIPTION,
-        image: "/shows/studio.jpg",
+        image: "/shows/argorythmoi.jpg",
         hidden: false
       },
       {
@@ -307,7 +308,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         host: "Argorythmoi",
         tags: ["Radio", "FRSUTH"],
         description: ARGORYTHMOI_DESCRIPTION,
-        image: "/shows/studio.jpg",
+        image: "/shows/argorythmoi.jpg",
         hidden: false
       },
       {
@@ -503,6 +504,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "When your friends cancel plans last minute, grab a beer and chill with us every Monday 9 to 10. A bit of indie rock, a bit of post punk, and whatever comes to mind each time.",
     tags: ["IndieRock", "PostPunk", "StudentLife"],
     image: "/shows/pick-up.png"
+  },
+  {
+    id: "show-argorythmoi",
+    title: "Argorythmoi",
+    host: "Argorythmoi",
+    description: ARGORYTHMOI_DESCRIPTION,
+    tags: ["Radio", "FRSUTH"],
+    image: "/shows/argorythmoi.jpg"
   }
 ];
 
@@ -602,6 +611,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
     tags: ["IndieRock", "PostPunk", "StudentLife"],
     image: "/shows/pick-up.png"
+  },
+  {
+    id: "show-argorythmoi",
+    title: "Argorythmoi",
+    host: "Argorythmoi",
+    description: ARGORYTHMOI_DESCRIPTION,
+    tags: ["Radio", "FRSUTH"],
+    image: "/shows/argorythmoi.jpg"
   }
 ];
 
