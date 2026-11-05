@@ -32,7 +32,9 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "all-panic-no-disco.jpg": { name: "All Panic No Disco", category: "Spooky & Vibes" },
   "blonde-girls-gone-wild.png": { name: "Blonde Girls Gone Wild", category: "Student Life & Talk" },
   "pick-up.png": { name: "Pick Up", category: "Indie Rock & Post Punk" },
-  "argorythmoi.jpg": { name: "Argorythmoi", category: "Technology & AI" }
+  "argorythmoi.jpg": { name: "Argorythmoi", category: "Technology & AI" },
+  "imposters.png": { name: "Οι Ιμπόστερς", category: "Talk & Trivia" },
+  "enimerosi-vouzas.jpg": { name: "Ενημέρωση με τον Βούζα", category: "News & Talk" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -60,11 +62,35 @@ export const SHOW_GALLERY_PRESETS: GalleryImage[] = availableFiles.map((file) =>
 
 const ARGORYTHMOI_DESCRIPTION = "Σε μία κοινωνία ριπών πληροφορίας οι ρυθμοί συλλογής και επεξεργασίας της μοιάζουν χαοτικοί. Οι νεοι άνθρωποι και ειδικότερα όσοι ασχολούνται με τον κλαδο της ΤΝ γνωρίζουν καλά την πίεση που ασκείται καθημερινά στην παγκόσμια κοινότητα οχι για προβάδισμα αλλά ακόμα και για ενημέρωση των τελευταίων τεχνολογιών. Παίρνοντας λοιπόν μια ανάσα από όλο αυτό τον πανικό οι Αργόρυθμοι είναι μία \"cross-domain\" ραδιοφωνική εκπομπή που απομυθοποιεί την Τεχνητή Νοημοσύνη. Μέσα από την ανάλυση της τεχνολογικής επικαιρότητας και εκτενείς συζητήσεις με ειδικούς καλεσμένους (καθηγητές, ερευνητές, επαγγελματίες της αγοράς, νέους επαγγελματίες), εξερευνούμε πώς το AI μετασχηματίζει το πανεπιστήμιο, την έρευνα, την αγορά εργασίας και την καθημερινότητά μας, χρησιμοποιώντας γλώσσα κατανοητή, χωρίς να απαιτούνται τεχνικές γνώσεις από τον ακροατή";
 
+const IMPOSTERS_DESCRIPTION = "Όλοι μας σε κάποια φάση της ζωής μας νιώσαμε impostor syndrome. Τι, μόνο εμείς;\n\nΚαλώς ήρθατε στους Ιμπόστερς, την εκπομπή που δεν προσποιείται ότι τα ξέρει όλα. Εδώ θα βρεις λίγο απ' όλα: αναφορές σε χοτ θέματα, εξομολογήσεις που ίσως σου θυμίσουν κάτι από σένα, μουσική ανάλογα με τα vibes και εκείνα τα άχρηστα αλλά συναρπαστικά trivia που πάντα βρίσκουν τρόπο να χωρέσουν σε μια κουβέντα.\n\nΓιατί αν όλοι νιώθουμε καμιά φορά ότι παίζουμε έναν ρόλο, τότε η πραγματική απορία παραμένει: Ποιος είναι τελικά ο impostor;";
+
+const IMPOSTERS_DESCRIPTION_EN = "At some point in our lives, we've all felt impostor syndrome. What, just us?\n\nWelcome to The Imposters, the show that doesn't pretend to know it all. Here you'll find a bit of everything: hot topic talks, relatable confessions, music tuned to the vibes, and those useless yet fascinating trivia facts that always find a way into a conversation.\n\nBecause if we all feel like we're playing a role sometimes, then the real question remains: Who is the real impostor?";
+
 export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
   {
     day: "Mon",
     fullName: "Monday",
     shows: [
+      {
+        id: "show-imposters",
+        title: "The Imposters",
+        time: "19:00 - 20:00",
+        host: "The Imposters",
+        tags: ["Talk", "Trivia", "Vibes"],
+        description: IMPOSTERS_DESCRIPTION_EN,
+        image: "/shows/imposters.png",
+        hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με τον Βούζα",
+        time: "20:00 - 21:00",
+        host: "Βούζας",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouzas.jpg",
+        hidden: false
+      },
       {
         id: "show-high-fidelity",
         title: "High Fidelity",
@@ -73,7 +99,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
-        hidden: false
+        hidden: true
       },
       {
         id: "show-pick-up",
@@ -81,7 +107,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         time: "21:00 - 22:00",
         host: "Pick Up",
         tags: ["IndieRock", "PostPunk", "StudentLife"],
-        description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
+        description: "When your friends cancel plans last minute, grab a beer and chill with us every Monday 9 to 10. A bit of indie rock, a bit of post punk, and whatever comes to mind each time.",
         image: "/shows/pick-up.png",
         hidden: false
       }
@@ -240,6 +266,26 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Δευτέρα",
     shows: [
       {
+        id: "show-imposters",
+        title: "Οι Ιμπόστερς",
+        time: "19:00 - 20:00",
+        host: "Οι Ιμπόστερς",
+        tags: ["Talk", "Trivia", "Vibes"],
+        description: IMPOSTERS_DESCRIPTION,
+        image: "/shows/imposters.png",
+        hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με τον Βούζα",
+        time: "20:00 - 21:00",
+        host: "Βούζας",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouzas.jpg",
+        hidden: false
+      },
+      {
         id: "show-high-fidelity",
         title: "High Fidelity",
         time: "20:00 - 21:00",
@@ -247,7 +293,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
-        hidden: false
+        hidden: true
       },
       {
         id: "show-pick-up",
@@ -512,6 +558,22 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: ARGORYTHMOI_DESCRIPTION,
     tags: ["Radio", "FRSUTH"],
     image: "/shows/argorythmoi.jpg"
+  },
+  {
+    id: "show-imposters",
+    title: "The Imposters",
+    host: "The Imposters",
+    description: IMPOSTERS_DESCRIPTION_EN,
+    tags: ["Talk", "Trivia", "Vibes"],
+    image: "/shows/imposters.png"
+  },
+  {
+    id: "show-enimerosi-vouzas",
+    title: "Ενημέρωση με τον Βούζα",
+    host: "Βούζας",
+    description: "",
+    tags: ["News", "Talk", "Radio"],
+    image: "/shows/enimerosi-vouzas.jpg"
   }
 ];
 
@@ -619,6 +681,22 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: ARGORYTHMOI_DESCRIPTION,
     tags: ["Radio", "FRSUTH"],
     image: "/shows/argorythmoi.jpg"
+  },
+  {
+    id: "show-imposters",
+    title: "Οι Ιμπόστερς",
+    host: "Οι Ιμπόστερς",
+    description: IMPOSTERS_DESCRIPTION,
+    tags: ["Talk", "Trivia", "Vibes"],
+    image: "/shows/imposters.png"
+  },
+  {
+    id: "show-enimerosi-vouzas",
+    title: "Ενημέρωση με τον Βούζα",
+    host: "Βούζας",
+    description: "",
+    tags: ["News", "Talk", "Radio"],
+    image: "/shows/enimerosi-vouzas.jpg"
   }
 ];
 

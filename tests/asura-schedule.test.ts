@@ -23,8 +23,9 @@ const expected = events.map(event => {
   const weekday = new Intl.DateTimeFormat('en-GB', {weekday:'short',timeZone:'Europe/Athens'}).format(start);
   return { id: showIds[event.id], day: weekdays.indexOf(weekday), time: `${event.start.slice(11,16)} - ${event.end.slice(11,16)}` };
 });
-// Editorial exceptions: retain High Fidelity, Pick Up, and Arlekin even though absent from Asura.
-expected.push({id: 'show-high-fidelity', day: 0, time: '20:00 - 21:00'});
+// Editorial exceptions: visible shows retained or added outside Asura fixture.
+expected.push({id: 'show-imposters', day: 0, time: '19:00 - 20:00'});
+expected.push({id: 'show-enimerosi-vouzas', day: 0, time: '20:00 - 21:00'});
 expected.push({id: 'show-pick-up', day: 0, time: '21:00 - 22:00'});
 expected.push({id: 'show-arlekin', day: 2, time: '00:00 - 01:00'});
 expected.sort((a,b) => a.id.localeCompare(b.id));
