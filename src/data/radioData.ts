@@ -34,7 +34,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "pick-up.png": { name: "Pick Up", category: "Indie Rock & Post Punk" },
   "argorythmoi.jpg": { name: "Argorythmoi", category: "Technology & AI" },
   "imposters.png": { name: "Οι Ιμπόστερς", category: "Talk & Trivia" },
-  "enimerosi-vouzas.jpg": { name: "Ενημέρωση με τον Βούζα", category: "News & Talk" }
+  "enimerosi-vouzas.jpg": { name: "Ενημέρωση με την Βούζα", category: "News & Talk" },
+  "enimerosi-vouza.jpg": { name: "Ενημέρωση με την Βούζα", category: "News & Talk" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -248,12 +249,12 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
       },
       {
         id: "show-enimerosi-vouzas",
-        title: "Ενημέρωση με τον Βούζα",
+        title: "Ενημέρωση με την Βούζα",
         time: "20:00 - 21:00",
-        host: "Βούζας",
+        host: "Βούζα",
         tags: ["News", "Talk", "Radio"],
         description: "",
-        image: "/shows/enimerosi-vouzas.jpg",
+        image: "/shows/enimerosi-vouza.jpg",
         hidden: false
       }
     ]
@@ -442,12 +443,12 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
       },
       {
         id: "show-enimerosi-vouzas",
-        title: "Ενημέρωση με τον Βούζα",
+        title: "Ενημέρωση με την Βούζα",
         time: "20:00 - 21:00",
-        host: "Βούζας",
+        host: "Βούζα",
         tags: ["News", "Talk", "Radio"],
         description: "",
-        image: "/shows/enimerosi-vouzas.jpg",
+        image: "/shows/enimerosi-vouza.jpg",
         hidden: false
       }
     ]
@@ -569,11 +570,11 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
   },
   {
     id: "show-enimerosi-vouzas",
-    title: "Ενημέρωση με τον Βούζα",
-    host: "Βούζας",
+    title: "Ενημέρωση με την Βούζα",
+    host: "Βούζα",
     description: "",
     tags: ["News", "Talk", "Radio"],
-    image: "/shows/enimerosi-vouzas.jpg"
+    image: "/shows/enimerosi-vouza.jpg"
   }
 ];
 
@@ -692,11 +693,11 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
   },
   {
     id: "show-enimerosi-vouzas",
-    title: "Ενημέρωση με τον Βούζα",
-    host: "Βούζας",
+    title: "Ενημέρωση με την Βούζα",
+    host: "Βούζα",
     description: "",
     tags: ["News", "Talk", "Radio"],
-    image: "/shows/enimerosi-vouzas.jpg"
+    image: "/shows/enimerosi-vouza.jpg"
   }
 ];
 

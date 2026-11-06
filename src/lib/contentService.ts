@@ -10,7 +10,7 @@ import { DayProgram, StationEvent, OpenCallApplication } from "../types";
 
 import { persistApplication } from "./persistApplication";
 
-const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v8";
+const SCHEDULE_CACHE_KEY = "frs_cached_schedule_v9";
 const EVENTS_CACHE_KEY = "frs_cached_events";
 
 /**
@@ -86,6 +86,7 @@ export function getCachedCustomSchedule(): DayProgram[] | null {
       localStorage.removeItem("frs_cached_schedule_v5");
       localStorage.removeItem("frs_cached_schedule_v6");
       localStorage.removeItem("frs_cached_schedule_v7");
+      localStorage.removeItem("frs_cached_schedule_v8");
     } catch {}
     const raw = localStorage.getItem(SCHEDULE_CACHE_KEY);
     if (raw) {
