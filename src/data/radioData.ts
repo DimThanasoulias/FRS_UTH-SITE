@@ -82,16 +82,6 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-enimerosi-vouzas",
-        title: "Ενημέρωση με τον Βούζα",
-        time: "20:00 - 21:00",
-        host: "Βούζας",
-        tags: ["News", "Talk", "Radio"],
-        description: "",
-        image: "/shows/enimerosi-vouzas.jpg",
-        hidden: false
-      },
-      {
         id: "show-high-fidelity",
         title: "High Fidelity",
         time: "20:00 - 21:00",
@@ -99,7 +89,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
-        hidden: true
+        hidden: false
       },
       {
         id: "show-pick-up",
@@ -255,6 +245,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         description: "Do you love everyday stories, spontaneous banter, and an eclectic mix of music? Then 'Masa and Arkoudios' is your show — a radio crew that never gets boring.",
         image: "/shows/masa-kai-arkoudios.jpg",
         hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με τον Βούζα",
+        time: "20:00 - 21:00",
+        host: "Βούζας",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouzas.jpg",
+        hidden: false
       }
     ]
   }
@@ -276,16 +276,6 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         hidden: false
       },
       {
-        id: "show-enimerosi-vouzas",
-        title: "Ενημέρωση με τον Βούζα",
-        time: "20:00 - 21:00",
-        host: "Βούζας",
-        tags: ["News", "Talk", "Radio"],
-        description: "",
-        image: "/shows/enimerosi-vouzas.jpg",
-        hidden: false
-      },
-      {
         id: "show-high-fidelity",
         title: "High Fidelity",
         time: "20:00 - 21:00",
@@ -293,7 +283,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["HighFidelity", "Vinyl", "Eclectic"],
         description: "",
         image: "/shows/high-fidelity.png",
-        hidden: true
+        hidden: false
       },
       {
         id: "show-pick-up",
@@ -448,6 +438,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["Stories", "Eclectic", "RadioCrew"],
         description: "Σου αρέσουν οι καθημερινές ιστορίες, οι αυθόρμητες κουβέντες και πολλά διαφορετικά είδη μουσικής; Τότε η «Μάσα και ο Αρκούδιος» είναι η εκπομπή σου. Μια ραδιοφωνική παρέα που δεν βαριέται ποτέ.",
         image: "/shows/masa-kai-arkoudios.jpg",
+        hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με τον Βούζα",
+        time: "20:00 - 21:00",
+        host: "Βούζας",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouzas.jpg",
         hidden: false
       }
     ]

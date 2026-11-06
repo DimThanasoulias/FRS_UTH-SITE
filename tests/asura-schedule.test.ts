@@ -25,9 +25,10 @@ const expected = events.map(event => {
 });
 // Editorial exceptions: visible shows retained or added outside Asura fixture.
 expected.push({id: 'show-imposters', day: 0, time: '19:00 - 20:00'});
-expected.push({id: 'show-enimerosi-vouzas', day: 0, time: '20:00 - 21:00'});
+expected.push({id: 'show-high-fidelity', day: 0, time: '20:00 - 21:00'});
 expected.push({id: 'show-pick-up', day: 0, time: '21:00 - 22:00'});
 expected.push({id: 'show-arlekin', day: 2, time: '00:00 - 01:00'});
+expected.push({id: 'show-enimerosi-vouzas', day: 6, time: '20:00 - 21:00'});
 expected.sort((a,b) => a.id.localeCompare(b.id));
 
 for (const [language, schedule] of [['Greek', WEEKLY_SCHEDULE_GR], ['English', WEEKLY_SCHEDULE_EN]] as const) {
