@@ -1,3 +1,4 @@
+import { getEventLinkLabel } from "./lib/eventLink";
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -1730,7 +1731,7 @@ export default function App() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 text-xs font-bold text-white bg-[#1877F2] hover:bg-[#166fe5] px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer group"
                               >
-                                <span>{isGreek ? "Σελίδα Εκδήλωσης στο Facebook" : "Facebook Event Page"}</span>
+                                <span>{getEventLinkLabel(ev.link, isGreek)}</span>
                                 <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                               </a>
                             </div>
