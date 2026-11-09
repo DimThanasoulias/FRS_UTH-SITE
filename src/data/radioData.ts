@@ -101,6 +101,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         description: "When your friends cancel plans last minute, grab a beer and chill with us every Monday 9 to 10. A bit of indie rock, a bit of post punk, and whatever comes to mind each time.",
         image: "/shows/pick-up.png",
         hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με την Βούζα",
+        time: "22:00 - 23:00",
+        host: "Βούζα",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouza.jpg",
+        hidden: false
       }
     ]
   },
@@ -294,6 +304,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         tags: ["IndieRock", "PostPunk", "StudentLife"],
         description: "Όταν τελικά οι φίλοι σου ακυρώνουν έξοδο τελευταία στιγμή, πιάνεις μια μπυρίτσα και αράζεις μαζί μας κάθε Δευτέρα 9 με 10. Λίγο indie rock, λίγο post punk και ό,τι μας κατέβει βασικά κάθε φορά, βασικά καλησπέρα σας, βασικά pick up.",
         image: "/shows/pick-up.png",
+        hidden: false
+      },
+      {
+        id: "show-enimerosi-vouzas",
+        title: "Ενημέρωση με την Βούζα",
+        time: "22:00 - 23:00",
+        host: "Βούζα",
+        tags: ["News", "Talk", "Radio"],
+        description: "",
+        image: "/shows/enimerosi-vouza.jpg",
         hidden: false
       }
     ]
