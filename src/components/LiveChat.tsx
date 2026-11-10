@@ -24,7 +24,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ChatMessage, LivePollData } from "../types";
 import { collection, addDoc, query, limit, limitToLast, onSnapshot, serverTimestamp, getDocs, deleteDoc, doc, orderBy } from "firebase/firestore";
 import { db, rtdb } from "../lib/firebase";
-import { ref, onValue, onDisconnect, set, remove } from "firebase/database";
+import { ref, onValue, onDisconnect, push, set, remove, serverTimestamp as presenceTimestamp, type DatabaseReference } from "firebase/database";
 import LivePoll from "./LivePoll";
 import { markPollResultAnnounced, isProducerAuthenticated, logoutProducer } from "../lib/pollService";
 import { isAdminAuthenticated, logoutAdmin, setComingSoonMode } from "../lib/adminService";
@@ -215,7 +215,7 @@ export default function LiveChat({
       return AVATAR_COLORS[0];
     }
   });
-  const [onlineCount, setOnlineCount] = useState(1);
+  const [onlineCount, setOnlineCount] = useState<number | null>(null);
   const [isProducer, setIsProducer] = useState<boolean>(() => isProducerAuthenticated());
   const [isAdmin, setIsAdmin] = useState<boolean>(() => propIsAdmin ?? isAdminAuthenticated());
   const [showAdminModal, setShowAdminModal] = useState(false);
@@ -349,95 +349,97 @@ export default function LiveChat({
     } catch {}
   }, [isGreek]);
 
-  // Realtime Database presence for online listeners with Heartbeat and Stale Filtering
+  // Each connected tab owns a separate presence entry.
+  // Realtime Database presence is independent of whether the chat is open.
   useEffect(() => {
-    const deviceId = getDeviceId();
-    const userStatusRef = ref(rtdb, `/presence/${deviceId}`);
-    const connectedRef = ref(rtdb, ".info/connected");
-    const allPresenceRef = ref(rtdb, "/presence");
+    const presenceRef = ref(rtdb, "/presence");
+    let activeTabRef: DatabaseReference | null = null;
+    let heartbeat: ReturnType<typeof setInterval> | undefined;
+    let refreshPresence: (() => void) | undefined;
+    let serverTimeOffset = 0;
+    let presence: Record<string, { online?: boolean; lastSeen?: number }> | null | undefined;
 
-    const updatePresence = () => {
-      set(userStatusRef, {
-        online: true,
-        lastSeen: Date.now()
-      }).catch(() => {});
-    };
-
-    let heartbeatInterval: any = null;
-
-    const unsubConnected = onValue(connectedRef, (snap) => {
-      if (snap.val() === true) {
-        updatePresence();
-        onDisconnect(userStatusRef).remove().catch(() => {});
-
-        // Heartbeat every 25 seconds
-        if (heartbeatInterval) clearInterval(heartbeatInterval);
-        heartbeatInterval = setInterval(updatePresence, 25000);
-      } else {
-        if (heartbeatInterval) clearInterval(heartbeatInterval);
-      }
-    });
-
-    // Window visibility handler
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") {
-        updatePresence();
-      }
-    };
-    window.addEventListener("visibilitychange", handleVisibility);
-
-    // Active threshold: a session is only considered online if updated within the last 60 seconds
-    const ACTIVE_THRESHOLD_MS = 60000;
-    let latestRawPresence: any = null;
-
-    const computeActiveCount = (rawPresence: any) => {
-      if (!rawPresence) {
-        setOnlineCount(1);
+    const updateCount = () => {
+      if (!activeTabRef || presence === undefined) {
+        setOnlineCount(null);
         return;
       }
-      const now = Date.now();
-      let count = 0;
-      for (const [k, v] of Object.entries(rawPresence)) {
-        if (k.startsWith("site_")) continue;
-        const record = v as any;
-        if (record && record.online === true) {
-          const lastSeen = Number(record.lastSeen) || 0;
-          if (now - lastSeen < ACTIVE_THRESHOLD_MS) {
-            count++;
-          } else if (now - lastSeen > 300000) {
-            // Self-clean stale zombie sessions older than 5 minutes
-            remove(ref(rtdb, `/presence/${k}`)).catch(() => {});
-          }
-        }
-      }
-      setOnlineCount(Math.max(1, count));
+
+      const now = Date.now() + serverTimeOffset;
+      // Allow for background timer throttling while still expiring abandoned entries.
+      const count = Object.entries(presence ?? {}).filter(([key, record]) =>
+        !key.startsWith("site_") &&
+        record?.online === true &&
+        typeof record.lastSeen === "number" &&
+        now - record.lastSeen < 120_000
+      ).length;
+      setOnlineCount(count);
     };
 
-    const unsubPresence = onValue(allPresenceRef, (snap) => {
-      if (snap.exists()) {
-        latestRawPresence = snap.val();
-        computeActiveCount(latestRawPresence);
-      } else {
-        latestRawPresence = null;
-        setOnlineCount(1);
-      }
+    const unsubscribeOffset = onValue(ref(rtdb, ".info/serverTimeOffset"), (snapshot) => {
+      serverTimeOffset = Number(snapshot.val()) || 0;
+      updateCount();
     });
 
-    // Local ticker every 10 seconds to decay inactive users without needing RTDB events
-    const decayInterval = setInterval(() => {
-      if (latestRawPresence) {
-        computeActiveCount(latestRawPresence);
+    const unsubscribePresence = onValue(presenceRef, (snapshot) => {
+      presence = snapshot.val();
+      updateCount();
+    }, (error) => {
+      presence = undefined;
+      updateCount();
+      console.warn("Live presence subscription failed:", error);
+    });
+
+    const unsubscribeConnected = onValue(ref(rtdb, ".info/connected"), async (snapshot) => {
+      if (snapshot.val() !== true) {
+        clearInterval(heartbeat);
+        refreshPresence = undefined;
+        activeTabRef = null;
+        updateCount();
+        return;
       }
-    }, 10000);
+      if (activeTabRef) return;
+
+      const tabRef = push(presenceRef);
+      activeTabRef = tabRef;
+      updateCount();
+      try {
+        // Register server cleanup before publishing this connection.
+        await onDisconnect(tabRef).remove();
+      } catch (error) {
+        console.warn("Live presence registration failed:", error);
+        return;
+      }
+      if (activeTabRef !== tabRef) return;
+
+      refreshPresence = () => {
+        void set(tabRef, { online: true, lastSeen: presenceTimestamp() })
+          .then(() => {
+            // An offline write can be delivered after a reconnect or an unmount.
+            if (activeTabRef !== tabRef) return remove(tabRef);
+          })
+          .catch((error) => console.warn("Live presence update failed:", error));
+      };
+      refreshPresence();
+      heartbeat = setInterval(refreshPresence, 25_000);
+    });
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") refreshPresence?.();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    const decayInterval = setInterval(updateCount, 10_000);
 
     return () => {
-      window.removeEventListener("visibilitychange", handleVisibility);
-      if (heartbeatInterval) clearInterval(heartbeatInterval);
+      const tabRef = activeTabRef;
+      activeTabRef = null;
+      unsubscribeConnected();
+      unsubscribePresence();
+      unsubscribeOffset();
+      document.removeEventListener("visibilitychange", handleVisibility);
+      clearInterval(heartbeat);
       clearInterval(decayInterval);
-      unsubConnected();
-      unsubPresence();
-      // On rapid refresh or tab reloads, allow onDisconnect and heartbeat TTL to manage session cleanup
-      // rather than abruptly setting null, preventing the online counter from flickering to zero.
+      if (tabRef) void remove(tabRef).catch((error) => console.warn("Live presence cleanup failed:", error));
     };
   }, []);
 
@@ -673,7 +675,7 @@ export default function LiveChat({
                     </h3>
                     <span className="h-6 inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold px-2.5 rounded-full shrink-0">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                      <span>{onlineCount} {isGreek ? "online" : "online"}</span>
+                      <span>{onlineCount ?? "—"} online</span>
                     </span>
 
                     {/* ADMIN & PRODUCER CONTROLS NEXT TO ONLINE BADGE */}
