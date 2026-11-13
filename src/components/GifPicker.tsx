@@ -108,7 +108,7 @@ export default function GifPicker({
             GIF
           </div>
           <span className="text-xs font-bold text-stone-800">
-            {isGreek ? "Tenor GIFs" : "Tenor GIFs"}
+            {isGreek ? "Αναζήτηση GIFs" : "GIF Search"}
           </span>
           {isFallback && (
             <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-full font-medium">
@@ -224,7 +224,7 @@ export default function GifPicker({
 
       {/* Footer info */}
       <div className="px-3 py-1.5 bg-stone-50 border-t border-black/[0.06] flex items-center justify-between text-[10px] text-stone-400">
-        <span>Powered by Tenor</span>
+        <span>Powered by GIPHY</span>
         <span>0 bytes Firebase Storage</span>
       </div>
     </div>

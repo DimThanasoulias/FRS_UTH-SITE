@@ -100,59 +100,88 @@ const FALLBACK_GIFS: Record<string, TenorGif[]> = {
   ],
 };
 
-const getApiKey = (): string => {
-  return (
-    import.meta.env.VITE_TENOR_API_KEY ||
-    "AIzaSyBElIY-7ErIPT11oXrvwsT4nfVZlzAdUcg"
-  );
+const getGiphyKey = (): string | undefined => {
+  return import.meta.env.VITE_GIPHY_API_KEY || (import.meta.env.VITE_TENOR_API_KEY?.length === 32 ? import.meta.env.VITE_TENOR_API_KEY : undefined);
+};
+
+const getTenorKey = (): string | undefined => {
+  const k = import.meta.env.VITE_TENOR_API_KEY;
+  return k?.startsWith("AIza") ? k : undefined;
 };
 
 export async function fetchTenorGifs(
   searchQuery?: string,
   limit = 24
 ): Promise<{ gifs: TenorGif[]; isFallback: boolean }> {
-  const apiKey = getApiKey();
   const trimmed = searchQuery?.trim();
+  const giphyKey = getGiphyKey();
+  const tenorKey = getTenorKey();
 
-  // If query matches a fallback category
-  if (!apiKey) {
-    const list = trimmed ? (FALLBACK_GIFS[trimmed.toLowerCase()] || FALLBACK_GIFS.trending) : FALLBACK_GIFS.trending;
-    return { gifs: list, isFallback: true };
+  // 1. Try GIPHY API (Recommended, easiest to create and unlimited)
+  if (giphyKey) {
+    try {
+      const endpoint = trimmed
+        ? `https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${encodeURIComponent(trimmed)}&limit=${limit}&rating=g`
+        : `https://api.giphy.com/v1/gifs/trending?api_key=${giphyKey}&limit=${limit}&rating=g`;
+
+      const res = await fetch(endpoint);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.data) && data.data.length > 0) {
+          const gifs: TenorGif[] = data.data.map((item: any) => ({
+            id: item.id || String(Math.random()),
+            title: item.title || "GIF",
+            url: item.images?.original?.url || item.images?.downsized?.url || "",
+            previewUrl: item.images?.fixed_height_small?.url || item.images?.fixed_height?.url || item.images?.original?.url || "",
+            width: item.images?.original?.width ? Number(item.images.original.width) : undefined,
+            height: item.images?.original?.height ? Number(item.images.original.height) : undefined,
+          })).filter((g: TenorGif) => Boolean(g.url));
+
+          if (gifs.length > 0) {
+            return { gifs, isFallback: false };
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Giphy API error:", err);
+    }
   }
 
-  const endpoint = trimmed
-    ? `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(trimmed)}&key=${apiKey}&client_key=ffrs_radio_chat&limit=${limit}&media_filter=gif,tinygif`
-    : `https://tenor.googleapis.com/v2/featured?key=${apiKey}&client_key=ffrs_radio_chat&limit=${limit}&media_filter=gif,tinygif`;
+  // 2. Try Tenor v2 API (if Google Cloud Tenor key is provided)
+  if (tenorKey) {
+    try {
+      const endpoint = trimmed
+        ? `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(trimmed)}&key=${tenorKey}&client_key=ffrs_radio_chat&limit=${limit}&media_filter=gif,tinygif`
+        : `https://tenor.googleapis.com/v2/featured?key=${tenorKey}&client_key=ffrs_radio_chat&limit=${limit}&media_filter=gif,tinygif`;
 
-  try {
-    const res = await fetch(endpoint);
-    if (!res.ok) {
-      console.warn(`Tenor API responded with status ${res.status}. Using curated GIFs.`);
-      return { gifs: FALLBACK_GIFS.trending, isFallback: true };
+      const res = await fetch(endpoint);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.results) && data.results.length > 0) {
+          const gifs: TenorGif[] = data.results.map((item: any) => {
+            const gifFormat = item.media_formats?.gif;
+            const tinyFormat = item.media_formats?.tinygif || item.media_formats?.nanogif || gifFormat;
+            return {
+              id: item.id || String(Math.random()),
+              title: item.content_description || item.title || "Tenor GIF",
+              url: gifFormat?.url || tinyFormat?.url || "",
+              previewUrl: tinyFormat?.url || gifFormat?.url || "",
+              width: gifFormat?.dims?.[0],
+              height: gifFormat?.dims?.[1],
+            };
+          }).filter((g: TenorGif) => Boolean(g.url));
+
+          if (gifs.length > 0) {
+            return { gifs, isFallback: false };
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Tenor API error:", err);
     }
-
-    const data = await res.json();
-    if (!data.results || !Array.isArray(data.results)) {
-      return { gifs: FALLBACK_GIFS.trending, isFallback: true };
-    }
-
-    const gifs: TenorGif[] = data.results.map((item: any) => {
-      const gifFormat = item.media_formats?.gif;
-      const tinyFormat = item.media_formats?.tinygif || item.media_formats?.nanogif || gifFormat;
-
-      return {
-        id: item.id || String(Math.random()),
-        title: item.content_description || item.title || "Tenor GIF",
-        url: gifFormat?.url || tinyFormat?.url || "",
-        previewUrl: tinyFormat?.url || gifFormat?.url || "",
-        width: gifFormat?.dims?.[0],
-        height: gifFormat?.dims?.[1],
-      };
-    }).filter((g: TenorGif) => Boolean(g.url));
-
-    return { gifs: gifs.length > 0 ? gifs : FALLBACK_GIFS.trending, isFallback: false };
-  } catch (err) {
-    console.error("Error fetching Tenor GIFs:", err);
-    return { gifs: FALLBACK_GIFS.trending, isFallback: true };
   }
+
+  // 3. Fallback to curated station GIFs
+  const list = trimmed ? (FALLBACK_GIFS[trimmed.toLowerCase()] || FALLBACK_GIFS.trending) : FALLBACK_GIFS.trending;
+  return { gifs: list, isFallback: true };
 }
