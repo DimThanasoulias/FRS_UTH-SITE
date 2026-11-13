@@ -48,6 +48,8 @@ export interface ChatMessage {
   isSystem?: boolean;
   avatarColor?: string;
   sessionId?: string;
+  mediaUrl?: string;
+  mediaType?: "gif" | "image";
 }
 
 export interface RadioChannel {

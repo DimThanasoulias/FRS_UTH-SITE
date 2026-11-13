@@ -18,7 +18,9 @@ import {
   Radio,
   Loader2,
   ShieldCheck,
-  Trash2
+  Trash2,
+  Clock,
+  Image as ImageIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChatMessage, LivePollData } from "../types";
@@ -29,6 +31,10 @@ import LivePoll from "./LivePoll";
 import { markPollResultAnnounced, isProducerAuthenticated, logoutProducer } from "../lib/pollService";
 import { isAdminAuthenticated, logoutAdmin, setComingSoonMode } from "../lib/adminService";
 import AdminModal from "./LazyAdminModal";
+import GifPicker from "./GifPicker";
+import ImageModal from "./ImageModal";
+import { compressImage, formatFileSize } from "../lib/imageCompression";
+import { uploadImageToR2, triggerR2Cleanup } from "../lib/r2Upload";
 
 interface LiveChatProps {
   isGreek: boolean;
@@ -152,24 +158,38 @@ const getMostRecent3AM = (): Date => {
 
 const LAST_PRUNE_KEY = "frs_last_prune_time";
 
-// Prune old messages before cutoff from Firestore in the background (rate-limited for Firebase Free Tier)
+// Prune old messages & expired 1-hour images from Firestore and R2 in the background (rate-limited for Firebase Free Tier)
 const pruneOldMessages = async (cutoff: Date) => {
   try {
+    // Ping Cloudflare R2 worker to clean up images older than 1 hour in background
+    triggerR2Cleanup().catch(() => {});
+
     if (typeof window !== "undefined") {
       const lastPrune = Number(localStorage.getItem(LAST_PRUNE_KEY)) || 0;
-      // Rate-limit: run at most once every 6 hours per client to conserve Firebase Spark 50k daily reads
-      if (Date.now() - lastPrune < 6 * 60 * 60 * 1000) {
+      // Rate-limit: run at most once every 30 minutes per client to prune expired images while conserving Firestore Spark reads
+      if (Date.now() - lastPrune < 30 * 60 * 1000) {
         return;
       }
       localStorage.setItem(LAST_PRUNE_KEY, String(Date.now()));
     }
 
     const cutoffMillis = cutoff.getTime();
-    const snap = await getDocs(query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(50)));
+    const oneHourAgo = Date.now() - 60 * 60 * 1000;
+
+    const snap = await getDocs(query(collection(db, "messages"), orderBy("createdAt", "asc"), limit(60)));
     snap.forEach((docSnap) => {
       const data = docSnap.data();
       const msgMillis = data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.createdAt instanceof Date ? data.createdAt.getTime() : null);
-      if (msgMillis && msgMillis < cutoffMillis) {
+      if (!msgMillis) return;
+
+      // Rule 1: Delete image messages that have reached the 1-hour expiration
+      if (data.mediaType === "image" && msgMillis < oneHourAgo) {
+        deleteDoc(docSnap.ref).catch(() => {});
+        return;
+      }
+
+      // Rule 2: Delete general messages older than 3:00 AM cutoff
+      if (msgMillis < cutoffMillis) {
         deleteDoc(docSnap.ref).catch(() => {});
       }
     });
@@ -223,6 +243,12 @@ export default function LiveChat({
   const [showProducerCreateModal, setShowProducerCreateModal] = useState(false);
   const lastSendTimeRef = useRef<number>(0);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth < 768 : false));
+  const [showGifPicker, setShowGifPicker] = useState(false);
+  const [isCompressingOrUploading, setIsCompressingOrUploading] = useState(false);
+  const [uploadStatusText, setUploadStatusText] = useState("");
+  const [previewModalUrl, setPreviewModalUrl] = useState<string | null>(null);
+  const [expiredImages, setExpiredImages] = useState<Record<string, boolean>>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDeleteMessage = async (msgId: string) => {
     try {
@@ -479,7 +505,9 @@ export default function LiveChat({
             timestamp: data.timestamp || "Τώρα",
             avatarColor: data.avatarColor || "#ad021a",
             sessionId: data.sessionId,
-            isSystem: Boolean(data.isSystem)
+            isSystem: Boolean(data.isSystem),
+            mediaUrl: data.mediaUrl || data.gifUrl,
+            mediaType: data.mediaType || (data.gifUrl ? "gif" : undefined),
           });
         });
 
@@ -592,6 +620,82 @@ export default function LiveChat({
       });
     } catch (err) {
       console.error("Error sending message to Firestore:", err);
+    }
+  };
+
+  const handleSendMedia = async (mediaUrl: string, mediaType: "gif" | "image", caption?: string) => {
+    const safeUserName = (userName || "Listener").slice(0, 30);
+    const now = new Date();
+    const timeStr = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
+    const sessionId = getPersistentSessionId();
+
+    try {
+      await addDoc(collection(db, "messages"), {
+        user: safeUserName,
+        text: caption ? caption.slice(0, 300) : "",
+        mediaUrl: mediaUrl,
+        mediaType: mediaType,
+        timestamp: timeStr,
+        avatarColor: avatarColor,
+        sessionId: sessionId,
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error("Error sending media message to Firestore:", err);
+    }
+  };
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset input so selecting the same file triggers change again
+    e.target.value = "";
+
+    try {
+      setIsCompressingOrUploading(true);
+      setUploadStatusText(isGreek ? "⚡ Συμπίεση εικόνας..." : "⚡ Compressing image...");
+
+      // 1. Client-side Instagram-like compression (1200px max, preserves PNG transparency, JPG or WebP)
+      const comp = await compressImage(file, {
+        maxWidth: 1200,
+        maxHeight: 1200,
+        quality: 0.8,
+        format: "auto",
+      });
+
+      const compSizeStr = formatFileSize(comp.compressedSize);
+      setUploadStatusText(
+        isGreek
+          ? `✓ ${comp.formatName} ${comp.reductionPercentage}% μικρότερη (${compSizeStr}) • Ανέβασμα στο R2...`
+          : `✓ ${comp.formatName} ${comp.reductionPercentage}% smaller (${compSizeStr}) • Uploading to R2...`
+      );
+
+      // 2. Upload to Cloudflare R2
+      try {
+        const uploadResult = await uploadImageToR2(comp.blob, file.name);
+
+        // 3. Send message with image to Firestore
+        await handleSendMedia(uploadResult.url, "image", inputText.trim() || undefined);
+        setInputText("");
+      } catch (uploadErr: any) {
+        console.warn("R2 Upload warning:", uploadErr);
+        if (uploadErr.message?.includes("MISSING_R2_ENDPOINT")) {
+          alert(
+            isGreek
+              ? "Το Cloudflare R2 Upload Endpoint δεν έχει ρυθμιστεί ακόμα στο .env.\n\nΔείτε το αρχείο CLOUDFLARE_R2_SETUP.md για τις οδηγίες σύνδεσης σε 3 λεπτά!"
+              : "Cloudflare R2 Upload Endpoint is not yet configured in .env.\n\nSee CLOUDFLARE_R2_SETUP.md for 3-minute setup instructions!"
+          );
+        } else {
+          alert(uploadErr.message || "Σφάλμα κατά το ανέβασμα της εικόνας.");
+        }
+      }
+    } catch (err: any) {
+      console.error("Error processing image:", err);
+      alert(err.message || "Αποτυχία συμπίεσης εικόνας.");
+    } finally {
+      setIsCompressingOrUploading(false);
+      setUploadStatusText("");
     }
   };
 
@@ -939,15 +1043,71 @@ export default function LiveChat({
                           </button>
                         )}
                       </div>
-                      <div
-                        className={`max-w-[80%] sm:max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-xs break-words leading-relaxed ${
-                          isMe
-                            ? "bg-[#ad021a] text-white rounded-tr-xs"
-                            : "bg-white text-[#1C1917] border border-black/[0.07] rounded-tl-xs"
-                        }`}
-                      >
-                        {msg.text}
-                      </div>
+                      {(() => {
+                        const isDirectImgLink =
+                          !msg.mediaUrl &&
+                          msg.text &&
+                          /^https?:\/\/\S+\.(?:png|jpe?g|gif|webp)(?:\?\S*)?$/i.test(
+                            msg.text.trim()
+                          );
+                        const mediaToShow =
+                          msg.mediaUrl || (isDirectImgLink ? msg.text.trim() : null);
+
+                        return (
+                          <div
+                            className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm shadow-xs break-words leading-relaxed ${
+                              isMe
+                                ? "bg-[#ad021a] text-white rounded-tr-xs"
+                                : "bg-white text-[#1C1917] border border-black/[0.07] rounded-tl-xs"
+                            }`}
+                          >
+                            {/* Text / Caption */}
+                            {msg.text && !isDirectImgLink && (
+                              <div className={mediaToShow ? "mb-2 font-normal" : ""}>
+                                {msg.text}
+                              </div>
+                            )}
+
+                            {/* Media image / GIF thumbnail */}
+                            {mediaToShow && (
+                              expiredImages[mediaToShow] ? (
+                                <div className="flex items-center gap-1.5 p-2.5 rounded-xl bg-stone-100 text-stone-500 text-xs border border-black/5 mt-1">
+                                  <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                                  <span>
+                                    {isGreek
+                                      ? "Η εικόνα έληξε (διαγράφηκε μετά από 1 ώρα)"
+                                      : "Image expired (deleted after 1 hour)"}
+                                  </span>
+                                </div>
+                              ) : (
+                                <div
+                                  onClick={() => setPreviewModalUrl(mediaToShow)}
+                                  className="group relative overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity max-w-[280px] sm:max-w-[320px] bg-black/5 border border-black/10 mt-1"
+                                  title={isGreek ? "Κλικ για μεγέθυνση" : "Click to enlarge"}
+                                >
+                                  <img
+                                    src={mediaToShow}
+                                    alt={msg.mediaType === "gif" ? "GIF" : "Image"}
+                                    loading="lazy"
+                                    onError={() =>
+                                      setExpiredImages((prev) => ({
+                                        ...prev,
+                                        [mediaToShow]: true,
+                                      }))
+                                    }
+                                    className="w-full h-auto max-h-[260px] object-cover rounded-xl"
+                                  />
+                                  {msg.mediaType === "gif" && (
+                                    <span className="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-xs tracking-wider">
+                                      GIF
+                                    </span>
+                                  )}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
                   );
                 })
@@ -955,8 +1115,64 @@ export default function LiveChat({
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Compression / Upload status badge */}
+            {isCompressingOrUploading && (
+              <div className="bg-amber-50 border-t border-amber-200/80 px-4 py-2 text-xs text-amber-900 flex items-center justify-between animate-in fade-in">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-700" />
+                  <span className="font-medium">{uploadStatusText}</span>
+                </div>
+              </div>
+            )}
+
             {/* Message Input Box */}
-            <form onSubmit={handleSendMessage} className="bg-white p-3.5 sm:p-4 border-t border-black/10 flex items-center gap-2.5 shrink-0">
+            <form onSubmit={handleSendMessage} className="relative bg-white p-3 sm:p-3.5 border-t border-black/10 flex items-center gap-2 shrink-0">
+              {/* Hidden File Input for Compressed Image Upload (PNG, JPG, WebP) */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png, image/jpeg, image/jpg, image/webp, image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+              />
+
+              {/* GIF Picker Popover */}
+              <GifPicker
+                isOpen={showGifPicker}
+                onClose={() => setShowGifPicker(false)}
+                onSelectGif={(gifUrl) => handleSendMedia(gifUrl, "gif")}
+                isGreek={isGreek}
+              />
+
+              {/* Tenor GIF Button */}
+              <button
+                type="button"
+                onClick={() => setShowGifPicker((prev) => !prev)}
+                className={`h-10 px-2.5 sm:px-3 rounded-xl border flex items-center justify-center font-black text-xs transition-all cursor-pointer shrink-0 ${
+                  showGifPicker
+                    ? "bg-[#ad021a] text-white border-[#ad021a] shadow-xs"
+                    : "bg-stone-100 hover:bg-stone-200/80 text-stone-700 border-black/10"
+                }`}
+                title={isGreek ? "Αποστολή Tenor GIF" : "Send Tenor GIF"}
+              >
+                GIF
+              </button>
+
+              {/* R2 Image Upload Button */}
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isCompressingOrUploading}
+                className="w-10 h-10 rounded-xl bg-stone-100 hover:bg-stone-200/80 text-stone-700 border border-black/10 flex items-center justify-center shrink-0 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                title={
+                  isGreek
+                    ? "Αποστολή εικόνας (Cloudflare R2 με Instagram συμπίεση)"
+                    : "Upload image (Cloudflare R2 with Instagram-like compression)"
+                }
+              >
+                <ImageIcon className="w-4 h-4 text-stone-700" />
+              </button>
+
               <input
                 ref={inputRef}
                 type="text"
@@ -964,12 +1180,13 @@ export default function LiveChat({
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={isGreek ? "Γράψτε μήνυμα στην κοινότητα..." : "Type a message to the community..."}
                 maxLength={300}
-                className="field py-2.5 px-4 text-sm"
+                className="field py-2 px-3.5 text-sm flex-1 min-w-0"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim()}
-                className="w-11 h-11 rounded-2xl bg-[#ad021a] hover:bg-[#8f0115] text-white flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-[#ad021a]/20 cursor-pointer"
+                className="w-10 h-10 rounded-xl bg-[#ad021a] hover:bg-[#8f0115] text-white flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-[#ad021a]/20 cursor-pointer"
+                title={isGreek ? "Αποστολή" : "Send"}
               >
                 <Send className="w-4 h-4 -translate-x-0.5 translate-y-0.5" />
               </button>
@@ -1087,6 +1304,13 @@ export default function LiveChat({
         isComingSoon={!!isComingSoon}
         onToggleComingSoon={handleToggleComingSoon}
         onLogout={handleAdminLogout}
+      />
+
+      {/* FULLSCREEN IMAGE / GIF LIGHTBOX MODAL */}
+      <ImageModal
+        imageUrl={previewModalUrl}
+        onClose={() => setPreviewModalUrl(null)}
+        isGreek={isGreek}
       />
     </AnimatePresence>
   );
