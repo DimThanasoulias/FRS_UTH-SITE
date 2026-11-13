@@ -1155,7 +1155,7 @@ export default function LiveChat({
               <button
                 type="button"
                 onClick={() => setShowGifPicker((prev) => !prev)}
-                className={`h-10 px-2.5 sm:px-3 rounded-xl border flex items-center justify-center font-black text-xs transition-all cursor-pointer shrink-0 ${
+                className={`h-11 px-3 sm:px-3.5 rounded-2xl border flex items-center justify-center font-black text-xs transition-all cursor-pointer shrink-0 ${
                   showGifPicker
                     ? "bg-[#ad021a] text-white border-[#ad021a] shadow-xs"
                     : "bg-stone-100 hover:bg-stone-200/80 text-stone-700 border-black/10"
@@ -1170,14 +1170,14 @@ export default function LiveChat({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isCompressingOrUploading}
-                className="w-10 h-10 rounded-xl bg-stone-100 hover:bg-stone-200/80 text-stone-700 border border-black/10 flex items-center justify-center shrink-0 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-11 h-11 rounded-2xl bg-stone-100 hover:bg-stone-200/80 text-stone-700 border border-black/10 flex items-center justify-center shrink-0 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 title={
                   isGreek
                     ? "Αποστολή εικόνας (Cloudflare R2 με Instagram συμπίεση)"
                     : "Upload image (Cloudflare R2 with Instagram-like compression)"
                 }
               >
-                <ImageIcon className="w-4 h-4 text-stone-700" />
+                <ImageIcon className="w-4.5 h-4.5 text-stone-700" />
               </button>
 
               <input
@@ -1187,15 +1187,15 @@ export default function LiveChat({
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={isGreek ? "Γράψτε μήνυμα..." : "Type a message..."}
                 maxLength={300}
-                className="field py-2 px-3.5 text-sm flex-1 min-w-0"
+                className="field h-11 py-0 px-4 text-sm flex-1 min-w-0 rounded-2xl box-border"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim()}
-                className="w-10 h-10 rounded-xl bg-[#ad021a] hover:bg-[#8f0115] text-white flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-[#ad021a]/20 cursor-pointer"
+                className="w-11 h-11 rounded-2xl bg-[#ad021a] hover:bg-[#8f0115] text-white flex items-center justify-center shrink-0 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-[#ad021a]/20 cursor-pointer"
                 title={isGreek ? "Αποστολή" : "Send"}
               >
-                <Send className="w-4 h-4 -translate-x-0.5 translate-y-0.5" />
+                <Send className="w-4.5 h-4.5 -translate-x-0.5 translate-y-0.5" />
               </button>
             </form>
 
