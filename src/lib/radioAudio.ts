@@ -51,6 +51,14 @@ class RadioAudioManager {
 
       this.audio.addEventListener("canplay", () => {
         this.onLoadingChange?.(false);
+        if (this.audio && this.audio.seekable && this.audio.seekable.length > 0) {
+          try {
+            const liveEnd = this.audio.seekable.end(this.audio.seekable.length - 1);
+            if (isFinite(liveEnd) && liveEnd > 0 && Math.abs(this.audio.currentTime - liveEnd) > 2) {
+              this.audio.currentTime = liveEnd;
+            }
+          } catch {}
+        }
       });
 
       this.audio.addEventListener("pause", () => {
@@ -92,9 +100,16 @@ class RadioAudioManager {
     audio.volume = isMuted ? 0 : Math.max(0, Math.min(1, volume));
 
     const targetUrl = getEffectiveStreamUrl();
-    if (audio.error || !audio.src || (audio.src !== STREAM_HTTPS_URL && audio.src !== STREAM_HTTP_URL)) {
+    const isMatchingSrc = Boolean(
+      audio.src &&
+      (audio.src.startsWith(STREAM_HTTPS_URL) || audio.src.startsWith(STREAM_HTTP_URL))
+    );
+
+    // Cache buster ensures the browser always connects directly to the real-time live broadcast
+    // and never plays stale cached audio buffers from minutes or seconds in the past
+    if (audio.error || !audio.src || !isMatchingSrc || audio.paused) {
       this.onLoadingChange?.(true);
-      audio.src = targetUrl;
+      audio.src = `${targetUrl}?_t=${Date.now()}`;
       audio.load();
     }
 
@@ -127,6 +142,8 @@ class RadioAudioManager {
       if (!this.audio.paused) {
         this.audio.pause();
       }
+      // Detach source so browser stops downloading in the background and drops stale buffered audio
+      this.audio.src = "";
       this.onPlayingChange?.(false);
     }
   }
