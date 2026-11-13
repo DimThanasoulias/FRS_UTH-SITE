@@ -640,8 +640,15 @@ export default function LiveChat({
         sessionId: sessionId,
         createdAt: serverTimestamp(),
       });
+      return true;
     } catch (err) {
       console.error("Error sending media message to Firestore:", err);
+      alert(
+        isGreek
+          ? "Δεν στάλθηκε το GIF ή η εικόνα. Δοκιμάστε ξανά."
+          : "The GIF or image could not be sent. Please try again."
+      );
+      return false;
     }
   };
 
@@ -676,8 +683,8 @@ export default function LiveChat({
         const uploadResult = await uploadImageToR2(comp.blob, file.name);
 
         // 3. Send message with image to Firestore
-        await handleSendMedia(uploadResult.url, "image", inputText.trim() || undefined);
-        setInputText("");
+        const sent = await handleSendMedia(uploadResult.url, "image", inputText.trim() || undefined);
+        if (sent) setInputText("");
       } catch (uploadErr: any) {
         console.warn("R2 Upload warning:", uploadErr);
         if (uploadErr.message?.includes("MISSING_R2_ENDPOINT")) {
@@ -1144,7 +1151,7 @@ export default function LiveChat({
                 isGreek={isGreek}
               />
 
-              {/* Tenor GIF Button */}
+              {/* GIF Button */}
               <button
                 type="button"
                 onClick={() => setShowGifPicker((prev) => !prev)}
@@ -1153,7 +1160,7 @@ export default function LiveChat({
                     ? "bg-[#ad021a] text-white border-[#ad021a] shadow-xs"
                     : "bg-stone-100 hover:bg-stone-200/80 text-stone-700 border-black/10"
                 }`}
-                title={isGreek ? "Αποστολή Tenor GIF" : "Send Tenor GIF"}
+                title={isGreek ? "Αποστολή GIF" : "Send GIF"}
               >
                 GIF
               </button>

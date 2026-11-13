@@ -130,3 +130,17 @@ The contact form requires the checked-in `firestore.rules` to be deployed to the
 Firebase project. The new `contact_messages` rule permits validated creates only;
 it does not allow public reads or changes to saved messages. Local builds do not
 deploy Firebase rules.
+
+Chat GIFs and images can be sent without a caption. The message rules validate
+the media type and HTTPS URL while continuing to reject empty messages.
+After changing `firestore.rules`, publish them to the named database configured
+in `firebase.json` (building or uploading the website does not publish rules):
+
+```sh
+npm exec --yes --package firebase-tools@15.36.0 -- firebase login
+npm exec --yes --package firebase-tools@15.36.0 -- firebase deploy --only firestore:rules --project upbeat-boulder-bfbwx
+```
+
+To test the rules locally, install Java 21+ and run `npm run test:rules`.
+These integration tests use the Firebase emulator and a demo project; they
+never write to the public chat.

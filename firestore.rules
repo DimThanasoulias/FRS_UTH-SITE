@@ -2,12 +2,23 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /messages/{document} {
+      function hasValidMedia() {
+        let data = request.resource.data;
+        return data.keys().hasAll(['mediaUrl', 'mediaType'])
+               && data.mediaType in ['gif', 'image']
+               && data.mediaUrl is string
+               && data.mediaUrl.size() <= 2048
+               && data.mediaUrl.matches('https://[^\\s/]+/[^\\s]*');
+      }
+
       allow read: if true;
       allow create: if request.resource.data.text is string 
-                    && request.resource.data.text.size() > 0 
                     && request.resource.data.text.size() <= 500
                     && request.resource.data.user is string
-                    && request.resource.data.user.size() <= 50;
+                    && request.resource.data.user.size() <= 50
+                    && ((request.resource.data.text.size() > 0
+                         && !request.resource.data.keys().hasAny(['mediaUrl', 'mediaType']))
+                        || hasValidMedia());
       allow update: if false;
       allow delete: if true;
     }

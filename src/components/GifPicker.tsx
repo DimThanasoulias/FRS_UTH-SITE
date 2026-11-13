@@ -10,7 +10,7 @@ import { fetchTenorGifs, TenorGif } from "../lib/tenorService";
 interface GifPickerProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectGif: (gifUrl: string) => void;
+  onSelectGif: (gifUrl: string) => Promise<boolean>;
   isGreek: boolean;
 }
 
@@ -35,6 +35,7 @@ export default function GifPicker({
   const [activeCategory, setActiveCategory] = useState("");
   const [gifs, setGifs] = useState<TenorGif[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [isFallback, setIsFallback] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -198,11 +199,16 @@ export default function GifPicker({
               <button
                 key={gif.id}
                 type="button"
-                onClick={() => {
-                  onSelectGif(gif.url);
-                  onClose();
+                disabled={isSending}
+                onClick={async () => {
+                  setIsSending(true);
+                  try {
+                    if (await onSelectGif(gif.url)) onClose();
+                  } finally {
+                    setIsSending(false);
+                  }
                 }}
-                className="group relative aspect-video bg-stone-100 rounded-xl overflow-hidden border border-black/5 hover:border-[#ad021a] hover:shadow-md transition-all cursor-pointer focus:outline-none"
+                className="group relative aspect-video bg-stone-100 rounded-xl overflow-hidden border border-black/5 hover:border-[#ad021a] hover:shadow-md transition-all cursor-pointer focus:outline-none disabled:opacity-50 disabled:cursor-wait"
               >
                 <img
                   src={gif.previewUrl}
