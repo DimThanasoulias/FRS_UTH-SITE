@@ -110,11 +110,6 @@ export default function GifPicker({
           <span className="text-xs font-bold text-stone-800">
             {isGreek ? "Αναζήτηση GIFs" : "GIF Search"}
           </span>
-          {isFallback && (
-            <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-full font-medium">
-              Demo/Featured
-            </span>
-          )}
         </div>
         <button
           type="button"
@@ -138,7 +133,7 @@ export default function GifPicker({
               if (activeCategory) setActiveCategory("");
             }}
             placeholder={
-              isGreek ? "Αναζήτηση GIFs στο Tenor..." : "Search Tenor GIFs..."
+              isGreek ? "Αναζήτηση GIFs..." : "Search GIFs..."
             }
             className="w-full pl-9 pr-8 py-2 bg-stone-100 border border-stone-200 rounded-xl text-xs text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[#ad021a]/20 focus:border-[#ad021a]"
           />
@@ -225,7 +220,6 @@ export default function GifPicker({
       {/* Footer info */}
       <div className="px-3 py-1.5 bg-stone-50 border-t border-black/[0.06] flex items-center justify-between text-[10px] text-stone-400">
         <span>Powered by GIPHY</span>
-        <span>0 bytes Firebase Storage</span>
       </div>
     </div>
   );

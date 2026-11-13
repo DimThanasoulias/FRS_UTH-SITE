@@ -100,8 +100,11 @@ const FALLBACK_GIFS: Record<string, TenorGif[]> = {
   ],
 };
 
-const getGiphyKey = (): string | undefined => {
-  return import.meta.env.VITE_GIPHY_API_KEY || (import.meta.env.VITE_TENOR_API_KEY?.length === 32 ? import.meta.env.VITE_TENOR_API_KEY : undefined);
+const getGiphyKey = (): string => {
+  return (
+    import.meta.env.VITE_GIPHY_API_KEY ||
+    "PPh7BsFlZLcx9fZAc6SO9D1RysaZUf4S"
+  );
 };
 
 const getTenorKey = (): string | undefined => {
