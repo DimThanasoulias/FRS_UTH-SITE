@@ -1185,7 +1185,7 @@ export default function LiveChat({
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder={isGreek ? "Γράψτε μήνυμα στην κοινότητα..." : "Type a message to the community..."}
+                placeholder={isGreek ? "Γράψτε μήνυμα..." : "Type a message..."}
                 maxLength={300}
                 className="field py-2 px-3.5 text-sm flex-1 min-w-0"
               />
