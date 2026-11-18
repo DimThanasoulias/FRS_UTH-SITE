@@ -19,7 +19,6 @@ import {
   Loader2,
   ShieldCheck,
   Trash2,
-  Clock,
   Image as ImageIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -33,6 +32,7 @@ import { isAdminAuthenticated, logoutAdmin, setComingSoonMode } from "../lib/adm
 import AdminModal from "./LazyAdminModal";
 import GifPicker from "./GifPicker";
 import ImageModal from "./ImageModal";
+import ChatMedia from "./ChatMedia";
 import { compressImage, formatFileSize } from "../lib/imageCompression";
 import { uploadImageToR2, triggerR2Cleanup } from "../lib/r2Upload";
 
@@ -247,7 +247,6 @@ export default function LiveChat({
   const [isCompressingOrUploading, setIsCompressingOrUploading] = useState(false);
   const [uploadStatusText, setUploadStatusText] = useState("");
   const [previewModalUrl, setPreviewModalUrl] = useState<string | null>(null);
-  const [expiredImages, setExpiredImages] = useState<Record<string, boolean>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDeleteMessage = async (msgId: string) => {
@@ -1077,40 +1076,7 @@ export default function LiveChat({
 
                             {/* Media image / GIF thumbnail */}
                             {mediaToShow && (
-                              expiredImages[mediaToShow] ? (
-                                <div className="flex items-center gap-1.5 p-2.5 rounded-xl bg-stone-100 text-stone-500 text-xs border border-black/5 mt-1">
-                                  <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" />
-                                  <span>
-                                    {isGreek
-                                      ? "Η εικόνα έληξε (διαγράφηκε μετά από 1 ώρα)"
-                                      : "Image expired (deleted after 1 hour)"}
-                                  </span>
-                                </div>
-                              ) : (
-                                <div
-                                  onClick={() => setPreviewModalUrl(mediaToShow)}
-                                  className="group relative overflow-hidden rounded-xl cursor-pointer hover:opacity-95 transition-opacity max-w-[280px] sm:max-w-[320px] bg-black/5 border border-black/10 mt-1"
-                                  title={isGreek ? "Κλικ για μεγέθυνση" : "Click to enlarge"}
-                                >
-                                  <img
-                                    src={mediaToShow}
-                                    alt={msg.mediaType === "gif" ? "GIF" : "Image"}
-                                    loading="lazy"
-                                    onError={() =>
-                                      setExpiredImages((prev) => ({
-                                        ...prev,
-                                        [mediaToShow]: true,
-                                      }))
-                                    }
-                                    className="w-full h-auto max-h-[260px] object-cover rounded-xl"
-                                  />
-                                  {msg.mediaType === "gif" && (
-                                    <span className="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-xs tracking-wider">
-                                      GIF
-                                    </span>
-                                  )}
-                                </div>
-                              )
+                              <ChatMedia src={mediaToShow} isGreek={isGreek} isGif={msg.mediaType === "gif"} onPreview={setPreviewModalUrl} />
                             )}
                           </div>
                         );
