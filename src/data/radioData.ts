@@ -35,7 +35,8 @@ const KNOWN_PRESETS: Record<string, { name: string; category: string }> = {
   "argorythmoi.jpg": { name: "Argorythmoi", category: "Technology & AI" },
   "imposters.png": { name: "Οι Ιμπόστερς", category: "Talk & Trivia" },
   "enimerosi-vouzas.jpg": { name: "Ενημέρωση με την Βούζα", category: "News & Talk" },
-  "enimerosi-vouza.jpg": { name: "Ενημέρωση με την Βούζα", category: "News & Talk" }
+  "enimerosi-vouza.jpg": { name: "Ενημέρωση με την Βούζα", category: "News & Talk" },
+  "sevdalesh-interview.jpg": { name: "SEVDALESH INTERVIEW", category: "Interview & Special" }
 };
 
 function formatImageTitle(fileName: string): string {
@@ -233,7 +234,7 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
         host: "SEVDALESH",
         tags: ["Interview", "Music", "Special"],
         description: "",
-        image: "/shows/on-air.png",
+        image: "/shows/sevdalesh-interview.jpg",
         hidden: false
       },
       {
@@ -447,7 +448,7 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
         host: "SEVDALESH",
         tags: ["Interview", "Music", "Special"],
         description: "",
-        image: "/shows/on-air.png",
+        image: "/shows/sevdalesh-interview.jpg",
         hidden: false
       },
       {
@@ -622,7 +623,7 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     host: "SEVDALESH",
     description: "",
     tags: ["Interview", "Music", "Special"],
-    image: "/shows/on-air.png"
+    image: "/shows/sevdalesh-interview.jpg"
   }
 ];
 
@@ -753,7 +754,7 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     host: "SEVDALESH",
     description: "",
     tags: ["Interview", "Music", "Special"],
-    image: "/shows/on-air.png"
+    image: "/shows/sevdalesh-interview.jpg"
   }
 ];
 
