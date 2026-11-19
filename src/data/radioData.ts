@@ -227,6 +227,16 @@ export const WEEKLY_SCHEDULE_EN: DayProgram[] = [
     fullName: "Friday",
     shows: [
       {
+        id: "show-sevdalesh-interview",
+        title: "SEVDALESH INTERVIEW",
+        time: "18:30 - 20:00",
+        host: "SEVDALESH",
+        tags: ["Interview", "Music", "Special"],
+        description: "",
+        image: "/shows/on-air.png",
+        hidden: false
+      },
+      {
         id: "show-blonde-girls-gone-wild",
         title: "Blonde Girls Gone Wild",
         time: "20:00 - 21:00",
@@ -431,6 +441,16 @@ export const WEEKLY_SCHEDULE_GR: DayProgram[] = [
     fullName: "Παρασκευή",
     shows: [
       {
+        id: "show-sevdalesh-interview",
+        title: "SEVDALESH INTERVIEW",
+        time: "18:30 - 20:00",
+        host: "SEVDALESH",
+        tags: ["Interview", "Music", "Special"],
+        description: "",
+        image: "/shows/on-air.png",
+        hidden: false
+      },
+      {
         id: "show-blonde-girls-gone-wild",
         title: "Blonde Girls Gone Wild",
         time: "20:00 - 21:00",
@@ -595,6 +615,14 @@ export const SHOWS_DESCRIPTIONS_EN: ShowDescription[] = [
     description: "",
     tags: ["News", "Talk", "Radio"],
     image: "/shows/enimerosi-vouza.jpg"
+  },
+  {
+    id: "show-sevdalesh-interview",
+    title: "SEVDALESH INTERVIEW",
+    host: "SEVDALESH",
+    description: "",
+    tags: ["Interview", "Music", "Special"],
+    image: "/shows/on-air.png"
   }
 ];
 
@@ -718,6 +746,14 @@ export const SHOWS_DESCRIPTIONS_GR: ShowDescription[] = [
     description: "",
     tags: ["News", "Talk", "Radio"],
     image: "/shows/enimerosi-vouza.jpg"
+  },
+  {
+    id: "show-sevdalesh-interview",
+    title: "SEVDALESH INTERVIEW",
+    host: "SEVDALESH",
+    description: "",
+    tags: ["Interview", "Music", "Special"],
+    image: "/shows/on-air.png"
   }
 ];
 

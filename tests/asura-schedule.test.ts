@@ -30,6 +30,7 @@ expected.push({id: 'show-pick-up', day: 0, time: '21:00 - 22:00'});
 expected.push({id: 'show-arlekin', day: 2, time: '00:00 - 01:00'});
 expected.push({id: 'show-enimerosi-vouzas', day: 0, time: '22:00 - 23:00'});
 expected.push({id: 'show-enimerosi-vouzas', day: 6, time: '20:00 - 21:00'});
+expected.push({id: 'show-sevdalesh-interview', day: 4, time: '18:30 - 20:00'});
 expected.sort((a,b) => a.id.localeCompare(b.id));
 
 for (const [language, schedule] of [['Greek', WEEKLY_SCHEDULE_GR], ['English', WEEKLY_SCHEDULE_EN]] as const) {
